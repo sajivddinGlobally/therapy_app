@@ -3,30 +3,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
-import 'package:therapy_app/Screen/question2.page.dart';
+import 'package:therapy_app/Screen/question3.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
-class Question1Page extends StatefulWidget {
-  const Question1Page({super.key});
+class Question2Page extends StatefulWidget {
+  final int currentStep;
+  const Question2Page({super.key, required this.currentStep});
 
   @override
-  State<Question1Page> createState() => _Question1PageState();
+  State<Question2Page> createState() => _Question2PageState();
 }
 
-class _Question1PageState extends State<Question1Page> {
+class _Question2PageState extends State<Question2Page> {
   List<String> therapies = [
-    'Cognitive Behavioral Therapy (CBT)',
-    'Dialectical Behavior Therapy (DBT)',
-    'Psychodynamic Therapy',
-    'Family Therapy',
-    'Child & Adolescent Therapy',
-    'Grief Counseling',
-    'Trauma-Informed Therapy',
+    'Anxiety',
+    'Depression',
+    'Stress Management',
+    'Relationship Issues',
+    'PTSD',
+    'Addiction',
+    'Eating Disorders',
   ];
 
   Set<String> selectedTherapies = {};
-  int currentStep = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +38,7 @@ class _Question1PageState extends State<Question1Page> {
               SizedBox(height: 30.h),
               StepProgressIndicator(
                 totalSteps: 3,
-                currentStep: currentStep,
+                currentStep: widget.currentStep,
                 size: 8.sp,
                 padding: 0,
                 selectedColor: Color(0xFF59EAC6),
@@ -48,7 +47,7 @@ class _Question1PageState extends State<Question1Page> {
               ),
               SizedBox(height: 40.h),
               Text(
-                "What are the main reasons you're seeking therapy?",
+                "What type of therapy are you interested in?",
                 style: GoogleFonts.inter(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w600,
@@ -56,7 +55,7 @@ class _Question1PageState extends State<Question1Page> {
                   letterSpacing: -1,
                 ),
               ),
-              SizedBox(height: 30.h),
+              SizedBox(height: 10.h),
               ListView.builder(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
@@ -120,16 +119,10 @@ class _Question1PageState extends State<Question1Page> {
               SizedBox(height: 10.h),
               GestureDetector(
                 onTap: () {
-                  if (currentStep < 3) {
-                    setState(() {
-                      currentStep++;
-                    });
-                  }
-
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
-                      builder: (context) => Question2Page(currentStep: 1),
+                      builder: (context) => Question3Page(currentStep: 2),
                     ),
                   );
                 },
