@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/payment.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class AvailableTherapyPage extends StatefulWidget {
@@ -99,6 +100,65 @@ class _AvailableTherapyPageState extends State<AvailableTherapyPage> {
                           fontSize: 12.sp,
                           fontWeight: FontWeight.w500,
                           color: buttonColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 15.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 144.w,
+                        height: 40.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.r),
+                          color: Color(0xFFFFFFFF),
+                          border: Border.all(
+                            color: Color(0xFF15AC86),
+                            width: 1.w,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Find Other",
+                            style: GoogleFonts.inter(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF15AC86),
+                              letterSpacing: -1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(width: 10.w),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => PaymentPage(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          width: 144.w,
+                          height: 40.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.r),
+                            color: Color(0xFF15AC86),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Book Appointment",
+                              style: GoogleFonts.inter(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFFFFFFFF),
+                                letterSpacing: -1,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],

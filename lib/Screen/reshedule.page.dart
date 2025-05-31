@@ -55,7 +55,7 @@ class _ReshedulePageState extends State<ReshedulePage> {
               ),
               child: Center(
                 child: Text(
-                  "Continue",
+                  "FInd Therapist",
                   style: GoogleFonts.inter(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
