@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/reshedule.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class PlanPage extends StatefulWidget {
@@ -74,6 +75,33 @@ class _PlanPageState extends State<PlanPage> {
                 bgColor: tab == 2 ? Color(0xFFE5EEF8) : Colors.transparent,
                 contai: tab == 2 ? Color(0xFF15AC86) : Colors.transparent,
                 bordercolor: tab == 2 ? Colors.transparent : Color(0xFFC5C6CC),
+              ),
+            ),
+            SizedBox(height: MediaQuery.of(context).size.height / 2.22),
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  CupertinoPageRoute(builder: (context) => ReshedulePage()),
+                );
+              },
+              child: Container(
+                width: 327.w,
+                height: 56.h,
+                decoration: BoxDecoration(
+                  color: buttonColor,
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
+                child: Center(
+                  child: Text(
+                    "Continue",
+                    style: GoogleFonts.inter(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
               ),
             ),
           ],
