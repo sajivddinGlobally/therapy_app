@@ -79,7 +79,7 @@ class _ProfilePageState extends State<ProfilePage> {
   String? selectedGender;
 
   final List<String> genders = ['Male', 'Female', 'Other'];
-  
+
   DateTime? selectedDate;
   final dateController = TextEditingController();
   Future<void> pickDate() async {
@@ -222,6 +222,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     SizedBox(height: 16.h),
                     TextFormField(
                       maxLength: 10,
+                      keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         counterText: '',
