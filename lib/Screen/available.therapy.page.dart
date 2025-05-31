@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/doctor.info.page.dart';
 import 'package:therapy_app/Screen/payment.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
@@ -94,12 +95,22 @@ class _AvailableTherapyPageState extends State<AvailableTherapyPage> {
                         ],
                       ),
                       Spacer(),
-                      Text(
-                        "View Profile ",
-                        style: GoogleFonts.inter(
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w500,
-                          color: buttonColor,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => DoctorInfoPage(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          "View Profile ",
+                          style: GoogleFonts.inter(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w500,
+                            color: buttonColor,
+                          ),
                         ),
                       ),
                     ],
