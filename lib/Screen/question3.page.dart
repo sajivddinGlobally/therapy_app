@@ -76,12 +76,17 @@ class _Question3PageState extends State<Question3Page> {
                     ),
                   ),
                   SizedBox(height: 15.h),
-                  Text(
-                    "Disagree",
-                    style: GoogleFonts.nunito(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w600,
-                      color: buttonColor,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text(
+                      "Disagree",
+                      style: GoogleFonts.nunito(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: buttonColor,
+                      ),
                     ),
                   ),
                 ],
@@ -153,6 +158,7 @@ class _Question3PageState extends State<Question3Page> {
                   ),
                 ),
               ),
+              SizedBox(height: 30.h),
             ],
           ),
         ),
