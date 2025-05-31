@@ -339,7 +339,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Positioned(
                         left: 20.w,
-                        bottom: 16.h,
+                        bottom: 14.h,
                         child: Text(
                           categoryList[index]["txt"].toString(),
                           style: GoogleFonts.inter(

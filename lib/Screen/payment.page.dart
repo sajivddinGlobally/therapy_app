@@ -78,7 +78,7 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
             SizedBox(height: 14.h),
             payBody(image: "assets/upi.png", txt: "UPI"),
-            SizedBox(height: MediaQuery.of(context).size.height / 2.44),
+            SizedBox(height: MediaQuery.of(context).size.height / 2.6),
             GestureDetector(
               onTap: () {},
               child: Container(
