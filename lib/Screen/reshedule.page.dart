@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:therapy_app/Screen/find.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class ReshedulePage extends StatefulWidget {
@@ -37,6 +38,33 @@ class _ReshedulePageState extends State<ReshedulePage> {
           AppoinmentBody(txt: "Select Date for 2nd Session"),
           SizedBox(height: 10.h),
           AppoinmentBody(txt: 'Select Date for 3rd Session'),
+          SizedBox(height: MediaQuery.of(context).size.height / 2.22),
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                CupertinoPageRoute(builder: (context) => FindPage()),
+              );
+            },
+            child: Container(
+              width: 327.w,
+              height: 56.h,
+              decoration: BoxDecoration(
+                color: buttonColor,
+                borderRadius: BorderRadius.circular(14.r),
+              ),
+              child: Center(
+                child: Text(
+                  "Continue",
+                  style: GoogleFonts.inter(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
