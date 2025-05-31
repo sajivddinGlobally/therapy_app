@@ -376,6 +376,7 @@ class _HomePageState extends State<HomePage> {
           BottomNavigationBarItem(
             backgroundColor: Color(0xFFE5EEF8),
             icon: Container(
+              padding: EdgeInsets.zero,
               width: 60.w,
               height: 60.h,
               decoration: BoxDecoration(
@@ -388,6 +389,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Container(
+              padding: EdgeInsets.zero,
               width: 60.w,
               height: 60.h,
               decoration: BoxDecoration(
@@ -400,6 +402,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Container(
+              padding: EdgeInsets.zero,
               width: 60.w,
               height: 60.h,
               decoration: BoxDecoration(
@@ -412,6 +415,7 @@ class _HomePageState extends State<HomePage> {
           ),
           BottomNavigationBarItem(
             icon: Container(
+              padding: EdgeInsets.zero,
               width: 60.w,
               height: 60.h,
               decoration: BoxDecoration(
