@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/book.reshedule.page.dart';
+import 'package:therapy_app/Screen/chat.inbox.page.dart';
 import 'package:therapy_app/Screen/reshedule.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
@@ -93,6 +94,14 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                           status: "Scheduled",
                           button1: "Reschedule",
                           button2: "Join Chat",
+                          callback: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => ChatInboxPage(),
+                              ),
+                            );
+                          },
                           statusColor: Color(0xFF00BAF7),
                           voidCallback: () {
                             Navigator.push(
@@ -118,6 +127,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                             button2: "Leave a review",
                             statusColor: Color(0xFFE33556),
                             voidCallback: () {},
+                            callback: () {},
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
@@ -126,6 +136,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                             button2: "Leave a review",
                             statusColor: Color(0xFF00BAF7),
                             voidCallback: () {},
+                            callback: () {},
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
@@ -134,6 +145,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                             button2: "Leave a review",
                             statusColor: Color(0xFF00BAF7),
                             voidCallback: () {},
+                            callback: () {},
                           ),
                         ],
                       ),
@@ -155,6 +167,7 @@ class PastBody extends StatelessWidget {
   final String button2;
   final Color statusColor;
   final Function voidCallback;
+  final Function callback;
   const PastBody({
     super.key,
     required this.status,
@@ -162,6 +175,7 @@ class PastBody extends StatelessWidget {
     required this.button2,
     required this.statusColor,
     required this.voidCallback,
+    required this.callback,
   });
 
   @override
@@ -293,7 +307,9 @@ class PastBody extends StatelessWidget {
               ),
               SizedBox(width: 10.w),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  callback();
+                },
                 child: Container(
                   width: 144.w,
                   height: 40.h,

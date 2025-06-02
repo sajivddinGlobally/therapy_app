@@ -347,14 +347,10 @@ class _AccountPageState extends State<AccountPage> {
                   },
                   child: Row(
                     children: [
-                      Icon(
-                        Icons.login_outlined,
-                        color: Color(0xFFF44336),
-                        size: 25.sp,
-                      ),
+                      Icon(Icons.logout, color: Color(0xFFF44336), size: 25.sp),
                       SizedBox(width: 16.w),
                       Text(
-                        "Login",
+                        "Logout",
                         style: GoogleFonts.inter(
                           fontSize: 16.sp,
                           fontWeight: FontWeight.w500,
