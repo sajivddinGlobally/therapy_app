@@ -64,20 +64,27 @@ class _ChatPageState extends State<ChatPage> {
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 20.h),
-        child: ListView.builder(
-          itemCount: _messages.length,
-          reverse: false,
-          padding: EdgeInsets.zero,
-          itemBuilder: (context, index) {
-            final message = _messages[index];
-            return Padding(
-              padding: EdgeInsets.only(bottom: 8.h),
-              child: ChatBubble(
-                message: message['text'],
-                isSender: message['isSender'],
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                itemCount: _messages.length,
+                reverse: false,
+                padding: EdgeInsets.zero,
+                itemBuilder: (context, index) {
+                  final message = _messages[index];
+                  return Padding(
+                    padding: EdgeInsets.only(bottom: 8.h),
+                    child: ChatBubble(
+                      message: message['text'],
+                      isSender: message['isSender'],
+                    ),
+                  );
+                },
               ),
-            );
-          },
+            ),
+            SizedBox(height: 50.h),
+          ],
         ),
       ),
       bottomSheet: MessageInput(
@@ -102,12 +109,7 @@ class MessageInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: EdgeInsets.only(
-          left: 24.w,
-          right: 24.w,
-          bottom: 10.h,
-          top: 10.h,
-        ),
+        padding: EdgeInsets.only(left: 24.w, right: 24.w),
         child: Row(
           children: [
             Expanded(

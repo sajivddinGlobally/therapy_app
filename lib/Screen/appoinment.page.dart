@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/book.reshedule.page.dart';
 import 'package:therapy_app/Screen/reshedule.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
@@ -50,6 +52,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                   color: buttonColor,
                   letterSpacing: -1,
                 ),
+
                 onTap: (value) {
                   setState(() {
                     defaultab = value;
@@ -91,6 +94,14 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                           button1: "Reschedule",
                           button2: "Join Chat",
                           statusColor: Color(0xFF00BAF7),
+                          voidCallback: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => ReshedulePage(),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
@@ -106,6 +117,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                             button1: "Book Again",
                             button2: "Leave a review",
                             statusColor: Color(0xFFE33556),
+                            voidCallback: () {},
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
@@ -113,6 +125,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                             button1: "Book Again",
                             button2: "Leave a review",
                             statusColor: Color(0xFF00BAF7),
+                            voidCallback: () {},
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
@@ -120,6 +133,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                             button1: "Book Again",
                             button2: "Leave a review",
                             statusColor: Color(0xFF00BAF7),
+                            voidCallback: () {},
                           ),
                         ],
                       ),
@@ -140,12 +154,14 @@ class PastBody extends StatelessWidget {
   final String button1;
   final String button2;
   final Color statusColor;
+  final Function voidCallback;
   const PastBody({
     super.key,
     required this.status,
     required this.button1,
     required this.button2,
     required this.statusColor,
+    required this.voidCallback,
   });
 
   @override
@@ -241,7 +257,7 @@ class PastBody extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           Divider(
-            color: Color(0xFFF4F6F9),
+            color: Colors.grey,
             thickness: 1.w,
             indent: 10,
             endIndent: 10,
@@ -250,22 +266,27 @@ class PastBody extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                width: 144.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.r),
-                  color: Color(0xFFFFFFFF),
-                  border: Border.all(color: Color(0xFF15AC86), width: 1.w),
-                ),
-                child: Center(
-                  child: Text(
-                    button1,
-                    style: GoogleFonts.inter(
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF15AC86),
-                      letterSpacing: -1,
+              GestureDetector(
+                onTap: () {
+                  voidCallback();
+                },
+                child: Container(
+                  width: 144.w,
+                  height: 40.h,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.r),
+                    color: Color(0xFFFFFFFF),
+                    border: Border.all(color: Color(0xFF15AC86), width: 1.w),
+                  ),
+                  child: Center(
+                    child: Text(
+                      button1,
+                      style: GoogleFonts.inter(
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF15AC86),
+                        letterSpacing: -1,
+                      ),
                     ),
                   ),
                 ),

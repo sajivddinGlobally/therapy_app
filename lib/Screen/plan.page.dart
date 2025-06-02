@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:therapy_app/Screen/reshedule.page.dart';
+import 'package:therapy_app/Screen/book.reshedule.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class PlanPage extends StatefulWidget {
@@ -82,7 +82,7 @@ class _PlanPageState extends State<PlanPage> {
               onTap: () {
                 Navigator.push(
                   context,
-                  CupertinoPageRoute(builder: (context) => ReshedulePage()),
+                  CupertinoPageRoute(builder: (context) => BookReshedulePage()),
                 );
               },
               child: Container(

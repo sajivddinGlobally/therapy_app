@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:intl/intl.dart';
-import 'package:therapy_app/Screen/find.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class ReshedulePage extends StatefulWidget {
@@ -14,6 +12,8 @@ class ReshedulePage extends StatefulWidget {
 }
 
 class _ReshedulePageState extends State<ReshedulePage> {
+  String? selectedGender;
+  final List<String> genders = ['Other'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class _ReshedulePageState extends State<ReshedulePage> {
       appBar: AppBar(
         backgroundColor: bgColor,
         title: Text(
-          "Book Appointment",
+          "Reschedule",
           style: GoogleFonts.inter(
             fontSize: 18.sp,
             fontWeight: FontWeight.w600,
@@ -30,104 +30,125 @@ class _ReshedulePageState extends State<ReshedulePage> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        children: [
-          SizedBox(height: 30.h),
-          AppoinmentBody(txt: "Select Date for 1st Session"),
-          SizedBox(height: 10.h),
-          AppoinmentBody(txt: "Select Date for 2nd Session"),
-          SizedBox(height: 10.h),
-          AppoinmentBody(txt: 'Select Date for 3rd Session'),
-          SizedBox(height: MediaQuery.of(context).size.height / 2.22),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(builder: (context) => FindPage()),
-              );
-            },
-            child: Container(
-              width: 327.w,
-              height: 56.h,
-              decoration: BoxDecoration(
-                color: buttonColor,
-                borderRadius: BorderRadius.circular(14.r),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(left: 24.w, right: 24.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 25.h),
+              Text(
+                "Reason for Schedule Changes ",
+                style: GoogleFonts.inter(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2B2B2B),
+                  letterSpacing: -1,
+                ),
               ),
-              child: Center(
-                child: Text(
-                  "FInd Therapist",
+              SizedBox(height: 14.h),
+              Text(
+                "Select Reason",
+                style: GoogleFonts.inter(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF2B2B2B),
+                  letterSpacing: -1,
+                ),
+              ),
+              SizedBox(height: 10.h),
+              DropdownButtonFormField<String>(
+                icon: Icon(Icons.keyboard_arrow_down, color: Color(0xFF868686)),
+                padding: EdgeInsets.zero,
+                value: selectedGender,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFFF4F6F9),
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.only(
+                    left: 20.w,
+                    right: 20.w,
+                    top: 20.h,
+                    bottom: 20.h,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  errorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedErrorBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                ),
+                hint: Text(
+                  "Select",
                   style: GoogleFonts.inter(
-                    fontSize: 16.sp,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFFC8C8C8),
+                  ),
+                ),
+                items:
+                    genders.map((gender) {
+                      return DropdownMenuItem(
+                        value: gender,
+                        child: Text(gender),
+                      );
+                    }).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    selectedGender = value;
+                  });
+                },
+              ),
+              SizedBox(height: 14.h),
+              Text(
+                "Message ",
+                style: GoogleFonts.inter(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF2B2B2B),
+                  letterSpacing: -1,
+                ),
+              ),
+              SizedBox(height: 6.h),
+              TextField(
+                maxLines: 7,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFFF4F6F9),
+                  border: OutlineInputBorder(),
+                  contentPadding: EdgeInsets.only(
+                    left: 10.w,
+                    right: 10.w,
+                    bottom: 10.h,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  hintText: "Message",
+                  hintStyle: GoogleFonts.inter(
+                    fontSize: 14.sp,
                     fontWeight: FontWeight.w500,
-                    color: Colors.white,
+                    color: Color(0xFFC8C8C8),
                   ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class AppoinmentBody extends StatefulWidget {
-  final String txt;
-  const AppoinmentBody({super.key, required this.txt});
-
-  @override
-  State<AppoinmentBody> createState() => _AppoinmentBodyState();
-}
-
-class _AppoinmentBodyState extends State<AppoinmentBody> {
-  DateTime? selectData;
-  Future<void> pickDate() async {
-    final DateTime? datePicked = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-    );
-    if (datePicked != null) {
-      setState(() {
-        selectData = datePicked;
-      });
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        pickDate();
-      },
-      child: Container(
-        padding: EdgeInsets.only(
-          left: 20.w,
-          right: 20.w,
-          top: 24.h,
-          bottom: 24.h,
-        ),
-        decoration: BoxDecoration(color: Color(0xFFF4F6F9)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              selectData == null
-                  ? widget.txt
-                  : DateFormat('dd/MM/yyyy').format(selectData!),
-              style: GoogleFonts.inter(
-                fontSize: 16.sp,
-                fontWeight: FontWeight.w400,
-                color: Color(0xFF2B2B2B),
-              ),
-            ),
-            Icon(
-              Icons.keyboard_arrow_down,
-              color: Color(0xFF2B2B2B),
-              size: 25.sp,
-            ),
-          ],
         ),
       ),
     );
