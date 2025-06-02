@@ -33,16 +33,23 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 24.w, right: 24.w),
-        child: Column(
-          children: [
-            DefaultTabController(
-              initialIndex: defaultab,
-              length: 2,
-              child: TabBar(
+        child: DefaultTabController(
+          initialIndex: defaultab,
+          length: 2,
+          child: Column(
+            children: [
+              TabBar(
                 dividerColor: Color(0xFF868686),
                 indicatorColor: buttonColor,
                 indicatorWeight: 4.w,
                 indicatorSize: TabBarIndicatorSize.tab,
+                unselectedLabelColor: Color(0xFF4F4F4F),
+                labelStyle: GoogleFonts.inter(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                  color: buttonColor,
+                  letterSpacing: -1,
+                ),
                 onTap: (value) {
                   setState(() {
                     defaultab = value;
@@ -55,7 +62,6 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                       style: GoogleFonts.inter(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
-                        color: buttonColor,
                         letterSpacing: -1,
                       ),
                     ),
@@ -66,49 +72,63 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                       style: GoogleFonts.inter(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w500,
-                        color: buttonColor,
                         letterSpacing: -1,
                       ),
                     ),
                   ),
                 ],
               ),
-            ),
-            SizedBox(height: 24.h),
-            defaultab == 0
-                ? PastBody(
-                  status: "Scheduled",
-                  button1: "Reschedule",
-                  button2: "Join Chat",
-                  statusColor: Color(0xFF00BAF7),
-                )
-                : SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      PastBody(
-                        status: "Cancel",
-                        button1: "Book Again",
-                        button2: "Leave a review ",
-                        statusColor: Color(0xFFE33556),
+              SizedBox(height: 24.h),
+              // Add Expanded here to avoid unbounded height error
+              Expanded(
+                child: TabBarView(
+                  children: [
+                    // Upcoming Tab
+                    Column(
+                      children: [
+                        PastBody(
+                          status: "Scheduled",
+                          button1: "Reschedule",
+                          button2: "Join Chat",
+                          statusColor: Color(0xFF00BAF7),
+                        ),
+                      ],
+                    ),
+                    // Past Tab
+                    SingleChildScrollView(
+                      padding: EdgeInsets.only(
+                        bottom: 16.h,
+                      ), // Optional padding
+                      child: Column(
+                        children: [
+                          PastBody(
+                            status: "Cancel",
+                            button1: "Book Again",
+                            button2: "Leave a review",
+                            statusColor: Color(0xFFE33556),
+                          ),
+                          SizedBox(height: 14.h),
+                          PastBody(
+                            status: "Complete",
+                            button1: "Book Again",
+                            button2: "Leave a review",
+                            statusColor: Color(0xFF00BAF7),
+                          ),
+                          SizedBox(height: 14.h),
+                          PastBody(
+                            status: "Complete",
+                            button1: "Book Again",
+                            button2: "Leave a review",
+                            statusColor: Color(0xFF00BAF7),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: 14.h),
-                      PastBody(
-                        status: "Complete",
-                        button1: "Book Again",
-                        button2: "Leave a review ",
-                        statusColor: Color(0xFF00BAF7),
-                      ),
-                      SizedBox(height: 14.h),
-                      PastBody(
-                        status: "Complete",
-                        button1: "Book Again",
-                        button2: "Leave a review ",
-                        statusColor: Color(0xFF00BAF7),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-          ],
+              ),
+            ],
+          ),
         ),
       ),
     );
