@@ -11,6 +11,7 @@ import 'package:therapy_app/Screen/change.password.page.dart';
 import 'package:therapy_app/Screen/edit.profile.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/language.page.dart';
+import 'package:therapy_app/Screen/legal.policy.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class AccountPage extends StatefulWidget {
@@ -320,9 +321,19 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
                 SizedBox(height: 25.h),
-                EditProfileBody(
-                  icon: Icons.policy_outlined,
-                  txt: 'Legal and Policies',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => LegalPolicyPage(),
+                      ),
+                    );
+                  },
+                  child: EditProfileBody(
+                    icon: Icons.policy_outlined,
+                    txt: 'Legal and Policies',
+                  ),
                 ),
                 SizedBox(height: 25.h),
                 EditProfileBody(
