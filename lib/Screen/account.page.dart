@@ -7,8 +7,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:therapy_app/Screen/change.password.page.dart';
 import 'package:therapy_app/Screen/edit.profile.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
+import 'package:therapy_app/Screen/language.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class AccountPage extends StatefulWidget {
@@ -290,14 +292,32 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
                 SizedBox(height: 25.h),
-                EditProfileBody(
-                  icon: Icons.lock_outline,
-                  txt: 'Change Password',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => ChangePasswordPage(),
+                      ),
+                    );
+                  },
+                  child: EditProfileBody(
+                    icon: Icons.lock_outline,
+                    txt: 'Change Password',
+                  ),
                 ),
                 SizedBox(height: 25.h),
-                EditProfileBody(
-                  icon: Icons.language_outlined,
-                  txt: 'Languages',
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(builder: (context) => LanguagePage()),
+                    );
+                  },
+                  child: EditProfileBody(
+                    icon: Icons.language_outlined,
+                    txt: 'Languages',
+                  ),
                 ),
                 SizedBox(height: 25.h),
                 EditProfileBody(

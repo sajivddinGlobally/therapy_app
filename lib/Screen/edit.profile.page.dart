@@ -6,6 +6,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class EditProfilePage extends StatefulWidget {
@@ -98,6 +99,19 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
+      appBar: AppBar(
+        backgroundColor: bgColor,
+        title: Text(
+          "Edit Profile",
+          style: GoogleFonts.inter(
+            fontSize: 18.sp,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFF2B2B2B),
+            letterSpacing: -1,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -155,6 +169,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
               child: Column(
                 children: [
                   TextFormField(
+                    initialValue: "Name",
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(left: 10.w),
                       enabledBorder: OutlineInputBorder(
@@ -234,6 +249,52 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         size: 20.sp,
                       ),
                       hintText: "Phone Number",
+                      hintStyle: GoogleFonts.inter(
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Color(0xFF2B2B2B),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16.h),
+                  TextFormField(
+                    initialValue: "",
+                    decoration: InputDecoration(
+                      contentPadding: EdgeInsets.only(left: 10.w),
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14.r),
+                        borderSide: BorderSide(
+                          color: Color(0xFFC8C8C8),
+                          width: 1.w,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14.r),
+                        borderSide: BorderSide(
+                          color: Color(0xFFC8C8C8),
+                          width: 1.w,
+                        ),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14.r),
+                        borderSide: BorderSide(
+                          color: Color(0xFFC8C8C8),
+                          width: 1.w,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(14.r),
+                        borderSide: BorderSide(
+                          color: Color(0xFFC8C8C8),
+                          width: 1.w,
+                        ),
+                      ),
+                      prefixIcon: Icon(
+                        Icons.mail_outline,
+                        color: Color(0xFF2B2B2B),
+                        size: 20.sp,
+                      ),
+                      hintText: "Email",
                       hintStyle: GoogleFonts.inter(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.w600,
@@ -352,20 +413,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     ),
                   ),
                   SizedBox(height: 30.h),
-                  Container(
-                    width: 327.w,
-                    height: 56.h,
-                    decoration: BoxDecoration(
-                      color: buttonColor,
-                      borderRadius: BorderRadius.circular(14.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Save",
-                        style: GoogleFonts.inter(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(builder: (context) => AccountPage()),
+                      );
+                    },
+                    child: Container(
+                      width: 327.w,
+                      height: 56.h,
+                      decoration: BoxDecoration(
+                        color: buttonColor,
+                        borderRadius: BorderRadius.circular(14.r),
+                      ),
+                      child: Center(
+                        child: Text(
+                          "Save",
+                          style: GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
