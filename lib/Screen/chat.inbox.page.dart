@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/chat.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class ChatInboxPage extends StatefulWidget {
@@ -69,88 +71,98 @@ class _ChatInboxPageState extends State<ChatInboxPage> {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: 3,
+                itemCount: 6,
                 itemBuilder: (context, index) {
                   return Padding(
                     padding: EdgeInsets.only(top: 10.h),
                     child: Column(
                       children: [
-                        Row(
-                          children: [
-                            Container(
-                              width: 58.w,
-                              height: 58.h,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.grey,
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => ChatPage(),
                               ),
-                              child: ClipOval(
-                                child: Image.asset(
-                                  "assets/dot.png",
-                                  fit: BoxFit.cover,
+                            );
+                          },
+                          child: Row(
+                            children: [
+                              Container(
+                                width: 58.w,
+                                height: 58.h,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: Colors.grey,
+                                ),
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    "assets/dot.png",
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(width: 15.w),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Dr. Aaron ",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 18.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF2B2B2B),
-                                    letterSpacing: -1,
-                                    height: 1.0,
+                              SizedBox(width: 15.w),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Dr. Aaron ",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 18.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF2B2B2B),
+                                      letterSpacing: -1,
+                                      height: 1.0,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "Now how yo feel? ",
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF868686),
-                                    letterSpacing: -1,
+                                  Text(
+                                    "Now how yo feel? ",
+                                    style: GoogleFonts.nunito(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xFF868686),
+                                      letterSpacing: -1,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            Spacer(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  "15:23",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.w500,
-                                    color: Color(0xFF868686),
+                                ],
+                              ),
+                              Spacer(),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(
+                                    "15:23",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Color(0xFF868686),
+                                    ),
                                   ),
-                                ),
-                                SizedBox(height: 10.h),
-                                Container(
-                                  width: 16.w,
-                                  height: 16.w, // Make it square
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: buttonColor,
-                                  ),
+                                  SizedBox(height: 10.h),
+                                  Container(
+                                    width: 16.w,
+                                    height: 16.w, // Make it square
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: buttonColor,
+                                    ),
 
-                                  child: Center(
-                                    child: Text(
-                                      "1",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xFFFFFFFF),
+                                    child: Center(
+                                      child: Text(
+                                        "1",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFFFFFFFF),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          ],
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                         Divider(
                           color: Color(0xFFF4F6F9),
