@@ -192,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Body(image: 'assets/apple.png'),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 3.4),
+              SizedBox(height: MediaQuery.of(context).size.height / 3),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
