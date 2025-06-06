@@ -192,7 +192,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   Body(image: 'assets/apple.png'),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 3),
+              SizedBox(height: MediaQuery.of(context).size.height / 3.2),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -205,12 +205,20 @@ class _RegisterPageState extends State<RegisterPage> {
                         color: Color(0xFF2B2B2B),
                       ),
                     ),
-                    Text(
-                      "Login Now",
-                      style: GoogleFonts.nunito(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF15AC86),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(builder: (context) => LoginPage()),
+                        );
+                      },
+                      child: Text(
+                        "Login Now",
+                        style: GoogleFonts.nunito(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF15AC86),
+                        ),
                       ),
                     ),
                   ],
