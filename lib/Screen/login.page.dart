@@ -218,7 +218,7 @@ class _LoginPageState extends State<LoginPage> {
                   Body(image: 'assets/apple.png'),
                 ],
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 5),
+              SizedBox(height: MediaQuery.of(context).size.height / 4),
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
