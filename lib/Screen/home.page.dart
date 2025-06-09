@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/Screen/appoinment.page.dart';
 import 'package:therapy_app/Screen/chat.inbox.page.dart';
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   int tabBottom = 0;
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box("data");
     return Scaffold(
       backgroundColor: bgColor,
       body:
@@ -45,14 +47,20 @@ class _HomePageState extends State<HomePage> {
                             shape: BoxShape.circle,
                             color: Colors.grey,
                           ),
-                          child: Image.asset("assets/profile.png"),
+                          child: ClipOval(
+                            child: Image.network(
+                              //"assets/profile.png",
+                              "${box.get("profile_picture") ?? "https://placehold.jp/3d4070/ffffff/150x150.png"}",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                         SizedBox(width: 8.w),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              "Hi, Alicent Hightower",
+                              "Hi, ${box.get("name") ?? "Alicent Hightower"} ",
                               style: GoogleFonts.nunito(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.bold,

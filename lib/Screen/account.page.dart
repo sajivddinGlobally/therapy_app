@@ -1,10 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:therapy_app/Screen/change.password.page.dart';
@@ -12,6 +13,7 @@ import 'package:therapy_app/Screen/edit.profile.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/language.page.dart';
 import 'package:therapy_app/Screen/legal.policy.page.dart';
+import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class AccountPage extends StatefulWidget {
@@ -157,6 +159,15 @@ class _AccountPageState extends State<AccountPage> {
                   SizedBox(width: 10.w),
                   GestureDetector(
                     onTap: () {
+                      var box = Hive.box("data");
+                      box.clear();
+                      Fluttertoast.showToast(
+                        msg: "Logout Successful",
+                        gravity: ToastGravity.BOTTOM,
+                        toastLength: Toast.LENGTH_SHORT,
+                        backgroundColor: Colors.red,
+                        textColor: Color(0xFFFFFFFF),
+                      );
                       Navigator.push(
                         context,
                         CupertinoPageRoute(builder: (context) => HomePage()),
@@ -193,6 +204,8 @@ class _AccountPageState extends State<AccountPage> {
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box("data");
+    var token = box.get("token");
     return Scaffold(
       backgroundColor: bgColor,
       body: Column(
@@ -214,8 +227,9 @@ class _AccountPageState extends State<AccountPage> {
                       child:
                           image == null
                               ? ClipOval(
-                                child: Image.asset(
-                                  "assets/frame.png",
+                                child: Image.network(
+                                  //"assets/frame.png",
+                                  "${box.get("profile_picture") ?? "https://placehold.jp/3d4070/ffffff/150x150.png"}",
                                   fit: BoxFit.cover,
                                 ),
                               )
@@ -249,7 +263,7 @@ class _AccountPageState extends State<AccountPage> {
                 ),
                 SizedBox(height: 14.h),
                 Text(
-                  "Alicent Hightower",
+                  "${box.get("name") ?? "Alicent Hightower"}",
                   style: GoogleFonts.nunito(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
@@ -258,7 +272,7 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
                 Text(
-                  "alicent@gmail.com",
+                  "${box.get("email") ?? "alicent@gmail.com"}",
                   style: GoogleFonts.inter(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
@@ -341,25 +355,58 @@ class _AccountPageState extends State<AccountPage> {
                   txt: 'Help and Support',
                 ),
                 SizedBox(height: 25.h),
-                GestureDetector(
-                  onTap: () {
-                    showbottomsheet();
-                  },
-                  child: Row(
-                    children: [
-                      Icon(Icons.logout, color: Color(0xFFF44336), size: 25.sp),
-                      SizedBox(width: 16.w),
-                      Text(
-                        "Logout",
-                        style: GoogleFonts.inter(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
+                if (token == null) ...[
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.login,
                           color: Color(0xFFF44336),
+                          size: 25.sp,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 16.w),
+                        Text(
+                          "Login",
+                          style: GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFFF44336),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ] else ...[
+                  GestureDetector(
+                    onTap: () {
+                      showbottomsheet();
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          color: Color(0xFFF44336),
+                          size: 25.sp,
+                        ),
+                        SizedBox(width: 16.w),
+                        Text(
+                          "Logout",
+                          style: GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFFF44336),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

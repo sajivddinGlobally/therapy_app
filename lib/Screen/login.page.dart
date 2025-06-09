@@ -1,21 +1,31 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/register.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/model/loginBodyModel.dart';
+import 'package:therapy_app/data/provider/login.state.dart';
+import 'package:therapy_app/data/provider/loginController.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   bool isSecure = true;
+  bool isLogin = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,6 +52,7 @@ class _LoginPageState extends State<LoginPage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
                         enabledBorder: OutlineInputBorder(
@@ -76,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
                       width: 327.w,
                       height: 56.h,
                       child: TextFormField(
+                        controller: passwordController,
                         obscureText: isSecure == true ? isSecure : false,
                         decoration: InputDecoration(
                           contentPadding: EdgeInsets.zero,
@@ -151,11 +163,56 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                     SizedBox(height: 24.h),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(builder: (context) => HomePage()),
-                        );
+                      onTap: () async {
+                        setState(() {
+                          isLogin = true;
+                        });
+
+                        try {
+                          final body = LoginBodyModel(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+
+                          await ref
+                              .read(logincontrollerprovider.notifier)
+                              .login(body);
+                          final loginState = ref.read(logincontrollerprovider);
+                          if (loginState is LoginSucess) {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
+                              (route) => false,
+                            );
+                            Fluttertoast.showToast(
+                              msg: loginState.response.message,
+                              gravity: ToastGravity.BOTTOM,
+                              toastLength: Toast.LENGTH_SHORT,
+                              backgroundColor: Color(0xFF15AC86),
+                              textColor: Color(0xFFFFFFFF),
+                            );
+                          } else if (loginState is LoginError) {
+                            Fluttertoast.showToast(
+                              msg: "Invalid email or password",
+                              gravity: ToastGravity.BOTTOM,
+                              toastLength: Toast.LENGTH_SHORT,
+                              backgroundColor: Colors.red,
+                              textColor: Color(0xFFFFFFFF),
+                            );
+                          }
+                        } catch (e) {
+                          Fluttertoast.showToast(
+                            msg: "Something went wrong",
+                            backgroundColor: Colors.black,
+                            textColor: Colors.white,
+                          );
+                          log(e.toString());
+                        }
+                        setState(() {
+                          isLogin = false;
+                        });
                       },
                       child: Container(
                         width: 327.w,
@@ -165,14 +222,19 @@ class _LoginPageState extends State<LoginPage> {
                           borderRadius: BorderRadius.circular(14.r),
                         ),
                         child: Center(
-                          child: Text(
-                            "Login",
-                            style: GoogleFonts.inter(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white,
-                            ),
-                          ),
+                          child:
+                              isLogin == false
+                                  ? Text(
+                                    "Login",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 16.sp,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.white,
+                                    ),
+                                  )
+                                  : CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
                         ),
                       ),
                     ),
