@@ -52,6 +52,7 @@ dependencies:
   dio: ^5.8.0+1
   otp_pin_field: ^1.4.1
   step_progress_indicator: ^1.0.2
+  http: ^1.4.0
 
 
 

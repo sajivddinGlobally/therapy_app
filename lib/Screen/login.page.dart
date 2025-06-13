@@ -252,7 +252,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             textColor: Color(0xFFFFFFFF),
                           );
                         }
-
                         setState(() {
                           isLogin = false;
                         });

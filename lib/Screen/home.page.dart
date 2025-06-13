@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -8,26 +11,46 @@ import 'package:therapy_app/Screen/appoinment.page.dart';
 import 'package:therapy_app/Screen/chat.inbox.page.dart';
 import 'package:therapy_app/Screen/plan.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/categoryController.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  ConsumerState<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends ConsumerState<HomePage> {
   List<Map<String, String>> categoryList = [
     {"imageUrl": "assets/individual.png", "txt": "Individual Therapy"},
     {"imageUrl": "assets/counsling.png", "txt": "Couples Counseling"},
     {"imageUrl": "assets/parents.png", "txt": "First Time Parents"},
     {"imageUrl": "assets/stress.png", "txt": "Stress"},
     {"imageUrl": "assets/deepression.png", "txt": "Depression"},
+    {"imageUrl": "assets/deepression.png", "txt": "Depression"},
+    {"imageUrl": "assets/deepression.png", "txt": "Depression"},
   ];
   int tabBottom = 0;
   @override
   Widget build(BuildContext context) {
     var box = Hive.box("data");
+    final categoryData = ref.watch(categoryProvider);
+    if (categoryData.isLoading) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator(color: buttonColor)),
+      );
+    }
+    if (categoryData.hasError) {
+      return Scaffold(
+        body: Center(
+          child: Text(
+            categoryData.error.toString(),
+            style: GoogleFonts.inter(fontSize: 20.sp, color: Colors.red),
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       backgroundColor: bgColor,
       body:
@@ -333,62 +356,83 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: categoryList.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            left: 24.w,
-                            right: 24.h,
-                            top: 12.h,
+                    categoryData.when(
+                      data: (category) {
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          itemCount: min(
+                            categoryList.length,
+                            category.categories.length,
                           ),
-                          child: Stack(
-                            children: [
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                      builder: (context) => PlanPage(),
-                                    ),
-                                  );
-                                },
-                                child: Container(
-                                  width: 327.w,
-                                  height: 110.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                    color: Colors.blueGrey,
-                                  ),
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                    child: Image.asset(
-                                      categoryList[index]["imageUrl"]
-                                          .toString(),
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                left: 24.w,
+                                right: 24.h,
+                                top: 12.h,
                               ),
-                              Positioned(
-                                left: 20.w,
-                                bottom: 14.h,
-                                child: Text(
-                                  categoryList[index]["txt"].toString(),
-                                  style: GoogleFonts.inter(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFFFFFFFF),
+                              child: Stack(
+                                children: [
+                                  GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => PlanPage(),
+                                        ),
+                                      );
+                                    },
+                                    child: Container(
+                                      width: 327.w,
+                                      height: 110.h,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          16.r,
+                                        ),
+                                        color: Colors.blueGrey,
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          16.r,
+                                        ),
+                                        child: Image.asset(
+                                          categoryList[index]["imageUrl"]
+                                              .toString(),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                ),
+                                  Positioned(
+                                    left: 20.w,
+                                    bottom: 14.h,
+                                    child: Text(
+                                      //categoryList[index]["txt"].toString(),
+                                      category.categories[index].name,
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFFFFFFFF),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            );
+                          },
                         );
                       },
+                      error:
+                          (error, stackTrace) =>
+                              Center(child: Text(error.toString())),
+                      loading:
+                          () => Center(
+                            child: CircularProgressIndicator(
+                              color: buttonColor,
+                            ),
+                          ),
                     ),
                     SizedBox(height: 30.h),
                   ],

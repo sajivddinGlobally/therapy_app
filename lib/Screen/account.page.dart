@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,15 +17,16 @@ import 'package:therapy_app/Screen/language.page.dart';
 import 'package:therapy_app/Screen/legal.policy.page.dart';
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/accountController.dart';
 
-class AccountPage extends StatefulWidget {
+class AccountPage extends ConsumerStatefulWidget {
   const AccountPage({super.key});
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  ConsumerState<AccountPage> createState() => _AccountPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _AccountPageState extends ConsumerState<AccountPage> {
   File? image;
   final picker = ImagePicker();
 
@@ -206,211 +209,225 @@ class _AccountPageState extends State<AccountPage> {
   Widget build(BuildContext context) {
     var box = Hive.box("data");
     var token = box.get("token");
+    final accountData = ref.watch(accounProfileProvider);
     return Scaffold(
       backgroundColor: bgColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 30.h),
-          Center(
-            child: Column(
-              children: [
-                Stack(
+      body: accountData.when(
+        data: (account) {
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 30.h),
+              Center(
+                child: Column(
                   children: [
-                    Container(
-                      width: 150.w,
-                      height: 150.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Color(0xFFF5F5F7),
-                      ),
-                      child:
-                          image == null
-                              ? ClipOval(
-                                child: Image.network(
-                                  //"assets/frame.png",
-                                  "${box.get("profile_picture") ?? "https://placehold.jp/3d4070/ffffff/150x150.png"}",
-                                  fit: BoxFit.cover,
-                                ),
-                              )
-                              : Image.file(image!, fit: BoxFit.cover),
-                    ),
-                    Positioned(
-                      right: 10.w,
-                      bottom: 10.h,
-                      child: GestureDetector(
-                        onTap: () {
-                          showImage();
-                        },
-                        child: Container(
-                          width: 30.w,
-                          height: 30.h,
+                    Stack(
+                      children: [
+                        Container(
+                          width: 150.w,
+                          height: 150.h,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.r),
-                            color: buttonColor,
+                            shape: BoxShape.circle,
+                            color: Color(0xFFF5F5F7),
                           ),
-                          child: Center(
-                            child: Icon(
-                              Icons.edit,
-                              color: Colors.white,
-                              size: 20.sp,
+                          child:
+                              image == null
+                                  ? ClipOval(
+                                    child: Image.network(
+                                      //"assets/frame.png",
+                                      // "${box.get("profile_picture") ?? "https://placehold.jp/3d4070/ffffff/150x150.png"}",
+                                      account.user.profilePicture ??
+                                          "https://placehold.jp/3d4070/ffffff/150x150.png",
+                                      fit: BoxFit.cover,
+                                    ),
+                                  )
+                                  : Image.file(image!, fit: BoxFit.cover),
+                        ),
+                        Positioned(
+                          right: 10.w,
+                          bottom: 10.h,
+                          child: GestureDetector(
+                            onTap: () {
+                              showImage();
+                            },
+                            child: Container(
+                              width: 30.w,
+                              height: 30.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: buttonColor,
+                              ),
+                              child: Center(
+                                child: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                  size: 20.sp,
+                                ),
+                              ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 14.h),
+                    Text(
+                      account.user.name,
+                      style: GoogleFonts.nunito(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF2B2B2B),
+                        letterSpacing: -1,
+                      ),
+                    ),
+                    Text(
+                     account.user.email,
+                      style: GoogleFonts.inter(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Color(0xFF868686),
+                        letterSpacing: -1,
+                        height: 1.0,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 14.h),
-                Text(
-                  "${box.get("name") ?? "Alicent Hightower"}",
-                  style: GoogleFonts.nunito(
-                    fontSize: 18.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF2B2B2B),
-                    letterSpacing: -1,
-                  ),
-                ),
-                Text(
-                  "${box.get("email") ?? "alicent@gmail.com"}",
-                  style: GoogleFonts.inter(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w500,
-                    color: Color(0xFF868686),
-                    letterSpacing: -1,
-                    height: 1.0,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 24.w, right: 24.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 20.h),
-                Divider(color: Colors.black12, endIndent: 10, indent: 10),
-                SizedBox(height: 24.h),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => EditProfilePage(),
-                      ),
-                    );
-                  },
-                  child: EditProfileBody(
-                    icon: Icons.person_outline_outlined,
-                    txt: 'Edit Profile',
-                  ),
-                ),
-                SizedBox(height: 25.h),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => ChangePasswordPage(),
-                      ),
-                    );
-                  },
-                  child: EditProfileBody(
-                    icon: Icons.lock_outline,
-                    txt: 'Change Password',
-                  ),
-                ),
-                SizedBox(height: 25.h),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(builder: (context) => LanguagePage()),
-                    );
-                  },
-                  child: EditProfileBody(
-                    icon: Icons.language_outlined,
-                    txt: 'Languages',
-                  ),
-                ),
-                SizedBox(height: 25.h),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => LegalPolicyPage(),
-                      ),
-                    );
-                  },
-                  child: EditProfileBody(
-                    icon: Icons.policy_outlined,
-                    txt: 'Legal and Policies',
-                  ),
-                ),
-                SizedBox(height: 25.h),
-                EditProfileBody(
-                  icon: Icons.help_outline_sharp,
-                  txt: 'Help and Support',
-                ),
-                SizedBox(height: 25.h),
-                if (token == null) ...[
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(builder: (context) => LoginPage()),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.login,
-                          color: Color(0xFFF44336),
-                          size: 25.sp,
-                        ),
-                        SizedBox(width: 16.w),
-                        Text(
-                          "Login",
-                          style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFFF44336),
+              ),
+              Padding(
+                padding: EdgeInsets.only(left: 24.w, right: 24.h),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h),
+                    Divider(color: Colors.black12, endIndent: 10, indent: 10),
+                    SizedBox(height: 24.h),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => EditProfilePage(),
                           ),
-                        ),
-                      ],
+                        );
+                      },
+                      child: EditProfileBody(
+                        icon: Icons.person_outline_outlined,
+                        txt: 'Edit Profile',
+                      ),
                     ),
-                  ),
-                ] else ...[
-                  GestureDetector(
-                    onTap: () {
-                      showbottomsheet();
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.logout,
-                          color: Color(0xFFF44336),
-                          size: 25.sp,
-                        ),
-                        SizedBox(width: 16.w),
-                        Text(
-                          "Logout",
-                          style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Color(0xFFF44336),
+                    SizedBox(height: 25.h),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => ChangePasswordPage(),
                           ),
-                        ),
-                      ],
+                        );
+                      },
+                      child: EditProfileBody(
+                        icon: Icons.lock_outline,
+                        txt: 'Change Password',
+                      ),
                     ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ],
+                    SizedBox(height: 25.h),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => LanguagePage(),
+                          ),
+                        );
+                      },
+                      child: EditProfileBody(
+                        icon: Icons.language_outlined,
+                        txt: 'Languages',
+                      ),
+                    ),
+                    SizedBox(height: 25.h),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => LegalPolicyPage(),
+                          ),
+                        );
+                      },
+                      child: EditProfileBody(
+                        icon: Icons.policy_outlined,
+                        txt: 'Legal and Policies',
+                      ),
+                    ),
+                    SizedBox(height: 25.h),
+                    EditProfileBody(
+                      icon: Icons.help_outline_sharp,
+                      txt: 'Help and Support',
+                    ),
+                    SizedBox(height: 25.h),
+                    if (token == null) ...[
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            CupertinoPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.login,
+                              color: Color(0xFFF44336),
+                              size: 25.sp,
+                            ),
+                            SizedBox(width: 16.w),
+                            Text(
+                              "Login",
+                              style: GoogleFonts.inter(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFFF44336),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ] else ...[
+                      GestureDetector(
+                        onTap: () {
+                          showbottomsheet();
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.logout,
+                              color: Color(0xFFF44336),
+                              size: 25.sp,
+                            ),
+                            SizedBox(width: 16.w),
+                            Text(
+                              "Logout",
+                              style: GoogleFonts.inter(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Color(0xFFF44336),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          );
+        },
+        error: (error, stackTrace) => Center(child: Text(error.toString())),
+        loading:
+            () => Center(child: CircularProgressIndicator(color: buttonColor)),
       ),
     );
   }

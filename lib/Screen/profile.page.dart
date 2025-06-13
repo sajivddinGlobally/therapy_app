@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,15 +10,16 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:therapy_app/Screen/question1.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/registerController.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
 
   @override
-  State<ProfilePage> createState() => _ProfilePageState();
+  ConsumerState<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends ConsumerState<ProfilePage> {
   File? image;
   final picker = ImagePicker();
 
@@ -100,6 +102,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    final registerProvider = ref.watch(registerFormProvider);
+    final registerProviderData = ref.read(registerFormProvider.notifier);
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
       appBar: AppBar(
@@ -175,6 +179,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 child: Column(
                   children: [
                     TextFormField(
+                      onChanged: (value) => registerProviderData.setName(value),
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 10.w),
                         enabledBorder: OutlineInputBorder(
@@ -221,6 +226,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                     SizedBox(height: 16.h),
                     TextFormField(
+                      onChanged:
+                          (value) => registerProviderData.setPhone(value),
                       maxLength: 10,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
@@ -328,6 +335,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           genders.map((gender) {
                             return DropdownMenuItem(
                               value: gender,
+
                               child: Text(gender),
                             );
                           }).toList(),
