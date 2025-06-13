@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/model/lognResModel.dart';

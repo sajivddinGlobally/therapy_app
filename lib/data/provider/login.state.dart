@@ -6,9 +6,9 @@ class LoginIntial extends LoginState {}
 
 class LoginLoading extends LoginState {}
 
-class LoginSucess extends LoginState {
+class LoginSuccess extends LoginState {
   final LoginResModel response;
-  LoginSucess(this.response);
+  LoginSuccess(this.response);
 }
 
 class LoginError extends LoginState {

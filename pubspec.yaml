@@ -36,11 +36,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   flutter_screenutil: ^5.9.3
   google_fonts: ^6.2.1
-  otp_pin_field: ^1.4.1
   image_picker: ^1.1.2
   permission_handler: ^12.0.0+1
   intl: ^0.20.2
-  step_progress_indicator: ^1.0.2
   retrofit: ^4.4.2
   logger: ^2.5.0
   json_annotation: ^4.9.0
@@ -52,6 +50,8 @@ dependencies:
   fluttertoast: ^8.2.12
   pretty_dio_logger: ^1.4.0
   dio: ^5.8.0+1
+  otp_pin_field: ^1.4.1
+  step_progress_indicator: ^1.0.2
 
 
 

@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,6 +11,8 @@ import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/register.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/core/network/api.state.dart';
+import 'package:therapy_app/core/utils/pretty.dio.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/provider/login.state.dart';
 import 'package:therapy_app/data/provider/loginController.dart';
@@ -164,38 +167,76 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     SizedBox(height: 24.h),
                     GestureDetector(
                       onTap: () async {
+                        // done method sahi hai
+
+                        // setState(() {
+                        //   isLogin = true;
+                        // });
+                        // final body = LoginBodyModel(
+                        //   email: emailController.text,
+                        //   password: passwordController.text,
+                        // );
+                        // try {
+                        //   final loginservice = ApiStateNetwork(
+                        //     await createDio(),
+                        //   );
+                        //   final data = compute(loginservice.login, body);
+                        //   final response = await data;
+
+                        //   if (response != null) {
+                        //     Fluttertoast.showToast(msg: response.message);
+                        //     Navigator.push(
+                        //       context,
+                        //       CupertinoPageRoute(
+                        //         builder: (context) => HomePage(),
+                        //       ),
+                        //     );
+                        //   } else {
+                        //     log("failed");
+                        //     Fluttertoast.showToast(msg: "failed");
+                        //   }
+                        // } catch (e) {
+                        //   setState(() {
+                        //     isLogin = false;
+                        //   });
+                        //   Fluttertoast.showToast(msg: "something went wrong");
+                        // }
+
                         setState(() {
                           isLogin = true;
                         });
 
-                        try {
-                          final body = LoginBodyModel(
-                            email: emailController.text,
-                            password: passwordController.text,
-                          );
+                        final body = LoginBodyModel(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
 
+                        try {
                           await ref
                               .read(logincontrollerprovider.notifier)
                               .login(body);
+
                           final loginState = ref.read(logincontrollerprovider);
-                          if (loginState is LoginSucess) {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                              (route) => false,
-                            );
+
+                          if (loginState is LoginSuccess) {
                             Fluttertoast.showToast(
                               msg: loginState.response.message,
                               gravity: ToastGravity.BOTTOM,
                               toastLength: Toast.LENGTH_SHORT,
-                              backgroundColor: Color(0xFF15AC86),
+                              backgroundColor: buttonColor,
                               textColor: Color(0xFFFFFFFF),
+                            );
+                            if (!mounted)
+                              return; // ✅ Safety check for navigation
+                            Navigator.pushReplacement(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (context) => HomePage(),
+                              ),
                             );
                           } else if (loginState is LoginError) {
                             Fluttertoast.showToast(
-                              msg: "Invalid email or password",
+                              msg: "Login Failed",
                               gravity: ToastGravity.BOTTOM,
                               toastLength: Toast.LENGTH_SHORT,
                               backgroundColor: Colors.red,
@@ -204,12 +245,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           }
                         } catch (e) {
                           Fluttertoast.showToast(
-                            msg: "Something went wrong",
-                            backgroundColor: Colors.black,
-                            textColor: Colors.white,
+                            msg: "Something Went Wrong",
+                            gravity: ToastGravity.BOTTOM,
+                            toastLength: Toast.LENGTH_SHORT,
+                            backgroundColor: Colors.red,
+                            textColor: Color(0xFFFFFFFF),
                           );
-                          log(e.toString());
                         }
+
                         setState(() {
                           isLogin = false;
                         });

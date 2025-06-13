@@ -52,7 +52,6 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                   color: buttonColor,
                   letterSpacing: -1,
                 ),
-
                 onTap: (value) {
                   setState(() {
                     defaultab = value;

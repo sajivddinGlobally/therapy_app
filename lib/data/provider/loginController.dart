@@ -1,10 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:therapy_app/core/network/api.state.dart';
 import 'package:therapy_app/core/utils/pretty.dio.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
+import 'package:therapy_app/data/model/lognResModel.dart';
 import 'package:therapy_app/data/provider/login.state.dart';
 
 class LoginController extends StateNotifier<LoginState> {
@@ -29,7 +29,7 @@ class LoginController extends StateNotifier<LoginState> {
       await box.put("profile_picturee", response.user.profilePicture);
 
       //set state the success to the response
-      state = LoginSucess(response);
+      state = LoginSuccess(response);
       log("Login Successful : ${response.toString()}");
     } catch (e) {
       // handle error and set the state error
@@ -43,3 +43,5 @@ final logincontrollerprovider =
     StateNotifierProvider<LoginController, LoginState>(
       (ref) => LoginController(),
     );
+
+

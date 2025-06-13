@@ -424,7 +424,7 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(14.r),
                 color: tabBottom == 0 ? Color(0xFFE5EEF8) : Colors.transparent,
               ),
-              child: Icon(Icons.home_filled),
+              child: Icon(Icons.home_outlined),
             ),
             label: '',
           ),

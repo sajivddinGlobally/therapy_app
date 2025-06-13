@@ -33,7 +33,7 @@ class User {
     String name;
     String email;
     dynamic emailVerifiedAt;
-    String profilePicture;
+    String? profilePicture;
     String token;
     DateTime createdAt;
     DateTime updatedAt;
@@ -49,8 +49,8 @@ class User {
         required this.id,
         required this.name,
         required this.email,
-        required this.emailVerifiedAt,
-        required this.profilePicture,
+         this.emailVerifiedAt,
+         this.profilePicture,
         required this.token,
         required this.createdAt,
         required this.updatedAt,
