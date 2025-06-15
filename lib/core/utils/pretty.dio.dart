@@ -39,7 +39,7 @@ Dio createDio() {
         return handler.next(response);
       },
       onError: (DioException e, handler) {
-        if (e.requestOptions.path.contains("/api/login")) {
+        if (e.requestOptions.path.contains("/api/login")) { /// ye line sirf login agar wrong ho to sirf invalid emal or password message show karega
           log("Invalid email or passworld");
           handler.next(e);
           return;
