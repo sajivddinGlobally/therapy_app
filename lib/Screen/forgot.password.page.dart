@@ -1,5 +1,6 @@
+import 'dart:developer';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,7 +8,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/otp.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
-
+import 'package:therapy_app/core/network/api.state.dart';
+import 'package:therapy_app/core/utils/pretty.dio.dart';
 import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
@@ -85,39 +87,82 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               SizedBox(height: 38.h),
               GestureDetector(
                 onTap: () async {
+                  // try {
+                  //   setState(() {
+                  //     sendOtp = true;
+                  //   });
+                  //   final body = MyPasswordUpdateModel(
+                  //     email: emailController.text,
+                  //     otp: '',
+                  //   );
+                  //   if (emailController.text.isEmpty) {
+                  //     Fluttertoast.showToast(msg: "Please enter email");
+                  //     setState(() {
+                  //       sendOtp = false;
+                  //     });
+                  //     return;
+                  //   }
+                  //   ref
+                  //       .read(updatePasswordProvider.notifier)
+                  //       .updateOtp(emailController.text);
+                  //   Navigator.push(
+                  //     context,
+                  //     CupertinoPageRoute(
+                  //       builder:
+                  //           (context) => OtpPage(otp: emailController.text),
+                  //     ),
+                  //   );
+                  // } catch (e) {
+                  //   setState(() {
+                  //     sendOtp = false;
+                  //   });
+                  //   Fluttertoast.showToast(msg: "something went wrong");
+                  // }
+
                   try {
                     setState(() {
                       sendOtp = true;
                     });
-                    final body = MyPasswordUpdateModel(
+
+                    final body = UpdatePasswordBodyModel(
                       email: emailController.text,
-                      otp: '',
                     );
-                    if (emailController.text.isEmpty) {
-                      Fluttertoast.showToast(msg: "Please enter email");
-                      setState(() {
-                        sendOtp = false;
-                      });
-                      return;
+                    final servce = ApiStateNetwork(createDio());
+                    final response = await servce.updateSendOtp(body);
+                    if (response != null) {
+                      Fluttertoast.showToast(msg: "Otp Send Your emial");
+                      log(response.toString());
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder:
+                              (context) => OtpPage(
+                                otp: emailController.text,
+                                email: emailController.text,
+                              ),
+                        ),
+                      );
+                    } else {
+                      Fluttertoast.showToast(msg: "Sorry");
                     }
-                    ref
-                        .read(updatePasswordProvider.notifier)
-                        .updateOtp(emailController.text);
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder:
-                            (context) => OtpPage(otp: emailController.text),
-                      ),
-                    );
+                  } on DioException catch (e) {
+                    setState(() {
+                      sendOtp = false;
+                    });
+                    if (e.response != null) {
+                      Fluttertoast.showToast(
+                        msg: e.response!.statusMessage.toString(),
+                      );
+                      log(e.error.toString());
+                    }
                   } catch (e) {
                     setState(() {
                       sendOtp = false;
                     });
-                    Fluttertoast.showToast(msg: "something went wrong");
+                    log("${e.toString()}");
+                    Fluttertoast.showToast(msg: "something went worng");
                   }
                 },
-
                 child: Container(
                   width: 327.w,
                   height: 56.h,
@@ -136,7 +181,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                                 color: Colors.white,
                               ),
                             )
-                            : CircularProgressIndicator(),
+                            : CircularProgressIndicator(color: Colors.white),
                   ),
                 ),
               ),

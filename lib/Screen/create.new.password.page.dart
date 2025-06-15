@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -14,7 +16,9 @@ import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
 import 'package:therapy_app/data/model/updatePasswordResModel.dart';
 
 class CreateNewPasswordPage extends ConsumerStatefulWidget {
-  const CreateNewPasswordPage({super.key});
+  final String ot;
+  final String em;
+  const CreateNewPasswordPage({super.key, required this.ot, required this.em});
 
   @override
   ConsumerState<CreateNewPasswordPage> createState() =>
@@ -267,24 +271,46 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
             SizedBox(height: 38.h),
             GestureDetector(
               onTap: () async {
-                setState(() {
-                  isLoder = true;
-                });
-                final service = ApiStateNetwork(await createDio());
+                // setState(() {
+                //   isLoder = true;
+                // });
+                // final service = ApiStateNetwork(await createDio());
+                // try {
+                //   PassUpdateResSuccModel resSuccModel = await service
+                //       .passwordUpdate(
+                //         PassUpdateBodySuccModel(
+                //           email: password.email,
+                //           otp: password.otp,
+                //           password: newPasswordController.text,
+                //           passwordConfirmation: confirmPasswordController.text,
+                //         ),
+                //       );
+                //   showDiologBox();
+                //   Fluttertoast.showToast(msg: "Password updated succesfully");
+                // } catch (e) {
+                //   Fluttertoast.showToast(msg: "Invalid OTP");
+                // }
                 try {
-                  PassUpdateResSuccModel resSuccModel = await service
-                      .passwordUpdate(
-                        PassUpdateBodySuccModel(
-                          email: password.email,
-                          otp: password.otp,
-                          password: newPasswordController.text,
-                          passwordConfirmation: confirmPasswordController.text,
-                        ),
-                      );
-                  showDiologBox();
-                  Fluttertoast.showToast(msg: "Password updated succesfully");
+                  final body = PassUpdateBodySuccModel(
+                    email: widget.em,
+                    otp: widget.ot,
+                    password: newPasswordController.text,
+                    passwordConfirmation: confirmPasswordController.text,
+                  );
+                  final serivce = ApiStateNetwork(createDio());
+                  final resp = await serivce.passwordUpdate(body);
+                  if (resp != null) {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(builder: (context) => LoginPage()),
+                    );
+                  } else {
+                    Fluttertoast.showToast(msg: "wsdaf");
+                    log(resp.message);
+                  }
                 } catch (e) {
-                  Fluttertoast.showToast(msg: "Invalid OTP");
+                  Fluttertoast.showToast(msg: "///////////////////");
+                  log(e.toString());
                 }
               },
               child: Container(

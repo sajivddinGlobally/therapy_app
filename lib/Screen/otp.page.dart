@@ -1,23 +1,29 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:therapy_app/Screen/create.new.password.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
 import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
 
 class OtpPage extends ConsumerStatefulWidget {
   final String otp;
-  const OtpPage({super.key, required this.otp});
+  final String email;
+  const OtpPage({super.key, required this.otp, required this.email});
 
   @override
   ConsumerState<OtpPage> createState() => _OtpPageState();
 }
 
 class _OtpPageState extends ConsumerState<OtpPage> {
+  String otp = '';
   @override
   Widget build(BuildContext context) {
     final saveData = ref.watch(updatePasswordProvider);
@@ -52,10 +58,10 @@ class _OtpPageState extends ConsumerState<OtpPage> {
               SizedBox(height: 30.h),
               OtpPinField(
                 fieldHeight: 50.h,
-                fieldWidth: 60.w,
+                fieldWidth: 40.w,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 keyboardType: TextInputType.number,
-                maxLength: 4,
+                maxLength: 6,
                 otpPinFieldDecoration: OtpPinFieldDecoration.custom,
                 highlightBorder: true,
                 otpPinFieldStyle: const OtpPinFieldStyle(
@@ -65,15 +71,29 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   fieldBorderWidth: 1.2,
                 ),
                 onSubmit: (text) {
-                  ref.read(updatePasswordProvider.notifier).updateOtp(text);
+                  // ref.read(updatePasswordProvider.notifier).updateOtp(text);
+                  // Navigator.push(
+                  //   context,
+                  //   CupertinoPageRoute(
+                  //     builder:
+                  //         (context) =>
+                  //             CreateNewPasswordPage(),
+                  //   ),
+                  // );
+                  setState(() {
+                    otp = text;
+                  });
+                  log(otp.toString());
                   Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder:
-                          (context) =>
-                              CreateNewPasswordPage(),
-                    ),
-                  );
+                      context,
+                      CupertinoPageRoute(
+                        builder:
+                            (context) => CreateNewPasswordPage(
+                              ot: widget.otp,
+                              em: widget.email,
+                            ),
+                      ),
+                    );
                 },
                 onChange: (text) {},
               ),
@@ -86,6 +106,11 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   //     builder: (context) => CreateNewPasswordPage(),
                   //   ),
                   // );
+                  if (otp == widget.otp) {
+                    
+                  } else {
+                    Fluttertoast.showToast(msg: "Invalid otp");
+                  }
                 },
                 child: Container(
                   width: 327.w,
