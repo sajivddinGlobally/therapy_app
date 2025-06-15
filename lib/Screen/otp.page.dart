@@ -1,22 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:therapy_app/Screen/create.new.password.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
 
-class OtpPage extends StatefulWidget {
-  const OtpPage({super.key});
+class OtpPage extends ConsumerStatefulWidget {
+  final String otp;
+  const OtpPage({super.key, required this.otp});
 
   @override
-  State<OtpPage> createState() => _OtpPageState();
+  ConsumerState<OtpPage> createState() => _OtpPageState();
 }
 
-class _OtpPageState extends State<OtpPage> {
+class _OtpPageState extends ConsumerState<OtpPage> {
   @override
   Widget build(BuildContext context) {
+    final saveData = ref.watch(updatePasswordProvider);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(backgroundColor: bgColor),
@@ -60,18 +64,28 @@ class _OtpPageState extends State<OtpPage> {
                   fieldBorderRadius: 8,
                   fieldBorderWidth: 1.2,
                 ),
-                onSubmit: (text) {},
+                onSubmit: (text) {
+                  ref.read(updatePasswordProvider.notifier).updateOtp(text);
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(
+                      builder:
+                          (context) =>
+                              CreateNewPasswordPage(),
+                    ),
+                  );
+                },
                 onChange: (text) {},
               ),
               SizedBox(height: 30.h),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(
-                      builder: (context) => CreateNewPasswordPage(),
-                    ),
-                  );
+                  // Navigator.push(
+                  //   context,
+                  //   CupertinoPageRoute(
+                  //     builder: (context) => CreateNewPasswordPage(),
+                  //   ),
+                  // );
                 },
                 child: Container(
                   width: 327.w,

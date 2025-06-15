@@ -1,18 +1,25 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/otp.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
-class ForgotPasswordPage extends StatefulWidget {
+import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
+
+class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
 
   @override
-  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
+  ConsumerState<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
+  final emailController = TextEditingController();
+  bool sendOtp = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,6 +52,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               SizedBox(height: 30.h),
               TextFormField(
+                controller: emailController,
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.zero,
                   enabledBorder: OutlineInputBorder(
@@ -76,12 +84,40 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
               ),
               SizedBox(height: 38.h),
               GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => OtpPage()),
-                  );
+                onTap: () async {
+                  try {
+                    setState(() {
+                      sendOtp = true;
+                    });
+                    final body = MyPasswordUpdateModel(
+                      email: emailController.text,
+                      otp: '',
+                    );
+                    if (emailController.text.isEmpty) {
+                      Fluttertoast.showToast(msg: "Please enter email");
+                      setState(() {
+                        sendOtp = false;
+                      });
+                      return;
+                    }
+                    ref
+                        .read(updatePasswordProvider.notifier)
+                        .updateOtp(emailController.text);
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder:
+                            (context) => OtpPage(otp: emailController.text),
+                      ),
+                    );
+                  } catch (e) {
+                    setState(() {
+                      sendOtp = false;
+                    });
+                    Fluttertoast.showToast(msg: "something went wrong");
+                  }
                 },
+
                 child: Container(
                   width: 327.w,
                   height: 56.h,
@@ -90,14 +126,17 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                     borderRadius: BorderRadius.circular(14.r),
                   ),
                   child: Center(
-                    child: Text(
-                      "Send OTP",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child:
+                        sendOtp == false
+                            ? Text(
+                              "Send OTP",
+                              style: GoogleFonts.inter(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            )
+                            : CircularProgressIndicator(),
                   ),
                 ),
               ),

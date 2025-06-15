@@ -1,20 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/core/network/api.state.dart';
+import 'package:therapy_app/core/utils/pretty.dio.dart';
+import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
+import 'package:therapy_app/data/model/passUpdateSuccResModel.dart';
+import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
+import 'package:therapy_app/data/model/updatePasswordResModel.dart';
 
-class CreateNewPasswordPage extends StatefulWidget {
+class CreateNewPasswordPage extends ConsumerStatefulWidget {
   const CreateNewPasswordPage({super.key});
 
   @override
-  State<CreateNewPasswordPage> createState() => _CreateNewPasswordPageState();
+  ConsumerState<CreateNewPasswordPage> createState() =>
+      _CreateNewPasswordPageState();
 }
 
-class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
+class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
   bool isNewPass = true;
   bool isConf = true;
+  final newPasswordController = TextEditingController();
+  final confirmPasswordController = TextEditingController();
+  bool isLoder = false;
 
   void showDiologBox() {
     showDialog(
@@ -131,6 +143,8 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final password = ref.watch(updatePasswordProvider);
+    final passwordData = ref.watch(updatePasswordProvider.notifier);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(backgroundColor: bgColor),
@@ -160,6 +174,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
             ),
             SizedBox(height: 30.h),
             TextFormField(
+              controller: newPasswordController,
               obscureText: isNewPass == true ? isNewPass : false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
@@ -205,6 +220,7 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
             ),
             SizedBox(height: 15.h),
             TextFormField(
+              controller: confirmPasswordController,
               obscureText: isConf == true ? isConf : false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
@@ -250,8 +266,26 @@ class _CreateNewPasswordPageState extends State<CreateNewPasswordPage> {
             ),
             SizedBox(height: 38.h),
             GestureDetector(
-              onTap: () {
-                showDiologBox();
+              onTap: () async {
+                setState(() {
+                  isLoder = true;
+                });
+                final service = ApiStateNetwork(await createDio());
+                try {
+                  PassUpdateResSuccModel resSuccModel = await service
+                      .passwordUpdate(
+                        PassUpdateBodySuccModel(
+                          email: password.email,
+                          otp: password.otp,
+                          password: newPasswordController.text,
+                          passwordConfirmation: confirmPasswordController.text,
+                        ),
+                      );
+                  showDiologBox();
+                  Fluttertoast.showToast(msg: "Password updated succesfully");
+                } catch (e) {
+                  Fluttertoast.showToast(msg: "Invalid OTP");
+                }
               },
               child: Container(
                 width: 327.w,

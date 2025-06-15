@@ -24,8 +24,8 @@ class User {
   int id;
   String name;
   String email;
-  dynamic? emailVerifiedAt;
-  dynamic? profilePicture;
+  dynamic emailVerifiedAt;
+  String? profilePicture;
   String token;
   DateTime createdAt;
   DateTime updatedAt;

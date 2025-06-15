@@ -4,6 +4,10 @@ import 'package:therapy_app/data/model/categoryModel.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/model/lognResModel.dart';
 import 'package:therapy_app/data/model/accountModel.dart';
+import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
+import 'package:therapy_app/data/model/passUpdateSuccResModel.dart';
+import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
+import 'package:therapy_app/data/model/updatePasswordResModel.dart';
 
 part 'api.state.g.dart';
 
@@ -19,4 +23,14 @@ abstract class ApiStateNetwork {
 
   @GET("/api/user/profile")
   Future<AccountModel> account();
+
+  @POST("/api/send-password-update-otp")
+  Future<UpdatePasswordResModel> updateSendOtp(
+    @Body() UpdatePasswordBodyModel body,
+  );
+
+  @POST("/api/update-password")
+  Future<PassUpdateResSuccModel> passwordUpdate(
+    @Body() PassUpdateBodySuccModel body,
+  );
 }

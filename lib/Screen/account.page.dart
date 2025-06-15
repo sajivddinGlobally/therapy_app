@@ -1,5 +1,6 @@
+import 'dart:developer';
 import 'dart:io';
-import 'dart:math';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -280,7 +281,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                       ),
                     ),
                     Text(
-                     account.user.email,
+                      account.user.email,
                       style: GoogleFonts.inter(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
@@ -425,7 +426,14 @@ class _AccountPageState extends ConsumerState<AccountPage> {
             ],
           );
         },
-        error: (error, stackTrace) => Center(child: Text(error.toString())),
+        error: (error, stackTrace) {
+          if (error is DioException && error.response?.statusCode == 401) {
+            log(error.toString());
+            return SizedBox.shrink();
+          } else {
+            return Center(child: Text("Something Went Wrong"));
+          }
+        },
         loading:
             () => Center(child: CircularProgressIndicator(color: buttonColor)),
       ),

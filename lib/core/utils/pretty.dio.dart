@@ -30,7 +30,7 @@ Dio createDio() {
         options.headers.addAll({
           // 'Content-Type': 'application/json',
           'Accept': 'application/json',
-          'Authorization': 'Bearer $token',
+          //'Authorization': 'Bearer $token',
           if (token != null) 'Authorization': 'Bearer $token',
         });
         handler.next(options); // Continue with the request
@@ -38,9 +38,15 @@ Dio createDio() {
       onResponse: (response, handler) {
         return handler.next(response);
       },
-      onError: (error, handler) {
-        if (error.response?.statusCode == 401) {
-          log(error.response.toString());
+      onError: (DioException e, handler) {
+        if (e.requestOptions.path.contains("/api/login")) {
+          log("Invalid email or passworld");
+          handler.next(e);
+          return;
+        }
+
+        if (e.response?.statusCode == 401) {
+          log(e.response.toString());
           Fluttertoast.showToast(
             msg: "Token expire please login",
             gravity: ToastGravity.BOTTOM,
@@ -52,7 +58,7 @@ Dio createDio() {
             CupertinoPageRoute(builder: (_) => LoginPage()),
             (_) => false,
           );
-          return handler.next(error);
+          return handler.next(e);
         }
       },
     ),
