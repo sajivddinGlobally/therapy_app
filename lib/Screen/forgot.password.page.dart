@@ -123,15 +123,19 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                     setState(() {
                       sendOtp = true;
                     });
-
                     final body = UpdatePasswordBodyModel(
                       email: emailController.text,
                     );
-                    final servce = ApiStateNetwork(createDio());
-                    final response = await servce.updateSendOtp(body);
-                    if (response != null) {
-                      Fluttertoast.showToast(msg: "Otp Send Your emial");
-                      log(response.toString());
+                    final service = ApiStateNetwork(createDio());
+                    final ser = await service.updateSendOtp(body);
+                    if (ser != null) {
+                      Fluttertoast.showToast(
+                        msg: "OTP send your email",
+                        gravity: ToastGravity.BOTTOM,
+                        toastLength: Toast.LENGTH_LONG,
+                        backgroundColor: buttonColor,
+                        textColor: Color(0xFFFFFFFF),
+                      );
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
@@ -143,24 +147,20 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         ),
                       );
                     } else {
-                      Fluttertoast.showToast(msg: "Sorry");
-                    }
-                  } on DioException catch (e) {
-                    setState(() {
-                      sendOtp = false;
-                    });
-                    if (e.response != null) {
-                      Fluttertoast.showToast(
-                        msg: e.response!.statusMessage.toString(),
-                      );
-                      log(e.error.toString());
+                      log("sorry");
                     }
                   } catch (e) {
                     setState(() {
                       sendOtp = false;
                     });
-                    log("${e.toString()}");
-                    Fluttertoast.showToast(msg: "something went worng");
+                    Fluttertoast.showToast(
+                      msg: "OTP Don't Send",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_LONG,
+                      backgroundColor: buttonColor,
+                      textColor: Color(0xFFFFFFFF),
+                    );
+                    log("OTP Failed");
                   }
                 },
                 child: Container(

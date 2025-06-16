@@ -290,26 +290,63 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
                 // } catch (e) {
                 //   Fluttertoast.showToast(msg: "Invalid OTP");
                 // }
+                if (newPasswordController.text.isEmpty ||
+                    confirmPasswordController.text.isEmpty) {
+                  Fluttertoast.showToast(msg: "Please fill all fields");
+                  return;
+                }
+
+                if (newPasswordController.text !=
+                    confirmPasswordController.text) {
+                  Fluttertoast.showToast(msg: "Passwords do not match");
+                  return;
+                }
+
+                if (widget.ot.trim().length != 6) {
+                  Fluttertoast.showToast(msg: "OTP must be 6 digits");
+                  return;
+                }
+
+                setState(() {
+                  isLoder = true;
+                });
+
                 try {
                   final body = PassUpdateBodySuccModel(
-                    email: widget.em,
-                    otp: widget.ot,
-                    password: newPasswordController.text,
-                    passwordConfirmation: confirmPasswordController.text,
+                    email: widget.em.trim(),
+                    otp: widget.ot.trim(),
+                    password: newPasswordController.text.trim(),
+                    passwordConfirmation: confirmPasswordController.text.trim(),
                   );
-                  final serivce = ApiStateNetwork(createDio());
-                  final resp = await serivce.passwordUpdate(body);
+                  final service = ApiStateNetwork(createDio());
+                  final resp = await service.passwordUpdate(body);
+
+                  setState(() {
+                    isLoder = false;
+                  });
+
                   if (resp != null) {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(builder: (context) => LoginPage()),
-                    );
+                    showDiologBox();
                   } else {
-                    Fluttertoast.showToast(msg: "wsdaf");
-                    log(resp.message);
+                    Fluttertoast.showToast(
+                      msg: "Something went wrong",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_LONG,
+                      backgroundColor: buttonColor,
+                      textColor: Colors.white,
+                    );
                   }
                 } catch (e) {
-                  Fluttertoast.showToast(msg: "///////////////////");
+                  setState(() {
+                    isLoder = false;
+                  });
+                  Fluttertoast.showToast(
+                    msg: "Failed to reset password",
+                    gravity: ToastGravity.BOTTOM,
+                    toastLength: Toast.LENGTH_LONG,
+                    backgroundColor: buttonColor,
+                    textColor: Colors.white,
+                  );
                   log(e.toString());
                 }
               },

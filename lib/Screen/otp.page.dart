@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -9,8 +8,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:therapy_app/Screen/create.new.password.page.dart';
+import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
-import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
 import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
 
 class OtpPage extends ConsumerStatefulWidget {
@@ -24,6 +23,7 @@ class OtpPage extends ConsumerStatefulWidget {
 
 class _OtpPageState extends ConsumerState<OtpPage> {
   String otp = '';
+
   @override
   Widget build(BuildContext context) {
     final saveData = ref.watch(updatePasswordProvider);
@@ -80,83 +80,98 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   //             CreateNewPasswordPage(),
                   //   ),
                   // );
-                  setState(() {
-                    otp = text;
-                  });
-                  log(otp.toString());
-                  Navigator.push(
+
+                  log("User entered OTP: $text");
+                  log("Expected OTP: ${widget.otp}");
+
+                  if (text.trim() == otp.trim()) {
+                    Fluttertoast.showToast(
+                      msg: "OTP verify successful",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_LONG,
+                      backgroundColor: buttonColor,
+                      textColor: Colors.white,
+                    );
+                    Navigator.push(
                       context,
                       CupertinoPageRoute(
                         builder:
                             (context) => CreateNewPasswordPage(
-                              ot: widget.otp,
+                              ot: otp,
                               em: widget.email,
                             ),
                       ),
                     );
-                },
-                onChange: (text) {},
-              ),
-              SizedBox(height: 30.h),
-              GestureDetector(
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   CupertinoPageRoute(
-                  //     builder: (context) => CreateNewPasswordPage(),
-                  //   ),
-                  // );
-                  if (otp == widget.otp) {
-                    
                   } else {
-                    Fluttertoast.showToast(msg: "Invalid otp");
+                    Fluttertoast.showToast(
+                      msg: "Invalid OTP",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_LONG,
+                      backgroundColor: buttonColor,
+                      textColor: Colors.white,
+                    );
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => ForgotPasswordPage(),
+                      ),
+                    );
                   }
                 },
-                child: Container(
-                  width: 327.w,
-                  height: 56.h,
-                  decoration: BoxDecoration(
-                    color: buttonColor,
-                    borderRadius: BorderRadius.circular(14.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Verify",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
+                onChange: (text) {
+                  setState(() {
+                    otp = text;
+                  });
+                },
               ),
-              SizedBox(height: MediaQuery.of(context).size.height / 2.2),
-              Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Didn’t received code?",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF2B2B2B),
-                        letterSpacing: -1,
-                      ),
-                    ),
-                    Text(
-                      "Resend",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Color(0xFF15AC86),
-                        letterSpacing: -1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              SizedBox(height: 30.h),
+              // GestureDetector(
+              //   onTap: () {},
+              //   child: Container(
+              //     width: 327.w,
+              //     height: 56.h,
+              //     decoration: BoxDecoration(
+              //       color: buttonColor,
+              //       borderRadius: BorderRadius.circular(14.r),
+              //     ),
+              //     child: Center(
+              //       child: Text(
+              //         "Verify",
+              //         style: GoogleFonts.inter(
+              //           fontSize: 16.sp,
+              //           fontWeight: FontWeight.w500,
+              //           color: Colors.white,
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              // SizedBox(height: MediaQuery.of(context).size.height / 2.2),
+              // Center(
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         "Didn’t received code?",
+              //         style: GoogleFonts.inter(
+              //           fontSize: 16.sp,
+              //           fontWeight: FontWeight.w500,
+              //           color: Color(0xFF2B2B2B),
+              //           letterSpacing: -1,
+              //         ),
+              //       ),
+              //       Text(
+              //         "Resend",
+              //         style: GoogleFonts.inter(
+              //           fontSize: 16.sp,
+              //           fontWeight: FontWeight.w500,
+              //           color: Color(0xFF15AC86),
+              //           letterSpacing: -1,
+              //         ),
+              //       ),
+              //     ],
+              //   ),
+              // ),
             ],
           ),
         ),
