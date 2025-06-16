@@ -11,9 +11,6 @@ import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/core/network/api.state.dart';
 import 'package:therapy_app/core/utils/pretty.dio.dart';
 import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
-import 'package:therapy_app/data/model/passUpdateSuccResModel.dart';
-import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
-import 'package:therapy_app/data/model/updatePasswordResModel.dart';
 
 class CreateNewPasswordPage extends ConsumerStatefulWidget {
   final String ot;
@@ -147,8 +144,6 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final password = ref.watch(updatePasswordProvider);
-    final passwordData = ref.watch(updatePasswordProvider.notifier);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(backgroundColor: bgColor),
@@ -271,39 +266,38 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
             SizedBox(height: 38.h),
             GestureDetector(
               onTap: () async {
-                // setState(() {
-                //   isLoder = true;
-                // });
-                // final service = ApiStateNetwork(await createDio());
-                // try {
-                //   PassUpdateResSuccModel resSuccModel = await service
-                //       .passwordUpdate(
-                //         PassUpdateBodySuccModel(
-                //           email: password.email,
-                //           otp: password.otp,
-                //           password: newPasswordController.text,
-                //           passwordConfirmation: confirmPasswordController.text,
-                //         ),
-                //       );
-                //   showDiologBox();
-                //   Fluttertoast.showToast(msg: "Password updated succesfully");
-                // } catch (e) {
-                //   Fluttertoast.showToast(msg: "Invalid OTP");
-                // }
                 if (newPasswordController.text.isEmpty ||
                     confirmPasswordController.text.isEmpty) {
-                  Fluttertoast.showToast(msg: "Please fill all fields");
+                  Fluttertoast.showToast(
+                    msg: "Please fill all fields",
+                    gravity: ToastGravity.BOTTOM,
+                    toastLength: Toast.LENGTH_LONG,
+                    backgroundColor: buttonColor,
+                    textColor: Colors.white,
+                  );
                   return;
                 }
 
                 if (newPasswordController.text !=
                     confirmPasswordController.text) {
-                  Fluttertoast.showToast(msg: "Passwords do not match");
+                  Fluttertoast.showToast(
+                    msg: "Passwords do not match",
+                    gravity: ToastGravity.BOTTOM,
+                    toastLength: Toast.LENGTH_LONG,
+                    backgroundColor: buttonColor,
+                    textColor: Colors.white,
+                  );
                   return;
                 }
 
                 if (widget.ot.trim().length != 6) {
-                  Fluttertoast.showToast(msg: "OTP must be 6 digits");
+                  Fluttertoast.showToast(
+                    msg: "OTP must be 6 digits",
+                    gravity: ToastGravity.BOTTOM,
+                    toastLength: Toast.LENGTH_LONG,
+                    backgroundColor: buttonColor,
+                    textColor: Colors.white,
+                  );
                   return;
                 }
 
@@ -358,14 +352,21 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
                   borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Center(
-                  child: Text(
-                    "Reset Password",
-                    style: GoogleFonts.inter(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child:
+                      isLoder == false
+                          ? Text(
+                            "Reset Password",
+                            style: GoogleFonts.inter(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          )
+                          : Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                            ),
+                          ),
                 ),
               ),
             ),

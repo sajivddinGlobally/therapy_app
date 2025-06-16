@@ -26,7 +26,6 @@ class _OtpPageState extends ConsumerState<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
-    final saveData = ref.watch(updatePasswordProvider);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(backgroundColor: bgColor),
@@ -71,16 +70,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   fieldBorderWidth: 1.2,
                 ),
                 onSubmit: (text) {
-                  // ref.read(updatePasswordProvider.notifier).updateOtp(text);
-                  // Navigator.push(
-                  //   context,
-                  //   CupertinoPageRoute(
-                  //     builder:
-                  //         (context) =>
-                  //             CreateNewPasswordPage(),
-                  //   ),
-                  // );
-
+                  
                   log("User entered OTP: $text");
                   log("Expected OTP: ${widget.otp}");
 

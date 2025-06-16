@@ -87,38 +87,6 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
               SizedBox(height: 38.h),
               GestureDetector(
                 onTap: () async {
-                  // try {
-                  //   setState(() {
-                  //     sendOtp = true;
-                  //   });
-                  //   final body = MyPasswordUpdateModel(
-                  //     email: emailController.text,
-                  //     otp: '',
-                  //   );
-                  //   if (emailController.text.isEmpty) {
-                  //     Fluttertoast.showToast(msg: "Please enter email");
-                  //     setState(() {
-                  //       sendOtp = false;
-                  //     });
-                  //     return;
-                  //   }
-                  //   ref
-                  //       .read(updatePasswordProvider.notifier)
-                  //       .updateOtp(emailController.text);
-                  //   Navigator.push(
-                  //     context,
-                  //     CupertinoPageRoute(
-                  //       builder:
-                  //           (context) => OtpPage(otp: emailController.text),
-                  //     ),
-                  //   );
-                  // } catch (e) {
-                  //   setState(() {
-                  //     sendOtp = false;
-                  //   });
-                  //   Fluttertoast.showToast(msg: "something went wrong");
-                  // }
-
                   try {
                     setState(() {
                       sendOtp = true;
