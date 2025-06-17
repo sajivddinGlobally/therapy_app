@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:therapy_app/Screen/available.therapy.page.dart';
 import 'package:therapy_app/Screen/find.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
@@ -41,9 +42,15 @@ class _BookReshedulePageState extends State<BookReshedulePage> {
           SizedBox(height: MediaQuery.of(context).size.height / 2.22),
           GestureDetector(
             onTap: () {
+              // Navigator.push(
+              //   context,
+              //   CupertinoPageRoute(builder: (context) => FindPage()),
+              // );
               Navigator.push(
                 context,
-                CupertinoPageRoute(builder: (context) => FindPage()),
+                CupertinoPageRoute(
+                  builder: (context) => AvailableTherapyPage(),
+                ),
               );
             },
             child: Container(

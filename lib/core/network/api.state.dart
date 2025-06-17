@@ -4,6 +4,7 @@ import 'package:therapy_app/data/model/categoryModel.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/model/lognResModel.dart';
 import 'package:therapy_app/data/model/accountModel.dart';
+import 'package:therapy_app/data/model/mentalHealthavailabeModel.dart';
 import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
 import 'package:therapy_app/data/model/passUpdateSuccResModel.dart';
 import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
@@ -33,4 +34,7 @@ abstract class ApiStateNetwork {
   Future<PassUpdateResSuccModel> passwordUpdate(
     @Body() PassUpdateBodySuccModel body,
   );
+
+  @GET("/api/users/by-category?category=Mental Health")
+  Future<MentalHealthavailableModel> findAvailableTherapy();
 }
