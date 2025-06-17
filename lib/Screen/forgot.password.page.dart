@@ -108,10 +108,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         context,
                         CupertinoPageRoute(
                           builder:
-                              (context) => OtpPage(
-                                otp: emailController.text,
-                                email: emailController.text,
-                              ),
+                              (context) => OtpPage(email: emailController.text),
                         ),
                       );
                     } else {

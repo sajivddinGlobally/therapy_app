@@ -10,12 +10,10 @@ import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:therapy_app/Screen/create.new.password.page.dart';
 import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
-import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
 
 class OtpPage extends ConsumerStatefulWidget {
-  final String otp;
   final String email;
-  const OtpPage({super.key, required this.otp, required this.email});
+  const OtpPage({super.key, required this.email});
 
   @override
   ConsumerState<OtpPage> createState() => _OtpPageState();
@@ -70,9 +68,8 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   fieldBorderWidth: 1.2,
                 ),
                 onSubmit: (text) {
-                  
                   log("User entered OTP: $text");
-                  log("Expected OTP: ${widget.otp}");
+                  log("Expected OTP: ${otp}");
 
                   if (text.trim() == otp.trim()) {
                     Fluttertoast.showToast(
@@ -87,7 +84,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                       CupertinoPageRoute(
                         builder:
                             (context) => CreateNewPasswordPage(
-                              ot: otp,
+                              ot: text,
                               em: widget.email,
                             ),
                       ),
