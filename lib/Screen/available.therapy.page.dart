@@ -127,8 +127,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                             double.tryParse(
                                               availabletherapy
                                                   .users[index]
-                                                  .rating
-                                                  .toString(),
+                                                  .rating,
                                             ) ??
                                             0.0,
                                         itemCount: 5,

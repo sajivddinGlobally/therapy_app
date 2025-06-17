@@ -1,9 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/core/network/api.state.dart';
+import 'package:therapy_app/core/utils/pretty.dio.dart';
+import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
@@ -15,6 +21,8 @@ class ChangePasswordPage extends StatefulWidget {
 class _ChangePasswordPageState extends State<ChangePasswordPage> {
   bool isNewPass = true;
   bool isConf = true;
+  final newPassController = TextEditingController();
+  final confirPassController = TextEditingController();
 
   void showDiologBox() {
     showDialog(
@@ -161,6 +169,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ),
             SizedBox(height: 30.h),
             TextFormField(
+              controller: newPassController,
               obscureText: isNewPass == true ? isNewPass : false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
@@ -206,6 +215,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ),
             SizedBox(height: 15.h),
             TextFormField(
+              controller: confirPassController,
               obscureText: isConf == true ? isConf : false,
               decoration: InputDecoration(
                 contentPadding: EdgeInsets.zero,
@@ -251,9 +261,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ),
             SizedBox(height: 36.h),
             GestureDetector(
-              onTap: () {
-                showDiologBox();
-              },
+              onTap: () {},
               child: Container(
                 width: 327.w,
                 height: 56.h,
