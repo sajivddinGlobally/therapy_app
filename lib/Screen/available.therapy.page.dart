@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -239,10 +238,27 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
             log(error.toString());
             return SizedBox.shrink();
           } else {
-            return Center(child: Text("Something Went Wrong"));
+            return Center(
+              child: Text("Something Went Wrong ${error.toString()}"),
+            );
           }
         },
-        loading: () => Center(child: Image.asset("assets/find.png")),
+        loading:
+            () =>
+            //Center(child: Image.asset("assets/find.png")),
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/find.png"),
+                  SizedBox(height: 20),
+                  Text(
+                    "Loading therapists...",
+                    style: TextStyle(fontSize: 14.sp),
+                  ),
+                ],
+              ),
+            ),
       ),
     );
   }
