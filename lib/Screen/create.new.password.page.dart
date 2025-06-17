@@ -109,9 +109,10 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
                   SizedBox(height: 20.h),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(builder: (context) => LoginPage()),
+                        (route) => false,
                       );
                     },
                     child: Container(
