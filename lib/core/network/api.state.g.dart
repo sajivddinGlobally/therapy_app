@@ -162,33 +162,6 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<RegisterResModel> register(UserFormStateModel body) async {
-    final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
-    final _data = body;
-    final _options = _setStreamType<RegisterResModel>(
-      Options(method: 'POST', headers: _headers, extra: _extra)
-          .compose(
-            _dio.options,
-            '/api/register',
-            queryParameters: queryParameters,
-            data: _data,
-          )
-          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
-    );
-    final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late RegisterResModel _value;
-    try {
-      _value = RegisterResModel.fromJson(_result.data!);
-    } on Object catch (e, s) {
-      errorLogger?.logError(e, s, _options);
-      rethrow;
-    }
-    return _value;
-  }
-
-  @override
   Future<MentalHealthavailableModel> findAvailableTherapy(String query) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'category': query};
@@ -213,6 +186,56 @@ class _ApiStateNetwork implements ApiStateNetwork {
       rethrow;
     }
     return _value;
+  }
+
+  @override
+  Future<HttpResponse<dynamic>> register({
+    required String name,
+    required String email,
+    required String password,
+    required int categoryId,
+    required String specialization,
+    required String bio,
+    required String languages,
+    required List<String> sessionFee,
+    required String rating,
+    required String userType,
+  }) async {
+    final _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{};
+    final _data = FormData();
+    _data.fields.add(MapEntry('name', name));
+    _data.fields.add(MapEntry('email', email));
+    _data.fields.add(MapEntry('password', password));
+    _data.fields.add(MapEntry('category_id', categoryId.toString()));
+    _data.fields.add(MapEntry('specialization', specialization));
+    _data.fields.add(MapEntry('bio', bio));
+    _data.fields.add(MapEntry('languages', languages));
+    sessionFee.forEach((i) {
+      _data.fields.add(MapEntry('session_fee[]', i));
+    });
+    _data.fields.add(MapEntry('rating', rating));
+    _data.fields.add(MapEntry('user_type', userType));
+    final _options = _setStreamType<HttpResponse<dynamic>>(
+      Options(
+            method: 'POST',
+            headers: _headers,
+            extra: _extra,
+            contentType: 'multipart/form-data',
+          )
+          .compose(
+            _dio.options,
+            '/api/register',
+            queryParameters: queryParameters,
+            data: _data,
+          )
+          .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
+    );
+    final _result = await _dio.fetch(_options);
+    final _value = _result.data;
+    final httpResponse = HttpResponse(_value, _result);
+    return httpResponse;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

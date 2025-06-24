@@ -1,59 +1,56 @@
 class UserFormStateModel {
-  final String email;
   final String name;
+  final String email;
   final String password;
-  final String phone;
   final int categoryId;
-  final String profilePicture;
+  final String? profilePicture;
   final String specialization;
   final String bio;
-  final String language;
+  final String languages;
   final List<String> sessionFee;
   final double rating;
   final String userType;
 
   UserFormStateModel({
-    this.email = '',
     this.name = '',
+    this.email = '',
     this.password = '',
-    this.phone = '',
     this.categoryId = 0,
-    this.profilePicture = '',
+    this.profilePicture,
     this.specialization = '',
     this.bio = '',
-    this.language = '',
+    this.languages = '',
     this.sessionFee = const [],
     this.rating = 0.0,
     this.userType = '',
   });
 
   UserFormStateModel copyWith({
-    String? email,
     String? name,
+    String? email,
     String? password,
-    String? phone,
     int? categoryId,
     String? profilePicture,
     String? specialization,
     String? bio,
-    String? language,
+    String? languages,
     List<String>? sessionFee,
     double? rating,
     String? userType,
   }) {
     return UserFormStateModel(
-      email: email ?? this.email,
       name: name ?? this.name,
+      email: email ?? this.email,
       password: password ?? this.password,
-      phone: phone ?? this.phone,
       categoryId: categoryId ?? this.categoryId,
       profilePicture: profilePicture ?? this.profilePicture,
       specialization: specialization ?? this.specialization,
       bio: bio ?? this.bio,
-      language: language ?? this.language,
+      languages: languages ?? this.languages,
       sessionFee: sessionFee ?? this.sessionFee,
       rating: rating ?? this.rating,
       userType: userType ?? this.userType,
     );
   }
 }
+

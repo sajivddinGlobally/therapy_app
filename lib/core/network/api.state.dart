@@ -7,8 +7,6 @@ import 'package:therapy_app/data/model/accountModel.dart';
 import 'package:therapy_app/data/model/mentalHealthavailabeModel.dart';
 import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
 import 'package:therapy_app/data/model/passUpdateSuccResModel.dart';
-import 'package:therapy_app/data/model/registerBodyModel.dart';
-import 'package:therapy_app/data/model/registerResModel.dart';
 import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
 import 'package:therapy_app/data/model/updatePasswordResModel.dart';
 
@@ -37,11 +35,25 @@ abstract class ApiStateNetwork {
     @Body() PassUpdateBodySuccModel body,
   );
 
-  @POST("/api/register")
-  Future<RegisterResModel> register(@Body() UserFormStateModel body);
-
   @GET("/api/users/by-category?category=")
   Future<MentalHealthavailableModel> findAvailableTherapy(
     @Query("category") String query,
   );
+
+  
+  @POST("/api/register")
+@MultiPart()
+Future<HttpResponse> register({
+  @Part(name: "name") required String name,
+  @Part(name: "email") required String email,
+  @Part(name: "password") required String password,
+  @Part(name: "category_id") required int categoryId,
+  @Part(name: "specialization") required String specialization,
+  @Part(name: "bio") required String bio,
+  @Part(name: "languages") required String languages,
+  @Part(name: "session_fee[]") required List<String> sessionFee,
+  @Part(name: "rating") required String rating,
+  @Part(name: "user_type") required String userType,
+ // @Part(name: "profile_picture") MultipartFile profilePicture,
+});
 }

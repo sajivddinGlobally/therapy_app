@@ -169,26 +169,21 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                       SizedBox(height: 24.h),
                       GestureDetector(
                         onTap: () async {
-                          setState(() {
-                            isRegister = true;
-                          });
-                          final register = ref.read(registerFormProvider);
-                          if (register.email.isEmpty ||
-                              register.password.isEmpty) {
+                          if (!_formKey.currentState!.validate()) {
+                            return;
+                          }
+                          setState(() => isRegister = true);
+                          final form = ref.read(registerFormProvider);
+
+                          if (form.email.isEmpty || form.password.isEmpty) {
                             Fluttertoast.showToast(
                               msg: "Please enter email and password",
                             );
-                            return;
-                          }
-                          // Optional: Email format validation
-                          final emailRegex = RegExp(
-                            r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$",
-                          );
-                          if (!emailRegex.hasMatch(register.email)) {
-                            Fluttertoast.showToast(msg: "Enter a valid email");
+                            setState(() => isRegister = false);
                             return;
                           }
                           try {
+                            // ✅ Save to provider again (optional)
                             ref
                                 .read(registerFormProvider.notifier)
                                 .setEmail(emailController.text);
@@ -196,7 +191,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 .read(registerFormProvider.notifier)
                                 .setPassword(passwordController.text);
 
-                            Fluttertoast.showToast(msg: "register");
+                            Fluttertoast.showToast(msg: "Saved step 1");
+                            // ✅ Navigate to next screen
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
@@ -204,13 +200,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               ),
                             );
                           } catch (e) {
-                            setState(() {
-                              isRegister = false;
-                            });
-                            // Handle navigation or future errors
                             Fluttertoast.showToast(
                               msg: "Something went wrong: $e",
                             );
+                            setState(() => isRegister = false);
                           }
                         },
                         child: Container(

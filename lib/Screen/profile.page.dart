@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -229,8 +230,8 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     ),
                     SizedBox(height: 16.h),
                     TextFormField(
-                      onChanged:
-                          (value) => registerProviderData.setPhone(value),
+                      //onChanged:
+                      // (value) => registerProviderData.setPhone(value),
                       maxLength: 10,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
@@ -417,10 +418,21 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () async {
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(builder: (context) => Question1Page()),
-                    );
+                    setState(() {});
+                    try {
+                      ref
+                          .read(registerFormProvider.notifier)
+                          .setName(nameController.text);
+                      Fluttertoast.showToast(msg: "Saved step 2");
+                      Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                          builder: (context) => Question1Page(),
+                        ),
+                      );
+                    } catch (e) {
+                      Fluttertoast.showToast(msg: "Something went wrong: $e");
+                    }
                   },
                   child: Container(
                     width: 327.w,
