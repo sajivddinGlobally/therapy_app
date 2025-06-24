@@ -8,6 +8,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/Screen/profile.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/core/network/api.state.dart';
+import 'package:therapy_app/core/utils/pretty.dio.dart';
+import 'package:therapy_app/data/model/registerBodyModel.dart';
 import 'package:therapy_app/data/provider/registerController.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
@@ -22,7 +25,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final passwordController = TextEditingController();
   bool isSecure = true;
   final _formKey = GlobalKey<FormState>();
-  bool isRegister = true;
+  bool isRegister = false;
   @override
   Widget build(BuildContext context) {
     final registerProvider = ref.watch(registerFormProvider);
@@ -186,7 +189,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             return;
                           }
                           try {
-                            // If everything is valid, proceed
+                            ref
+                                .read(registerFormProvider.notifier)
+                                .setEmail(emailController.text);
+                            ref
+                                .read(registerFormProvider.notifier)
+                                .setPassword(passwordController.text);
+
+                            Fluttertoast.showToast(msg: "register");
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
@@ -212,7 +222,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           child: Center(
                             child:
-                                isRegister
+                                isRegister == false
                                     ? Text(
                                       "Register ",
                                       style: GoogleFonts.inter(

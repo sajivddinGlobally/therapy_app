@@ -8,3 +8,23 @@ final categoryProvider = FutureProvider<CategoryModel>((ref) async {
   final categoryService = ApiStateNetwork(await createDio());
   return categoryService.getCategory();
 });
+
+
+
+// save mental health name 
+class selectCategoryNotifier extends StateNotifier<String?> {
+  selectCategoryNotifier() : super(null);
+
+  void setCategory(String name) {
+    state = name;
+  }
+
+  void clear() {
+    state = null;
+  }
+}
+
+final categoryProviderNotifier =
+    StateNotifierProvider<selectCategoryNotifier, String?>(
+      (ref) => selectCategoryNotifier(),
+    );

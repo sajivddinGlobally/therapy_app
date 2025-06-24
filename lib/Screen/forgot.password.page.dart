@@ -96,9 +96,9 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                     );
                     final service = ApiStateNetwork(createDio());
                     final ser = await service.updateSendOtp(body);
-                    if (ser != null) {
+                    if (body != null) {
                       Fluttertoast.showToast(
-                        msg: "OTP send your email",
+                        msg: ser.message,
                         gravity: ToastGravity.BOTTOM,
                         toastLength: Toast.LENGTH_LONG,
                         backgroundColor: buttonColor,
@@ -112,22 +112,40 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                         ),
                       );
                     } else {
+                      setState(() {
+                        sendOtp = false;
+                      });
+
                       log("sorry");
+                      Fluttertoast.showToast(
+                        msg: "Unexpected error. Try again.",
+                        gravity: ToastGravity.BOTTOM,
+                        toastLength: Toast.LENGTH_LONG,
+                        backgroundColor: buttonColor,
+                        textColor: Color(0xFFFFFFFF),
+                      );
                     }
                   } catch (e) {
                     setState(() {
                       sendOtp = false;
                     });
-                    Fluttertoast.showToast(
-                      msg: "OTP Don't Send",
-                      gravity: ToastGravity.BOTTOM,
-                      toastLength: Toast.LENGTH_LONG,
-                      backgroundColor: buttonColor,
-                      textColor: Color(0xFFFFFFFF),
-                    );
+
+                    if (e is DioException) {
+                      final errormessage = e.response?.data['error'];
+                      Fluttertoast.showToast(
+                        msg: errormessage,
+                        gravity: ToastGravity.BOTTOM,
+                        toastLength: Toast.LENGTH_LONG,
+                        backgroundColor: buttonColor,
+                        textColor: Color(0xFFFFFFFF),
+                      );
+                      log("Dio error : ${e.response}");
+                    }
+
                     log("OTP Failed");
                   }
                 },
+
                 child: Container(
                   width: 327.w,
                   height: 56.h,

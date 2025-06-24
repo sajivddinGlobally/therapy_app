@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/doctor.info.page.dart';
 import 'package:therapy_app/Screen/payment.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/categoryController.dart';
 import 'package:therapy_app/data/provider/mentailHealtheavailableController.dart';
 
 class AvailableTherapyPage extends ConsumerStatefulWidget {
@@ -22,7 +23,10 @@ class AvailableTherapyPage extends ConsumerStatefulWidget {
 class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
   @override
   Widget build(BuildContext context) {
-    final findavailabletheray = ref.watch(availableTherapyController);
+    final name = ref.watch(categoryProviderNotifier);
+    final findavailabletheray = ref.watch(
+      availableTherapyController(name.toString()),
+    );
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -39,6 +43,19 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
       ),
       body: findavailabletheray.when(
         data: (availabletherapy) {
+          if (availabletherapy.users.isEmpty) {
+            return Center(
+              child: Text(
+                "No therapist found in this category",
+                style: GoogleFonts.inter(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w600,
+                  color: Color(0xFF2B2B2B),
+                  letterSpacing: 0.3,
+                ),
+              ),
+            );
+          }
           return ListView.builder(
             itemCount: availabletherapy.users.length,
             padding: EdgeInsets.zero,

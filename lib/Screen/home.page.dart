@@ -1,4 +1,4 @@
-import 'dart:math';
+import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -362,10 +362,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           padding: EdgeInsets.zero,
-                          itemCount: min(
-                            categoryList.length,
-                            category.categories.length,
-                          ),
+                          itemCount: category.categories.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.only(
@@ -376,7 +373,15 @@ class _HomePageState extends ConsumerState<HomePage> {
                               child: Stack(
                                 children: [
                                   GestureDetector(
-                                    onTap: () {
+                                    onTap: () async {
+                                      final selected =
+                                          category.categories[index].name;
+                                      ref
+                                          .read(
+                                            categoryProviderNotifier.notifier,
+                                          )
+                                          .setCategory(selected);
+                                      log(selected.toString());
                                       Navigator.push(
                                         context,
                                         CupertinoPageRoute(

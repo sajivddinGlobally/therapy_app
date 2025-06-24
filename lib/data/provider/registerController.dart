@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:therapy_app/data/model/registerModel.dart';
+import 'package:therapy_app/data/model/registerBodyModel.dart';
 
 class UserFormNotifier extends StateNotifier<UserFormStateModel> {
   UserFormNotifier() : super(UserFormStateModel());
@@ -57,3 +57,6 @@ final registerFormProvider =
     StateNotifierProvider<UserFormNotifier, UserFormStateModel>(
       (ref) => UserFormNotifier(),
     );
+
+
+

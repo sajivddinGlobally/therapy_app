@@ -100,6 +100,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     }
   }
 
+  final nameController = TextEditingController();
+  final phoneController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     final registerProvider = ref.watch(registerFormProvider);
@@ -413,7 +416,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
               Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
                     Navigator.push(
                       context,
                       CupertinoPageRoute(builder: (context) => Question1Page()),
