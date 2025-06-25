@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -136,6 +138,7 @@ class _Question1PageState extends ConsumerState<Question1Page> {
                       currentStep++;
                     });
                   }
+                  log(seekingTherapies.toString());
                   Fluttertoast.showToast(
                     msg: "step next",
                     gravity: ToastGravity.BOTTOM,

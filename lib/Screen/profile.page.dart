@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -458,6 +459,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ref
                           .read(registerFormProvider.notifier)
                           .setDOB(dateController.text);
+
+                      log(nameController.text);
+                      log(phoneController.text);
+                      log(selectedGender.toString());
+                      log(dateController.text);
+
                       Fluttertoast.showToast(
                         msg: "Saved step 2",
                         gravity: ToastGravity.BOTTOM,

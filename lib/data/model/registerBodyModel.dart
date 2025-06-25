@@ -2,15 +2,15 @@ class UserFormStateModel {
   final String name;
   final String email;
   final String password;
-  final String phone;
-  final String gender;
-  final String dob;
+  final String? phone;
+  final String? gender;
+  final String? dob;
   final int categoryId;
   final String? profilePicture;
   final String specialization;
   final String bio;
-  final String languages;
-  final List<String> sessionFee;
+  final String? languages;
+  final List<String>? sessionFee;
   final double rating;
   final String userType;
 

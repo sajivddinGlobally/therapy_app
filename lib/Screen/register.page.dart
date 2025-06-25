@@ -188,7 +188,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ref
                               .read(registerFormProvider.notifier)
                               .setPassword(passwordController.text);
-
+                          log(emailController.text);
+                          log(passwordController.text);
                           try {
                             Fluttertoast.showToast(
                               msg: "Step 1 saved",

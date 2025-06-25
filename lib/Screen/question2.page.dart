@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -134,6 +136,7 @@ class _Question2PageState extends ConsumerState<Question2Page> {
                     isLoading = true;
                   });
                   data.setSpecialization(selectedTherapies.join(', '));
+                  log(selectedTherapies.toString());
                   Fluttertoast.showToast(
                     msg: "step save please next",
                     gravity: ToastGravity.BOTTOM,

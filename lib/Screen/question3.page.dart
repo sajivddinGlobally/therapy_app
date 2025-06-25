@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -164,11 +167,16 @@ class _Question3PageState extends ConsumerState<Question3Page> {
                     setState(() {
                       widget.currentStep + 1;
                     });
-                  } catch (e) {
+                  } on DioException catch (e) {
+                    log(e.error.toString());
+                    debugPrint("debaa${e.error}");
+                    log(e.response.toString());
                     setState(() {
                       isLoading = false;
                     });
-                    Fluttertoast.showToast(msg: "Error: $e");
+                  } catch (e) {
+                    Fluttertoast.showToast(msg: "Something went wrong");
+                    log(e.toString());
                   }
                 },
                 child: Container(
