@@ -47,6 +47,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
         setState(() {
           image = File(PickedFile.path);
         });
+
+        ref
+            .read(registerFormProvider.notifier)
+            .setProfilePicture(PickedFile.path);
       }
     } else {
       print("Camera Permission isdenied");
@@ -174,7 +178,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                                   size: 80,
                                 ),
                               )
-                              : Image.file(image!, fit: BoxFit.cover),
+                              : ClipOval(
+                                child: Image.file(image!, fit: BoxFit.cover),
+                              ),
                     ),
                     Positioned(
                       right: 10.w,
@@ -464,6 +470,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       ref
                           .read(registerFormProvider.notifier)
                           .setDOB(dateController.text);
+
+                      ref
+                          .read(registerFormProvider.notifier)
+                          .setProfilePicture(image!.path);
 
                       log(nameController.text);
                       log(phoneController.text);

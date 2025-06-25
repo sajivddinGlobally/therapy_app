@@ -203,9 +203,11 @@ class _ApiStateNetwork implements ApiStateNetwork {
     required List<String> sessionFee,
     required String rating,
     required String userType,
+    File? profilePicture,
   }) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final _data = FormData();
     _data.fields.add(MapEntry('name', name));
@@ -223,6 +225,19 @@ class _ApiStateNetwork implements ApiStateNetwork {
     });
     _data.fields.add(MapEntry('rating', rating));
     _data.fields.add(MapEntry('user_type', userType));
+    if (profilePicture != null) {
+      if (profilePicture != null) {
+        _data.files.add(
+          MapEntry(
+            'profile_picture',
+            MultipartFile.fromFileSync(
+              profilePicture.path,
+              filename: profilePicture.path.split(Platform.pathSeparator).last,
+            ),
+          ),
+        );
+      }
+    }
     final _options = _setStreamType<HttpResponse<dynamic>>(
       Options(
             method: 'POST',

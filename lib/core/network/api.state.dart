@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:therapy_app/data/model/categoryModel.dart';
@@ -39,9 +41,9 @@ abstract class ApiStateNetwork {
   Future<MentalHealthavailableModel> findAvailableTherapy(
     @Query("category") String query,
   );
-
-  @POST("/api/register")
+  
   @MultiPart()
+  @POST("/api/register")
   Future<HttpResponse> register({
     @Part(name: "name") required String name,
     @Part(name: "email") required String email,
@@ -56,6 +58,6 @@ abstract class ApiStateNetwork {
     @Part(name: "session_fee[]") required List<String> sessionFee,
     @Part(name: "rating") required String rating,
     @Part(name: "user_type") required String userType,
-    // @Part(name: "profile_picture") MultipartFile profilePicture,
+    @Part(name: "profile_picture") File? profilePicture,
   });
 }
