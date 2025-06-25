@@ -163,7 +163,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                               ),
                               Spacer(),
                               GestureDetector(
-                                onTap: () {
+                                onTap: () {     
                                   Navigator.push(
                                     context,
                                     CupertinoPageRoute(
@@ -190,7 +190,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                 width: 144.w,
                                 height: 40.h,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.r),
+                                    borderRadius: BorderRadius.circular(10.r),
                                   color: Color(0xFFFFFFFF),
                                   border: Border.all(
                                     color: Color(0xFF15AC86),
