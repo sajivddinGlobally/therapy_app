@@ -85,24 +85,43 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   DateTime? selectedDate;
   final dateController = TextEditingController();
+
+  // Future<void> pickDate() async {
+  //   final DateTime? datePicked = await showDatePicker(
+  //     context: context,
+  //     initialDate: DateTime.now(),
+  //     firstDate: DateTime(1900),
+  //     lastDate: DateTime(2100),
+  //   );
+
+  //   if (datePicked != null) {
+  //     setState(() {
+  //       selectedDate = datePicked;
+  //       dateController.text = DateFormat('dd/MM/yyyy').format(datePicked);
+  //     });
+  //   }
+  // }
   Future<void> pickDate() async {
-    final DateTime? datePicked = await showDatePicker(
+    final picked = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
+      initialDate: DateTime(2000),
       firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
+      lastDate: DateTime.now(),
     );
 
-    if (datePicked != null) {
-      setState(() {
-        selectedDate = datePicked;
-        dateController.text = DateFormat('dd/MM/yyyy').format(datePicked);
-      });
+    if (picked != null) {
+      final formatted = DateFormat('yyyy-MM-dd').format(picked);
+      dateController.text = formatted;
+
+      ref
+          .read(registerFormProvider.notifier)
+          .setDOB(formatted); // ✅ this line is critical
     }
   }
 
   final nameController = TextEditingController();
   final phoneController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -184,6 +203,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   children: [
                     TextFormField(
                       onChanged: (value) => registerProviderData.setName(value),
+                      controller: nameController,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.only(left: 10.w),
                         enabledBorder: OutlineInputBorder(
@@ -230,9 +250,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     ),
                     SizedBox(height: 16.h),
                     TextFormField(
-                      //onChanged:
-                      // (value) => registerProviderData.setPhone(value),
+                      onChanged:
+                          (value) => registerProviderData.setPhone(value),
                       maxLength: 10,
+                      controller: phoneController,
                       keyboardType: TextInputType.phone,
                       decoration: InputDecoration(
                         contentPadding: EdgeInsets.zero,
@@ -339,13 +360,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           genders.map((gender) {
                             return DropdownMenuItem(
                               value: gender,
-
                               child: Text(gender),
                             );
                           }).toList(),
                       onChanged: (value) {
                         setState(() {
                           selectedGender = value;
+                          ref
+                              .read(registerFormProvider.notifier)
+                              .setGender(value!);
                         });
                       },
                       validator: (value) {
@@ -418,19 +441,39 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () async {
-                    setState(() {});
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
+                    setState(() => isLoading = true);
                     try {
                       ref
                           .read(registerFormProvider.notifier)
                           .setName(nameController.text);
-                      Fluttertoast.showToast(msg: "Saved step 2");
+                      ref
+                          .read(registerFormProvider.notifier)
+                          .setPhone(phoneController.text);
+                      ref
+                          .read(registerFormProvider.notifier)
+                          .setGender(selectedGender.toString());
+                      ref
+                          .read(registerFormProvider.notifier)
+                          .setDOB(dateController.text);
+                      Fluttertoast.showToast(
+                        msg: "Saved step 2",
+                        gravity: ToastGravity.BOTTOM,
+                        toastLength: Toast.LENGTH_SHORT,
+                        backgroundColor: buttonColor,
+                        textColor: Color(0xFFFFFFFF),
+                      );
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
                           builder: (context) => Question1Page(),
                         ),
                       );
+                      setState(() => isLoading = false);
                     } catch (e) {
+                      setState(() => isLoading = false);
                       Fluttertoast.showToast(msg: "Something went wrong: $e");
                     }
                   },
@@ -442,14 +485,21 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       borderRadius: BorderRadius.circular(14.r),
                     ),
                     child: Center(
-                      child: Text(
-                        "Continue",
-                        style: GoogleFonts.inter(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child:
+                          isLoading
+                              ? Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
+                              : Text(
+                                "Continue",
+                                style: GoogleFonts.inter(
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white,
+                                ),
+                              ),
                     ),
                   ),
                 ),

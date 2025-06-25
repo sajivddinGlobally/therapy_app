@@ -402,10 +402,22 @@ class _HomePageState extends ConsumerState<HomePage> {
                                         borderRadius: BorderRadius.circular(
                                           16.r,
                                         ),
-                                        child: Image.asset(
-                                          categoryList[index]["imageUrl"]
+                                        child: Image.network(
+                                          // categoryList[index]["imageUrl"]
+                                          //     .toString(),
+                                          category.categories[index].image
                                               .toString(),
                                           fit: BoxFit.cover,
+                                          errorBuilder: (
+                                            context,
+                                            error,
+                                            stackTrace,
+                                          ) {
+                                            return Image.network(
+                                              "https://placehold.jp/3d4070/ffffff/150x150.png", // fallback if image fails
+                                              fit: BoxFit.cover,
+                                            );
+                                          },
                                         ),
                                       ),
                                     ),

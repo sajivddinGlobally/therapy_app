@@ -1,20 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:therapy_app/Screen/home.page.dart';
+import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/registerController.dart';
 
-class Question3Page extends StatefulWidget {
+class Question3Page extends ConsumerStatefulWidget {
   final int currentStep;
   const Question3Page({super.key, required this.currentStep});
 
   @override
-  State<Question3Page> createState() => _Question3PageState();
+  ConsumerState<Question3Page> createState() => _Question3PageState();
 }
 
-class _Question3PageState extends State<Question3Page> {
+class _Question3PageState extends ConsumerState<Question3Page> {
   void showDiologBox() {
     showDialog(
       context: context,
@@ -53,7 +57,7 @@ class _Question3PageState extends State<Question3Page> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(builder: (context) => HomePage()),
+                        CupertinoPageRoute(builder: (context) => LoginPage()),
                       );
                     },
                     child: Container(
@@ -98,8 +102,12 @@ class _Question3PageState extends State<Question3Page> {
     );
   }
 
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
+    final register = ref.watch(registerFormProvider);
+    final data = ref.read(registerFormProvider.notifier);
     return Scaffold(
       backgroundColor: bgColor,
       body: SingleChildScrollView(
@@ -133,11 +141,35 @@ class _Question3PageState extends State<Question3Page> {
               ),
               SizedBox(height: 15.h),
               GestureDetector(
-                onTap: () {
-                  showDiologBox();
-                  setState(() {
-                    widget.currentStep + 1;
-                  });
+                onTap: () async {
+                  try {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    ref.read(registerFormProvider.notifier).setCategoryId(1);
+                    ref
+                        .read(registerFormProvider.notifier)
+                        .setUserType("therapist");
+                    await ref
+                        .read(registerFormProvider.notifier)
+                        .registerUser();
+                    Fluttertoast.showToast(
+                      msg: "Registered successfully!",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: buttonColor,
+                      textColor: Color(0xFFFFFFFF),
+                    );
+                    showDiologBox();
+                    setState(() {
+                      widget.currentStep + 1;
+                    });
+                  } catch (e) {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Fluttertoast.showToast(msg: "Error: $e");
+                  }
                 },
                 child: Container(
                   width: 327.w,
@@ -147,14 +179,21 @@ class _Question3PageState extends State<Question3Page> {
                     borderRadius: BorderRadius.circular(14.r),
                   ),
                   child: Center(
-                    child: Text(
-                      "Continue",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child:
+                        isLoading
+                            ? Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                            : Text(
+                              "Continue",
+                              style: GoogleFonts.inter(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
                   ),
                 ),
               ),

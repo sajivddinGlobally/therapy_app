@@ -151,6 +151,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 isSecure = !isSecure;
                               });
                             },
+
                             child:
                                 isSecure == true
                                     ? Icon(
@@ -165,6 +166,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     ),
                           ),
                         ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return "Please Enter Password";
+                          }
+                        },
                       ),
                       SizedBox(height: 24.h),
                       GestureDetector(
@@ -172,37 +178,43 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           if (!_formKey.currentState!.validate()) {
                             return;
                           }
+
                           setState(() => isRegister = true);
-                          final form = ref.read(registerFormProvider);
 
-                          if (form.email.isEmpty || form.password.isEmpty) {
-                            Fluttertoast.showToast(
-                              msg: "Please enter email and password",
-                            );
-                            setState(() => isRegister = false);
-                            return;
-                          }
+                          // ✅ First, update state from controllers
+                          ref
+                              .read(registerFormProvider.notifier)
+                              .setEmail(emailController.text);
+                          ref
+                              .read(registerFormProvider.notifier)
+                              .setPassword(passwordController.text);
+
                           try {
-                            // ✅ Save to provider again (optional)
-                            ref
-                                .read(registerFormProvider.notifier)
-                                .setEmail(emailController.text);
-                            ref
-                                .read(registerFormProvider.notifier)
-                                .setPassword(passwordController.text);
+                            Fluttertoast.showToast(
+                              msg: "Step 1 saved",
+                              gravity: ToastGravity.BOTTOM,
+                              toastLength: Toast.LENGTH_SHORT,
+                              backgroundColor: buttonColor,
+                              textColor: Color(0xFFFFFFFF),
+                            );
 
-                            Fluttertoast.showToast(msg: "Saved step 1");
-                            // ✅ Navigate to next screen
                             Navigator.push(
                               context,
                               CupertinoPageRoute(
                                 builder: (context) => ProfilePage(),
                               ),
                             );
+                            setState(() {
+                              isRegister = false;
+                            });
                           } catch (e) {
+                            setState(() {
+                              isRegister = false;
+                            });
                             Fluttertoast.showToast(
                               msg: "Something went wrong: $e",
                             );
+                          } finally {
                             setState(() => isRegister = false);
                           }
                         },
@@ -215,17 +227,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           ),
                           child: Center(
                             child:
-                                isRegister == false
-                                    ? Text(
+                                isRegister
+                                    ? CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                    : Text(
                                       "Register ",
                                       style: GoogleFonts.inter(
                                         fontSize: 16.sp,
                                         fontWeight: FontWeight.w500,
                                         color: Colors.white,
                                       ),
-                                    )
-                                    : CircularProgressIndicator(
-                                      color: Colors.white,
                                     ),
                           ),
                         ),

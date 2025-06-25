@@ -1,21 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import 'package:therapy_app/Screen/question3.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/registerController.dart';
 
-class Question2Page extends StatefulWidget {
+class Question2Page extends ConsumerStatefulWidget {
   final int currentStep;
   const Question2Page({super.key, required this.currentStep});
 
   @override
-  State<Question2Page> createState() => _Question2PageState();
+  ConsumerState<Question2Page> createState() => _Question2PageState();
 }
 
-class _Question2PageState extends State<Question2Page> {
-  List<String> therapies = [
+class _Question2PageState extends ConsumerState<Question2Page> {
+  List<String> interesttherapylists = [
     'Anxiety',
     'Depression',
     'Stress Management',
@@ -26,8 +29,11 @@ class _Question2PageState extends State<Question2Page> {
   ];
 
   Set<String> selectedTherapies = {};
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
+    final register = ref.watch(registerFormProvider);
+    final data = ref.read(registerFormProvider.notifier);
     return Scaffold(
       backgroundColor: bgColor,
       body: SingleChildScrollView(
@@ -60,18 +66,23 @@ class _Question2PageState extends State<Question2Page> {
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.zero,
-                itemCount: therapies.length,
+                itemCount: interesttherapylists.length,
                 itemBuilder: (context, index) {
                   final isSelected = selectedTherapies.contains(
-                    therapies[index],
+                    interesttherapylists[index],
                   );
                   return GestureDetector(
                     onTap: () {
                       setState(() {
                         isSelected
-                            ? selectedTherapies.remove(therapies[index])
-                            : selectedTherapies.add(therapies[index]);
+                            ? selectedTherapies.remove(
+                              interesttherapylists[index],
+                            )
+                            : selectedTherapies.add(
+                              interesttherapylists[index],
+                            );
                       });
+                      data.setBio(selectedTherapies.join(","));
                     },
                     child: Container(
                       margin: EdgeInsets.symmetric(vertical: 10.h),
@@ -101,7 +112,7 @@ class _Question2PageState extends State<Question2Page> {
                           SizedBox(width: 12.w),
                           Expanded(
                             child: Text(
-                              therapies[index],
+                              interesttherapylists[index],
                               style: GoogleFonts.nunito(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w500,
@@ -119,12 +130,26 @@ class _Question2PageState extends State<Question2Page> {
               SizedBox(height: 10.h),
               GestureDetector(
                 onTap: () {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  data.setSpecialization(selectedTherapies.join(', '));
+                  Fluttertoast.showToast(
+                    msg: "step save please next",
+                    gravity: ToastGravity.BOTTOM,
+                    toastLength: Toast.LENGTH_SHORT,
+                    backgroundColor: buttonColor,
+                    textColor: Color(0xFFFFFFFF),
+                  );
                   Navigator.push(
                     context,
                     CupertinoPageRoute(
                       builder: (context) => Question3Page(currentStep: 2),
                     ),
                   );
+                  setState(() {
+                    isLoading = false;
+                  });
                 },
                 child: Container(
                   width: 327.w,
@@ -134,14 +159,21 @@ class _Question2PageState extends State<Question2Page> {
                     borderRadius: BorderRadius.circular(14.r),
                   ),
                   child: Center(
-                    child: Text(
-                      "Continue",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
+                    child:
+                        isLoading
+                            ? Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                            : Text(
+                              "Continue",
+                              style: GoogleFonts.inter(
+                                fontSize: 16.sp,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white,
+                              ),
+                            ),
                   ),
                 ),
               ),

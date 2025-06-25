@@ -27,9 +27,10 @@ class CategoryModel {
 class Category {
     int id;
     String name;
-    String description;
+    Description description;
     DateTime createdAt;
     DateTime updatedAt;
+    String? image;
 
     Category({
         required this.id,
@@ -37,21 +38,46 @@ class Category {
         required this.description,
         required this.createdAt,
         required this.updatedAt,
+        required this.image,
     });
 
     factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
         name: json["name"],
-        description: json["description"],
+        description: descriptionValues.map[json["description"]]!,
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        image: json["image"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "description": description,
+        "description": descriptionValues.reverse[description],
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "image": image,
     };
+}
+
+enum Description {
+    CATEGORY_FOR_PSYCHOLOGICAL_AND_EMOTIONAL_WELLBEING,
+    HELLO_TESITNG
+}
+
+final descriptionValues = EnumValues({
+    "Category for psychological and emotional wellbeing": Description.CATEGORY_FOR_PSYCHOLOGICAL_AND_EMOTIONAL_WELLBEING,
+    "hello tesitng": Description.HELLO_TESITNG
+});
+
+class EnumValues<T> {
+    Map<String, T> map;
+    late Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+            reverseMap = map.map((k, v) => MapEntry(v, k));
+            return reverseMap;
+    }
 }
