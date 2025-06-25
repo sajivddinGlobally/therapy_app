@@ -59,7 +59,7 @@ Dio createDio() {
             (_) => false,
           );
           return handler.next(e);
-        }
+        } 
       },
     ),
   );

@@ -82,7 +82,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   String? selectedGender;
 
-  final List<String> genders = ['Male', 'Female', 'Other'];
+  final List<String> genders = ['male', 'female', 'other'];
 
   DateTime? selectedDate;
   final dateController = TextEditingController();
@@ -111,12 +111,17 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
     );
 
     if (picked != null) {
-      final formatted = DateFormat('yyyy-MM-dd').format(picked);
-      dateController.text = formatted;
+      // final formatted = DateFormat('yyyy-MM-dd').format(picked);
+      // dateController.text = formatted;
 
+      // ref
+      //     .read(registerFormProvider.notifier)
+      //     .setDOB(formatted); // ✅ this line is critical
+      final formatted = DateFormat('yyyy-MM-dd').format(picked);
+      dateController.text = formatted; // ✅ 1. SET CONTROLLER VALUE
       ref
           .read(registerFormProvider.notifier)
-          .setDOB(formatted); // ✅ this line is critical
+          .setDOB(formatted); // ✅ 2. SET DOB TO STATE
     }
   }
 
@@ -366,10 +371,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           }).toList(),
                       onChanged: (value) {
                         setState(() {
-                          selectedGender = value;
                           ref
                               .read(registerFormProvider.notifier)
-                              .setGender(value!);
+                              .setGender(value!); // ✅ 2. GENDER SET TO STATE
+                          selectedGender = value; // ✅ 1. LOCAL STATE UPDATED
                         });
                       },
                       validator: (value) {
@@ -455,7 +460,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           .setPhone(phoneController.text);
                       ref
                           .read(registerFormProvider.notifier)
-                          .setGender(selectedGender.toString());
+                          .setGender(selectedGender!);
                       ref
                           .read(registerFormProvider.notifier)
                           .setDOB(dateController.text);

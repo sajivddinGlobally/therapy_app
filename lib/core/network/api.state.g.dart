@@ -193,6 +193,9 @@ class _ApiStateNetwork implements ApiStateNetwork {
     required String name,
     required String email,
     required String password,
+    required String phone,
+    required String gender,
+    required String dob,
     required int categoryId,
     required String specialization,
     required String bio,
@@ -208,6 +211,9 @@ class _ApiStateNetwork implements ApiStateNetwork {
     _data.fields.add(MapEntry('name', name));
     _data.fields.add(MapEntry('email', email));
     _data.fields.add(MapEntry('password', password));
+    _data.fields.add(MapEntry('phone_number', phone));
+    _data.fields.add(MapEntry('gender', gender));
+    _data.fields.add(MapEntry('dob', dob));
     _data.fields.add(MapEntry('category_id', categoryId.toString()));
     _data.fields.add(MapEntry('specialization', specialization));
     _data.fields.add(MapEntry('bio', bio));

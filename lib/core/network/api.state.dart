@@ -40,20 +40,22 @@ abstract class ApiStateNetwork {
     @Query("category") String query,
   );
 
-  
   @POST("/api/register")
-@MultiPart()
-Future<HttpResponse> register({
-  @Part(name: "name") required String name,
-  @Part(name: "email") required String email,
-  @Part(name: "password") required String password,
-  @Part(name: "category_id") required int categoryId,
-  @Part(name: "specialization") required String specialization,
-  @Part(name: "bio") required String bio,
-  @Part(name: "languages") required String languages,
-  @Part(name: "session_fee[]") required List<String> sessionFee,
-  @Part(name: "rating") required String rating,
-  @Part(name: "user_type") required String userType,
- // @Part(name: "profile_picture") MultipartFile profilePicture,
-});
+  @MultiPart()
+  Future<HttpResponse> register({
+    @Part(name: "name") required String name,
+    @Part(name: "email") required String email,
+    @Part(name: "password") required String password,
+    @Part(name: "phone_number") required String phone,
+    @Part(name: "gender") required String gender,
+    @Part(name: "dob") required String dob,
+    @Part(name: "category_id") required int categoryId,
+    @Part(name: "specialization") required String specialization,
+    @Part(name: "bio") required String bio,
+    @Part(name: "languages") required String languages,
+    @Part(name: "session_fee[]") required List<String> sessionFee,
+    @Part(name: "rating") required String rating,
+    @Part(name: "user_type") required String userType,
+    // @Part(name: "profile_picture") MultipartFile profilePicture,
+  });
 }

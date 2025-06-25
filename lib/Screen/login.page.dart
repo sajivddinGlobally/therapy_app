@@ -202,16 +202,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         //   Fluttertoast.showToast(msg: "something went wrong");
                         // }
 
-                        setState(() {
-                          isLogin = true;
-                        });
-
-                        final body = LoginBodyModel(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-
                         try {
+                          setState(() {
+                            isLogin = true;
+                          });
+
+                          final body = LoginBodyModel(
+                            email: emailController.text,
+                            password: passwordController.text,
+                          );
+
                           await ref
                               .read(logincontrollerprovider.notifier)
                               .login(body);
@@ -235,6 +235,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               ),
                             );
                           } else if (loginState is LoginError) {
+                            setState(() {
+                              isLogin = false;
+                            });
                             Fluttertoast.showToast(
                               msg: "Invalid email and password",
                               gravity: ToastGravity.BOTTOM,

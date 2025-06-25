@@ -55,8 +55,11 @@ class UserFormNotifier extends StateNotifier<UserFormStateModel> {
         bio: state.bio ?? '',
         languages: state.languages ?? '',
         sessionFee: state.sessionFee ?? [],
-        rating: (state.rating ?? 0.0).toString(),
+        rating: (state.rating ?? 0).toString(),
         userType: state.userType ?? '',
+        phone: state.phone ?? '',
+        gender: state.gender ?? '',
+        dob: state.dob ?? '',
       );
       log("✅ Registered: ${res.response.statusCode}");
     } catch (e) {

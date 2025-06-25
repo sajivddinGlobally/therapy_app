@@ -38,7 +38,7 @@ class User {
   String? languages;
   String rating;
   String userType;
-  List<String> sessionFee;
+  List<String>? sessionFee;
 
   User({
     required this.id,
@@ -55,7 +55,7 @@ class User {
     this.languages,
     required this.rating,
     required this.userType,
-    required this.sessionFee,
+    this.sessionFee,
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
@@ -91,6 +91,6 @@ class User {
     "languages": languages,
     "rating": rating,
     "user_type": userType,
-    "session_fee": List<dynamic>.from(sessionFee.map((x) => x)),
+    "session_fee": List<dynamic>.from(sessionFee!.map((x) => x)),
   };
 }

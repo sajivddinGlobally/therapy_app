@@ -38,6 +38,9 @@ class User {
     List<String> sessionFee;
     String rating;
     String userType;
+    String phoneNumber;
+    String gender;
+    String dob;
     DateTime updatedAt;
     DateTime createdAt;
     int id;
@@ -53,6 +56,9 @@ class User {
         required this.sessionFee,
         required this.rating,
         required this.userType,
+        required this.phoneNumber,
+        required this.gender,
+        required this.dob,
         required this.updatedAt,
         required this.createdAt,
         required this.id,
@@ -69,6 +75,9 @@ class User {
         sessionFee: List<String>.from(json["session_fee"].map((x) => x)),
         rating: json["rating"],
         userType: json["user_type"],
+        phoneNumber: json["phone_number"],
+        gender: json["gender"],
+        dob: json["dob"],
         updatedAt: DateTime.parse(json["updated_at"]),
         createdAt: DateTime.parse(json["created_at"]),
         id: json["id"],
@@ -85,6 +94,9 @@ class User {
         "session_fee": List<dynamic>.from(sessionFee.map((x) => x)),
         "rating": rating,
         "user_type": userType,
+        "phone_number": phoneNumber,
+        "gender": gender,
+        "dob": dob,
         "updated_at": updatedAt.toIso8601String(),
         "created_at": createdAt.toIso8601String(),
         "id": id,

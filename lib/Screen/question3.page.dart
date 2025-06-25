@@ -167,13 +167,6 @@ class _Question3PageState extends ConsumerState<Question3Page> {
                     setState(() {
                       widget.currentStep + 1;
                     });
-                  } on DioException catch (e) {
-                    log(e.error.toString());
-                    debugPrint("debaa${e.error}");
-                    log(e.response.toString());
-                    setState(() {
-                      isLoading = false;
-                    });
                   } catch (e) {
                     Fluttertoast.showToast(msg: "Something went wrong");
                     log(e.toString());

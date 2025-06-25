@@ -8,9 +8,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/Screen/profile.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
-import 'package:therapy_app/core/network/api.state.dart';
-import 'package:therapy_app/core/utils/pretty.dio.dart';
-import 'package:therapy_app/data/model/registerBodyModel.dart';
+
 import 'package:therapy_app/data/provider/registerController.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
