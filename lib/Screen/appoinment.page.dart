@@ -1,23 +1,29 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/chat.inbox.page.dart';
 import 'package:therapy_app/Screen/reshedule.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/bookingsController.dart';
 
-class AppoinmentPage extends StatefulWidget {
+class AppoinmentPage extends ConsumerStatefulWidget {
   const AppoinmentPage({super.key});
 
   @override
-  State<AppoinmentPage> createState() => _AppoinmentPageState();
+  ConsumerState<AppoinmentPage> createState() => _AppoinmentPageState();
 }
 
-class _AppoinmentPageState extends State<AppoinmentPage> {
+class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
   int defaultab = 0;
   @override
   Widget build(BuildContext context) {
+    final bookingsProvider = ref.watch(bookingsControlelr);
     return Scaffold(
       backgroundColor: Color(0xFFF4F6F9),
       appBar: AppBar(
@@ -88,27 +94,66 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                     // Upcoming Tab
                     Column(
                       children: [
-                        PastBody(
-                          status: "Scheduled",
-                          button1: "Reschedule",
-                          button2: "Join Chat",
-                          callback: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => ChatInboxPage(),
-                              ),
+                        bookingsProvider.when(
+                          data: (snap) {
+                            if (snap.isEmpty) {
+                              return Center(
+                                child: Text("No upcoming appointments."),
+                              );
+                            }
+                            return ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              itemCount: snap.length,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding: EdgeInsets.only(bottom: 14.h),
+                                  child: PastBody(
+                                    name: snap[index].userName,
+                                    status: snap[index].status,
+                                    button1: "Reschedule",
+                                    button2: "Join Chat",
+                                    callback: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => ChatInboxPage(),
+                                        ),
+                                      );
+                                    },
+                                    statusColor: Color(0xFF00BAF7),
+                                    voidCallback: () {
+                                      Navigator.push(
+                                        context,
+                                        CupertinoPageRoute(
+                                          builder: (context) => ReshedulePage(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+                              },
                             );
                           },
-                          statusColor: Color(0xFF00BAF7),
-                          voidCallback: () {
-                            Navigator.push(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => ReshedulePage(),
-                              ),
-                            );
+                          error: (error, stackTrace) {
+                            if (error is DioException &&
+                                error.response!.statusCode == 401) {
+                              log(error.toString());
+                              return SizedBox.shrink();
+                            } else {
+                              return Center(
+                                child: Text(
+                                  "Something went wrong ${error.toString()}",
+                                ),
+                              );
+                            }
                           },
+                          loading:
+                              () => Center(
+                                child: CircularProgressIndicator(
+                                  color: buttonColor,
+                                ),
+                              ),
                         ),
                       ],
                     ),
@@ -120,6 +165,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                       child: Column(
                         children: [
                           PastBody(
+                            name: "Dr. Aaron",
                             status: "Cancel",
                             button1: "Book Again",
                             button2: "Leave a review",
@@ -129,6 +175,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
+                            name: "Dr. Aaron",
                             status: "Complete",
                             button1: "Book Again",
                             button2: "Leave a review",
@@ -138,6 +185,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
+                            name: "Dr. Aaron",
                             status: "Complete",
                             button1: "Book Again",
                             button2: "Leave a review",
@@ -160,6 +208,7 @@ class _AppoinmentPageState extends State<AppoinmentPage> {
 }
 
 class PastBody extends StatelessWidget {
+  final String name;
   final String status;
   final String button1;
   final String button2;
@@ -174,6 +223,7 @@ class PastBody extends StatelessWidget {
     required this.statusColor,
     required this.voidCallback,
     required this.callback,
+    required this.name,
   });
 
   @override
@@ -209,7 +259,8 @@ class PastBody extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    "Dr. Aaron",
+                    // "Dr. Aaron",
+                    name,
                     style: GoogleFonts.inter(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,

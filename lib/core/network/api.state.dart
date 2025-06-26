@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:therapy_app/data/model/bookingsModel.dart';
 import 'package:therapy_app/data/model/categoryModel.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/model/lognResModel.dart';
@@ -38,6 +39,9 @@ abstract class ApiStateNetwork {
   Future<MentalHealthavailableModel> findAvailableTherapy(
     @Query("category") String query,
   );
+
+  @GET("/api/bookings")
+  Future<List<BookingsModel>> bookings();
 
   @MultiPart()
   @POST("/api/register")
