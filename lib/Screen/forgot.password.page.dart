@@ -10,7 +10,8 @@ import 'package:therapy_app/Screen/otp.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/core/network/api.state.dart';
 import 'package:therapy_app/core/utils/pretty.dio.dart';
-import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
+import 'package:therapy_app/data/model/sendOTPBodyModel.dart';
+import 'package:therapy_app/data/provider/updatePasswordController.dart';
 
 class ForgotPasswordPage extends ConsumerStatefulWidget {
   const ForgotPasswordPage({super.key});
@@ -24,6 +25,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
   bool sendOtp = false;
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(updataProvider);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(backgroundColor: bgColor),
@@ -91,58 +93,35 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                     setState(() {
                       sendOtp = true;
                     });
-                    final body = UpdatePasswordBodyModel(
-                      email: emailController.text,
+                    await ref
+                        .read(updataProvider.notifier)
+                        .sendOTP(emailController.text);
+                    Fluttertoast.showToast(
+                      msg: "OTP Send your email",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: buttonColor,
+                      textColor: Color(0xFFFFFFFF),
                     );
-                    final service = ApiStateNetwork(createDio());
-                    final ser = await service.updateSendOtp(body);
-                    if (body != null) {
-                      Fluttertoast.showToast(
-                        msg: ser.message,
-                        gravity: ToastGravity.BOTTOM,
-                        toastLength: Toast.LENGTH_LONG,
-                        backgroundColor: buttonColor,
-                        textColor: Color(0xFFFFFFFF),
-                      );
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder:
-                              (context) => OtpPage(email: emailController.text),
-                        ),
-                      );
-                    } else {
-                      setState(() {
-                        sendOtp = false;
-                      });
-
-                      log("sorry");
-                      Fluttertoast.showToast(
-                        msg: "Unexpected error. Try again.",
-                        gravity: ToastGravity.BOTTOM,
-                        toastLength: Toast.LENGTH_LONG,
-                        backgroundColor: buttonColor,
-                        textColor: Color(0xFFFFFFFF),
-                      );
-                    }
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder:
+                            (context) => OtpPage(email: emailController.text),
+                      ),
+                    );
                   } catch (e) {
                     setState(() {
                       sendOtp = false;
                     });
-
-                    if (e is DioException) {
-                      final errormessage = e.response?.data['error'];
-                      Fluttertoast.showToast(
-                        msg: errormessage,
-                        gravity: ToastGravity.BOTTOM,
-                        toastLength: Toast.LENGTH_LONG,
-                        backgroundColor: buttonColor,
-                        textColor: Color(0xFFFFFFFF),
-                      );
-                      log("Dio error : ${e.response}");
-                    }
-
-                    log("OTP Failed");
+                    Fluttertoast.showToast(
+                      msg: "OTP don't send",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: buttonColor,
+                      textColor: Color(0xFFFFFFFF),
+                    );
+                    log(e.toString());
                   }
                 },
 

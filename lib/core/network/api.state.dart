@@ -6,10 +6,10 @@ import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/model/lognResModel.dart';
 import 'package:therapy_app/data/model/accountModel.dart';
 import 'package:therapy_app/data/model/mentalHealthavailabeModel.dart';
-import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
-import 'package:therapy_app/data/model/passUpdateSuccResModel.dart';
-import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
-import 'package:therapy_app/data/model/updatePasswordResModel.dart';
+import 'package:therapy_app/data/model/passwordUpdateBodyModel.dart';
+import 'package:therapy_app/data/model/passwordUpdateResModel.dart';
+import 'package:therapy_app/data/model/sendOTPBodyModel.dart';
+import 'package:therapy_app/data/model/sendOTPResModel.dart';
 
 part 'api.state.g.dart';
 
@@ -27,20 +27,18 @@ abstract class ApiStateNetwork {
   Future<AccountModel> account();
 
   @POST("/api/send-password-update-otp")
-  Future<UpdatePasswordResModel> updateSendOtp(
-    @Body() UpdatePasswordBodyModel body,
-  );
+  Future<SendOTPResModel> sendOTP(@Body() SendOtoBodyModel body);
 
   @POST("/api/update-password")
-  Future<PassUpdateResSuccModel> passwordUpdate(
-    @Body() PassUpdateBodySuccModel body,
+  Future<PasswordUpdateResModel> updatePassword(
+    @Body() PasswordUpdateBodyModel body,
   );
 
   @GET("/api/users/by-category?category=")
   Future<MentalHealthavailableModel> findAvailableTherapy(
     @Query("category") String query,
   );
-  
+
   @MultiPart()
   @POST("/api/register")
   Future<HttpResponse> register({

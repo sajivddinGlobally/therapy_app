@@ -9,7 +9,7 @@ import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/core/network/api.state.dart';
 import 'package:therapy_app/core/utils/pretty.dio.dart';
-import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
+import 'package:therapy_app/data/model/passwordUpdateBodyModel.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});

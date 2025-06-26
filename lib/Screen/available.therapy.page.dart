@@ -91,7 +91,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                 child: Image.network(
                                   // "assets/dot.png",
                                   availabletherapy.users[index].profilePicture
-                                      .toString(),
+                                      .toString() ,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Image.network(

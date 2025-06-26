@@ -1,7 +1,5 @@
 import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -11,8 +9,6 @@ import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/register.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
-import 'package:therapy_app/core/network/api.state.dart';
-import 'package:therapy_app/core/utils/pretty.dio.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/provider/login.state.dart';
 import 'package:therapy_app/data/provider/loginController.dart';
@@ -238,6 +234,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             setState(() {
                               isLogin = false;
                             });
+                            log(loginState.message);
                             Fluttertoast.showToast(
                               msg: "Invalid email and password",
                               gravity: ToastGravity.BOTTOM,

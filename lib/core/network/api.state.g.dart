@@ -102,15 +102,13 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<UpdatePasswordResModel> updateSendOtp(
-    UpdatePasswordBodyModel body,
-  ) async {
+  Future<SendOTPResModel> sendOTP(SendOtoBodyModel body) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
-    final _options = _setStreamType<UpdatePasswordResModel>(
+    final _options = _setStreamType<SendOTPResModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -121,9 +119,9 @@ class _ApiStateNetwork implements ApiStateNetwork {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late UpdatePasswordResModel _value;
+    late SendOTPResModel _value;
     try {
-      _value = UpdatePasswordResModel.fromJson(_result.data!);
+      _value = SendOTPResModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;
@@ -132,15 +130,15 @@ class _ApiStateNetwork implements ApiStateNetwork {
   }
 
   @override
-  Future<PassUpdateResSuccModel> passwordUpdate(
-    PassUpdateBodySuccModel body,
+  Future<PasswordUpdateResModel> updatePassword(
+    PasswordUpdateBodyModel body,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(body.toJson());
-    final _options = _setStreamType<PassUpdateResSuccModel>(
+    final _options = _setStreamType<PasswordUpdateResModel>(
       Options(method: 'POST', headers: _headers, extra: _extra)
           .compose(
             _dio.options,
@@ -151,9 +149,9 @@ class _ApiStateNetwork implements ApiStateNetwork {
           .copyWith(baseUrl: _combineBaseUrls(_dio.options.baseUrl, baseUrl)),
     );
     final _result = await _dio.fetch<Map<String, dynamic>>(_options);
-    late PassUpdateResSuccModel _value;
+    late PasswordUpdateResModel _value;
     try {
-      _value = PassUpdateResSuccModel.fromJson(_result.data!);
+      _value = PasswordUpdateResModel.fromJson(_result.data!);
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
       rethrow;

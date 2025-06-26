@@ -9,7 +9,7 @@ MentalHealthavailableModel mentalHealthavailableModelFromJson(String str) => Men
 String mentalHealthavailableModelToJson(MentalHealthavailableModel data) => json.encode(data.toJson());
 
 class MentalHealthavailableModel {
-    String category;
+    CategoryEnum category;
     List<User> users;
 
     MentalHealthavailableModel({
@@ -18,15 +18,23 @@ class MentalHealthavailableModel {
     });
 
     factory MentalHealthavailableModel.fromJson(Map<String, dynamic> json) => MentalHealthavailableModel(
-        category: json["category"],
+        category: categoryEnumValues.map[json["category"]]!,
         users: List<User>.from(json["users"].map((x) => User.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
-        "category": category,
+        "category": categoryEnumValues.reverse[category],
         "users": List<dynamic>.from(users.map((x) => x.toJson())),
     };
 }
+
+enum CategoryEnum {
+    MENTAL_HEALTH
+}
+
+final categoryEnumValues = EnumValues({
+    "Mental Health": CategoryEnum.MENTAL_HEALTH
+});
 
 class User {
     int id;
@@ -40,11 +48,14 @@ class User {
     int categoryId;
     String specialization;
     String bio;
-    String languages;
+    Languages? languages;
     String rating;
-    String userType;
-    List<String> sessionFee;
-    Category category;
+    UserType userType;
+    List<SessionFee>? sessionFee;
+    String? phoneNumber;
+    Gender? gender;
+    DateTime? dob;
+    CategoryClass category;
 
     User({
         required this.id,
@@ -62,6 +73,9 @@ class User {
         required this.rating,
         required this.userType,
         required this.sessionFee,
+        required this.phoneNumber,
+        required this.gender,
+        required this.dob,
         required this.category,
     });
 
@@ -77,11 +91,14 @@ class User {
         categoryId: json["category_id"],
         specialization: json["specialization"],
         bio: json["bio"],
-        languages: json["languages"],
+        languages: languagesValues.map[json["languages"]]!,
         rating: json["rating"],
-        userType: json["user_type"],
-        sessionFee: List<String>.from(json["session_fee"].map((x) => x)),
-        category: Category.fromJson(json["category"]),
+        userType: userTypeValues.map[json["user_type"]]!,
+        sessionFee: json["session_fee"] == null ? [] : List<SessionFee>.from(json["session_fee"]!.map((x) => sessionFeeValues.map[x]!)),
+        phoneNumber: json["phone_number"],
+        gender: genderValues.map[json["gender"]]!,
+        dob: json["dob"] == null ? null : DateTime.parse(json["dob"]),
+        category: CategoryClass.fromJson(json["category"]),
     );
 
     Map<String, dynamic> toJson() => {
@@ -96,42 +113,103 @@ class User {
         "category_id": categoryId,
         "specialization": specialization,
         "bio": bio,
-        "languages": languages,
+        "languages": languagesValues.reverse[languages],
         "rating": rating,
-        "user_type": userType,
-        "session_fee": List<dynamic>.from(sessionFee.map((x) => x)),
+        "user_type": userTypeValues.reverse[userType],
+        "session_fee": sessionFee == null ? [] : List<dynamic>.from(sessionFee!.map((x) => sessionFeeValues.reverse[x])),
+        "phone_number": phoneNumber,
+        "gender": genderValues.reverse[gender],
+        "dob": "${dob!.year.toString().padLeft(4, '0')}-${dob!.month.toString().padLeft(2, '0')}-${dob!.day.toString().padLeft(2, '0')}",
         "category": category.toJson(),
     };
 }
 
-class Category {
+class CategoryClass {
     int id;
-    String name;
-    String description;
+    CategoryEnum name;
+    Description description;
     DateTime createdAt;
     DateTime updatedAt;
+    dynamic image;
 
-    Category({
+    CategoryClass({
         required this.id,
         required this.name,
         required this.description,
         required this.createdAt,
         required this.updatedAt,
+        required this.image,
     });
 
-    factory Category.fromJson(Map<String, dynamic> json) => Category(
+    factory CategoryClass.fromJson(Map<String, dynamic> json) => CategoryClass(
         id: json["id"],
-        name: json["name"],
-        description: json["description"],
+        name: categoryEnumValues.map[json["name"]]!,
+        description: descriptionValues.map[json["description"]]!,
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
+        image: json["image"],
     );
 
     Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
-        "description": description,
+        "name": categoryEnumValues.reverse[name],
+        "description": descriptionValues.reverse[description],
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
+        "image": image,
     };
+}
+
+enum Description {
+    CATEGORY_FOR_PSYCHOLOGICAL_AND_EMOTIONAL_WELLBEING
+}
+
+final descriptionValues = EnumValues({
+    "Category for psychological and emotional wellbeing": Description.CATEGORY_FOR_PSYCHOLOGICAL_AND_EMOTIONAL_WELLBEING
+});
+
+enum Gender {
+    MALE
+}
+
+final genderValues = EnumValues({
+    "male": Gender.MALE
+});
+
+enum Languages {
+    ENGLISH_HINDI
+}
+
+final languagesValues = EnumValues({
+    "English,Hindi": Languages.ENGLISH_HINDI
+});
+
+enum SessionFee {
+    THE_1020,
+    THE_16001800
+}
+
+final sessionFeeValues = EnumValues({
+    "10,20": SessionFee.THE_1020,
+    "1600,1800": SessionFee.THE_16001800
+});
+
+enum UserType {
+    THERAPIST
+}
+
+final userTypeValues = EnumValues({
+    "therapist": UserType.THERAPIST
+});
+
+class EnumValues<T> {
+    Map<String, T> map;
+    late Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+            reverseMap = map.map((k, v) => MapEntry(v, k));
+            return reverseMap;
+    }
 }

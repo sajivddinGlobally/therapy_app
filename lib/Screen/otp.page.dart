@@ -10,6 +10,7 @@ import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:therapy_app/Screen/create.new.password.page.dart';
 import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/updatePasswordController.dart';
 
 class OtpPage extends ConsumerStatefulWidget {
   final String email;
@@ -24,6 +25,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(updataProvider);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(backgroundColor: bgColor),
@@ -67,15 +69,15 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   fieldBorderRadius: 8,
                   fieldBorderWidth: 1.2,
                 ),
-                onSubmit: (text) {
-                  log("User entered OTP: $text");
-                  log("Expected OTP: ${otp}");
-
+                onSubmit: (text) async {
+                  
                   if (text.trim() == otp.trim()) {
+                    log(text);
+                    log(otp);
                     Fluttertoast.showToast(
                       msg: "OTP verify successful",
                       gravity: ToastGravity.BOTTOM,
-                      toastLength: Toast.LENGTH_LONG,
+                      toastLength: Toast.LENGTH_SHORT,
                       backgroundColor: buttonColor,
                       textColor: Colors.white,
                     );
@@ -84,8 +86,8 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                       CupertinoPageRoute(
                         builder:
                             (context) => CreateNewPasswordPage(
-                              ot: text,
-                              em: widget.email,
+                              otp: text,
+                              email: widget.email,
                             ),
                       ),
                     );
@@ -93,16 +95,12 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                     Fluttertoast.showToast(
                       msg: "Invalid OTP",
                       gravity: ToastGravity.BOTTOM,
-                      toastLength: Toast.LENGTH_LONG,
+                      toastLength: Toast.LENGTH_SHORT,
                       backgroundColor: buttonColor,
                       textColor: Colors.white,
                     );
-                    Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                        builder: (context) => ForgotPasswordPage(),
-                      ),
-                    );
+
+                    Navigator.pop(context);
                   }
                 },
                 onChange: (text) {

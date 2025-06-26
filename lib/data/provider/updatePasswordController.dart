@@ -1,35 +1,50 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:therapy_app/Screen/login.page.dart';
-// import 'package:therapy_app/core/network/api.state.dart';
-// import 'package:therapy_app/core/utils/pretty.dio.dart';
-// import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
-// import 'package:therapy_app/data/model/passUpdateSuccResModel.dart';
-// import 'package:therapy_app/data/model/updatePasswordBodyModel.dart';
-// import 'package:therapy_app/data/model/updatePasswordResModel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:therapy_app/core/network/api.state.dart';
+import 'package:therapy_app/core/utils/pretty.dio.dart';
+import 'package:therapy_app/data/model/passwordUpdateBodyModel.dart';
+import 'package:therapy_app/data/model/sendOTPBodyModel.dart';
 
-// final updatePasswordControlelr =
-//     FutureProvider.family<UpdatePasswordResModel, UpdatePasswordBodyModel>((
-//       ref,
-//       body,
-//     ) async {
-//       final updateSendService = ApiStateNetwork(createDio());
-//       return await updateSendService.updateSendOtp(body);
-//     });
+class forgotPasswordController extends StateNotifier<AsyncValue<String>> {
+  //final ApiService api;
+  forgotPasswordController() : super(AsyncValue.data(""));
 
-// final sendOtpProvider =
-//     FutureProvider.family<UpdatePasswordResModel, UpdatePasswordBodyModel>((
-//       ref,
-//       body,
-//     ) async {
-//       final update = ApiStateNetwork(createDio());
-//       return await update.updateSendOtp(body);
-//     });
+  Future<void> sendOTP(String emal) async {
+    state = AsyncValue.loading();
+    try {
+      final service = ApiStateNetwork(createDio());
+      final body = SendOtoBodyModel(email: emal);
+      final response = await service.sendOTP(body);
+      state = AsyncValue.data(response.message);
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
 
-// final verifyOtpProvider =
-//     FutureProvider.family<PassUpdateResSuccModel, PassUpdateBodySuccModel>((
-//       ref,
-//       body,
-//     ) async {
-//       final verfyservice = ApiStateNetwork(createDio());
-//       return verfyservice.passwordUpdate(body);
-//     });
+  Future<void> updatePassword(
+    String email,
+    String otp,
+    String newpassword,
+    String confirmpassword,
+  ) async {
+    state = AsyncValue.loading();
+
+    try {
+      final service = ApiStateNetwork(createDio());
+      final body = PasswordUpdateBodyModel(
+        email: email,
+        otp: otp,
+        password: newpassword,
+        passwordConfirmation: confirmpassword,
+      );
+      final respo = service.updatePassword(body);
+
+      state = AsyncValue.data(respo.toString());
+    } catch (e) {
+      state = AsyncValue.error(e, StackTrace.current);
+    }
+  }
+}
+
+final updataProvider = StateNotifierProvider(
+  (ref) => forgotPasswordController(),
+);

@@ -8,14 +8,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
-import 'package:therapy_app/core/network/api.state.dart';
-import 'package:therapy_app/core/utils/pretty.dio.dart';
-import 'package:therapy_app/data/model/passUpdateSuccBodyModel.dart';
+import 'package:therapy_app/data/provider/updatePasswordController.dart';
 
 class CreateNewPasswordPage extends ConsumerStatefulWidget {
-  final String ot;
-  final String em;
-  const CreateNewPasswordPage({super.key, required this.ot, required this.em});
+  final String otp;
+  final String email;
+  const CreateNewPasswordPage({
+    super.key,
+    required this.otp,
+    required this.email,
+  });
 
   @override
   ConsumerState<CreateNewPasswordPage> createState() =>
@@ -145,6 +147,7 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(updataProvider);
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(backgroundColor: bgColor),
@@ -267,80 +270,39 @@ class _CreateNewPasswordPageState extends ConsumerState<CreateNewPasswordPage> {
             SizedBox(height: 38.h),
             GestureDetector(
               onTap: () async {
-                if (newPasswordController.text.isEmpty ||
-                    confirmPasswordController.text.isEmpty) {
-                  Fluttertoast.showToast(
-                    msg: "Please fill all fields",
-                    gravity: ToastGravity.BOTTOM,
-                    toastLength: Toast.LENGTH_LONG,
-                    backgroundColor: buttonColor,
-                    textColor: Colors.white,
-                  );
-                  return;
-                }
-
                 if (newPasswordController.text !=
                     confirmPasswordController.text) {
                   Fluttertoast.showToast(
                     msg: "Passwords do not match",
                     gravity: ToastGravity.BOTTOM,
-                    toastLength: Toast.LENGTH_LONG,
+                    toastLength: Toast.LENGTH_SHORT,
                     backgroundColor: buttonColor,
                     textColor: Colors.white,
                   );
                   return;
                 }
-
-                if (widget.ot.trim().length != 6) {
-                  Fluttertoast.showToast(
-                    msg: "OTP must be 6 digits",
-                    gravity: ToastGravity.BOTTOM,
-                    toastLength: Toast.LENGTH_LONG,
-                    backgroundColor: buttonColor,
-                    textColor: Colors.white,
-                  );
-                  return;
-                }
-
                 setState(() {
                   isLoder = true;
                 });
-
                 try {
-                  final body = PassUpdateBodySuccModel(
-                    email: widget.em.trim(),
-                    otp: widget.ot.trim(),
-                    password: newPasswordController.text.trim(),
-                    passwordConfirmation: confirmPasswordController.text.trim(),
-                  );
-                  final service = ApiStateNetwork(createDio());
-                  final resp = await service.passwordUpdate(body);
-
-                  setState(() {
-                    isLoder = false;
-                  });
-
-                  if (resp != null) {
-                    showDiologBox();
-                  } else {
-                    Fluttertoast.showToast(
-                      msg: "Something went wrong",
-                      gravity: ToastGravity.BOTTOM,
-                      toastLength: Toast.LENGTH_LONG,
-                      backgroundColor: buttonColor,
-                      textColor: Colors.white,
-                    );
-                  }
+                  await ref
+                      .read(updataProvider.notifier)
+                      .updatePassword(
+                        widget.email,
+                        widget.otp,
+                        newPasswordController.text,
+                        confirmPasswordController.text,
+                      );
+                  setState(() => isLoder = false);
+                  showDiologBox();
                 } catch (e) {
-                  setState(() {
-                    isLoder = false;
-                  });
+                  setState(() => isLoder = false);
                   Fluttertoast.showToast(
-                    msg: "Failed to reset password",
-                    gravity: ToastGravity.BOTTOM,
-                    toastLength: Toast.LENGTH_LONG,
-                    backgroundColor: buttonColor,
+                    msg: e.toString(),
+                    backgroundColor: Colors.red,
                     textColor: Colors.white,
+                    gravity: ToastGravity.BOTTOM,
+                    toastLength: Toast.LENGTH_SHORT,
                   );
                   log(e.toString());
                 }

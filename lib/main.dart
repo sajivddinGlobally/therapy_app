@@ -5,7 +5,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:therapy_app/Screen/home.page.dart';
-import 'package:therapy_app/Screen/splash.page.dart';
 import 'package:therapy_app/core/utils/globalKey.dart';
 
 void main() async {
