@@ -37,9 +37,11 @@ class forgotPasswordController extends StateNotifier<AsyncValue<String>> {
         password: newpassword,
         passwordConfirmation: confirmpassword,
       );
-      final respo = service.updatePassword(body);
+
+      final respo = await service.updatePassword(body);
 
       state = AsyncValue.data(respo.toString());
+      
     } catch (e, st) {
       state = AsyncValue.error(e, st);
       rethrow; // ✅ rethrow here too

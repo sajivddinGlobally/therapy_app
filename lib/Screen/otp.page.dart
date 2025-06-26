@@ -70,12 +70,36 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   fieldBorderWidth: 1.2,
                 ),
                 onSubmit: (text) async {
-                  setState(() {
-                    otp = text;
-                  });
-                  if (otp.trim() == text.trim()) {
-                    log(text);
-                    log(otp);
+                  // log(text);
+                  // log(otp);
+                  // Fluttertoast.showToast(
+                  //   msg: "OTP verify successful",
+                  //   gravity: ToastGravity.BOTTOM,
+                  //   toastLength: Toast.LENGTH_SHORT,
+                  //   backgroundColor: buttonColor,
+                  //   textColor: Colors.white,
+                  // );
+                  // Navigator.push(
+                  //   context,
+                  //   CupertinoPageRoute(
+                  //     builder:
+                  //         (context) => CreateNewPasswordPage(
+                  //           otp: text,
+                  //           email: widget.email,
+                  //         ),
+                  //   ),
+                  // );
+                  try {
+                    final result = await ref
+                        .read(updataProvider.notifier)
+                        .updatePassword(
+                          widget.email,
+                          text,
+                          "Dummy@1234",
+                          "Dummy@1234",
+                        );
+
+                    // If we reach here, OTP is correct
                     Fluttertoast.showToast(
                       msg: "OTP verify successful",
                       gravity: ToastGravity.BOTTOM,
@@ -83,6 +107,7 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                       backgroundColor: buttonColor,
                       textColor: Colors.white,
                     );
+
                     Navigator.push(
                       context,
                       CupertinoPageRoute(
@@ -93,16 +118,16 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                             ),
                       ),
                     );
-                  } else {
+                  } catch (e) {
+                    // Error comes only if OTP is invalid
                     Fluttertoast.showToast(
-                      msg: "Invalid OTP",
+                      msg: "Invalid or expired OTP",
                       gravity: ToastGravity.BOTTOM,
                       toastLength: Toast.LENGTH_SHORT,
-                      backgroundColor: buttonColor,
+                      backgroundColor: Colors.red,
                       textColor: Colors.white,
                     );
-
-                    Navigator.pop(context);
+                    log("OTP verification failed: $e");
                   }
                 },
                 onChange: (text) {

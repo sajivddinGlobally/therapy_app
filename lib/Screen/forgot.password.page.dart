@@ -58,7 +58,7 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                 TextFormField(
                   controller: emailController,
                   decoration: InputDecoration(
-                    contentPadding: EdgeInsets.zero,
+                    contentPadding: EdgeInsets.only(top: 15.h, bottom: 15.h),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14.r),
                       borderSide: BorderSide(
@@ -67,6 +67,20 @@ class _ForgotPasswordPageState extends ConsumerState<ForgotPasswordPage> {
                       ),
                     ),
                     focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                      borderSide: BorderSide(
+                        color: Color(0xFFC8C8C8),
+                        width: 1.w,
+                      ),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(14.r),
+                      borderSide: BorderSide(
+                        color: Color(0xFFC8C8C8),
+                        width: 1.w,
+                      ),
+                    ),
+                    errorBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(14.r),
                       borderSide: BorderSide(
                         color: Color(0xFFC8C8C8),
