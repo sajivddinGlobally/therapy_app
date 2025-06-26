@@ -161,12 +161,24 @@ class _Question3PageState extends ConsumerState<Question3Page> {
                       backgroundColor: buttonColor,
                       textColor: Color(0xFFFFFFFF),
                     );
+                    setState(() {
+                      isLoading = false;
+                    });
                     showDiologBox();
                     setState(() {
                       widget.currentStep + 1;
                     });
                   } catch (e) {
-                    Fluttertoast.showToast(msg: "Something went wrong");
+                    setState(() {
+                      isLoading = false;
+                    });
+                    Fluttertoast.showToast(
+                      msg: "Something went wrong",
+                      gravity: ToastGravity.BOTTOM,
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: buttonColor,
+                      textColor: Color(0xFFFFFFFF),
+                    );
                     log(e.toString());
                   }
                 },
