@@ -15,8 +15,9 @@ class forgotPasswordController extends StateNotifier<AsyncValue<String>> {
       final body = SendOtoBodyModel(email: emal);
       final response = await service.sendOTP(body);
       state = AsyncValue.data(response.message);
-    } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      rethrow; // ✅ so it can be caught in the UI and show proper toast
     }
   }
 
@@ -39,8 +40,9 @@ class forgotPasswordController extends StateNotifier<AsyncValue<String>> {
       final respo = service.updatePassword(body);
 
       state = AsyncValue.data(respo.toString());
-    } catch (e) {
-      state = AsyncValue.error(e, StackTrace.current);
+    } catch (e, st) {
+      state = AsyncValue.error(e, st);
+      rethrow; // ✅ rethrow here too
     }
   }
 }

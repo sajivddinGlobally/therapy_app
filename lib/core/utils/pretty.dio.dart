@@ -39,7 +39,8 @@ Dio createDio() {
         return handler.next(response);
       },
       onError: (DioException e, handler) {
-        if (e.requestOptions.path.contains("/api/login")) { /// ye line sirf login agar wrong ho to sirf invalid emal or password message show karega
+        if (e.requestOptions.path.contains("/api/login")) {
+          /// ye line sirf login agar wrong ho to sirf invalid emal or password message show karega
           log("Invalid email or passworld");
           handler.next(e);
           return;
@@ -59,7 +60,38 @@ Dio createDio() {
             (_) => false,
           );
           return handler.next(e);
-        } 
+        }
+        // if (e.response!.statusCode == 422) {
+        //   log(e.response!.data["error"]);
+        //   Fluttertoast.showToast(msg: e.response!.data["error"]);
+        // }
+        if ([400, 422, 403].contains(e.response?.statusCode)) {
+          final data = e.response?.data;
+          String errorMessage = "Something went wrong";
+
+          if (data is Map<String, dynamic>) {
+            if (data.containsKey('message')) {
+              errorMessage = data['message'];
+            } else if (data.containsKey('error')) {
+              final error = data['error'];
+              if (error is String) {
+                errorMessage = error;
+              } else if (error is Map<String, dynamic>) {
+                errorMessage = error.entries
+                    .map((e) => (e.value as List).join(", "))
+                    .join("\n");
+              }
+            }
+          }
+          Fluttertoast.showToast(
+            msg: errorMessage,
+            gravity: ToastGravity.BOTTOM,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+          );
+        }
+        log("Dio error: ${e.message}");
+        return handler.next(e);
       },
     ),
   );

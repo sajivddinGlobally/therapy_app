@@ -70,8 +70,10 @@ class _OtpPageState extends ConsumerState<OtpPage> {
                   fieldBorderWidth: 1.2,
                 ),
                 onSubmit: (text) async {
-                  
-                  if (text.trim() == otp.trim()) {
+                  setState(() {
+                    otp = text;
+                  });
+                  if (otp.trim() == text.trim()) {
                     log(text);
                     log(otp);
                     Fluttertoast.showToast(
