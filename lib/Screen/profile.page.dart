@@ -502,9 +502,9 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     }
 
                     // 🛠️ Fix added here
-                    if (image == null || selectedGender == null) {
+                    if (image == null) {
                       Fluttertoast.showToast(
-                        msg: "Please select gender and upload image.",
+                        msg: "Please upload image.",
                         gravity: ToastGravity.BOTTOM,
                         toastLength: Toast.LENGTH_SHORT,
                         backgroundColor: Colors.red,
