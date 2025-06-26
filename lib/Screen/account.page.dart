@@ -237,7 +237,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                                     child: Image.network(
                                       //"assets/frame.png",
                                       // "${box.get("profile_picture") ?? "https://placehold.jp/3d4070/ffffff/150x150.png"}",
-                                      account.user.profilePicture ??
+                                      account.user!.profilePicture ??
                                           "https://placehold.jp/3d4070/ffffff/150x150.png",
                                       fit: BoxFit.cover,
                                     ),
@@ -272,7 +272,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                     ),
                     SizedBox(height: 14.h),
                     Text(
-                      account.user.name,
+                      account.user!.name.toString(),
                       style: GoogleFonts.nunito(
                         fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
@@ -281,7 +281,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                       ),
                     ),
                     Text(
-                      account.user.email,
+                      account.user!.email.toString(),
                       style: GoogleFonts.inter(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w500,
@@ -431,7 +431,9 @@ class _AccountPageState extends ConsumerState<AccountPage> {
             log(error.toString());
             return SizedBox.shrink();
           } else {
-            return Center(child: Text("Something Went Wrong"));
+            return Center(
+              child: Text("Something Went Wrong ${error.toString()}"),
+            );
           }
         },
         loading:

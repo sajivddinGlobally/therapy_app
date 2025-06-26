@@ -43,7 +43,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
       ),
       body: findavailabletheray.when(
         data: (availabletherapy) {
-          if (availabletherapy.users.isEmpty) {
+          if (availabletherapy.users!.isEmpty) {
             return Center(
               child: Text(
                 "No therapist found in this category",
@@ -57,7 +57,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
             );
           }
           return ListView.builder(
-            itemCount: availabletherapy.users.length,
+            itemCount: availabletherapy.users!.length,
             padding: EdgeInsets.zero,
             itemBuilder: (context, index) {
               return Padding(
@@ -90,8 +90,8 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                 ),
                                 child: Image.network(
                                   // "assets/dot.png",
-                                  availabletherapy.users[index].profilePicture
-                                      .toString() ,
+                                  availabletherapy.users![index].profilePicture
+                                      .toString(),
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) {
                                     return Image.network(
@@ -107,7 +107,8 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                 children: [
                                   Text(
                                     // "Dr. Aaron ",
-                                    availabletherapy.users[index].name,
+                                    availabletherapy.users![index].name
+                                        .toString(),
                                     style: GoogleFonts.inter(
                                       fontSize: 18.sp,
                                       fontWeight: FontWeight.w600,
@@ -118,8 +119,9 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                   Text(
                                     // "Certified Therapist ",
                                     availabletherapy
-                                        .users[index]
-                                        .specialization,
+                                            .users![index]
+                                            .specialization ??
+                                        "null",
                                     style: GoogleFonts.inter(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w500,
@@ -130,7 +132,8 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                   Row(
                                     children: [
                                       Text(
-                                        availabletherapy.users[index].rating,
+                                        availabletherapy.users![index].rating ??
+                                            "0",
                                         style: GoogleFonts.openSans(
                                           fontSize: 15.sp,
                                           fontWeight: FontWeight.w600,
@@ -140,10 +143,17 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                       SizedBox(width: 4.w),
                                       RatingBarIndicator(
                                         rating:
+                                            // double.tryParse(
+                                            //   availabletherapy
+                                            //       .users[index]
+                                            //       .rating,
+                                            // ) ??
+                                            // 0.0,
                                             double.tryParse(
                                               availabletherapy
-                                                  .users[index]
-                                                  .rating,
+                                                      .users![index]
+                                                      .rating ??
+                                                  "0",
                                             ) ??
                                             0.0,
                                         itemCount: 5,
@@ -163,7 +173,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                               ),
                               Spacer(),
                               GestureDetector(
-                                onTap: () {     
+                                onTap: () {
                                   Navigator.push(
                                     context,
                                     CupertinoPageRoute(
@@ -190,7 +200,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                 width: 144.w,
                                 height: 40.h,
                                 decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.r),
+                                  borderRadius: BorderRadius.circular(10.r),
                                   color: Color(0xFFFFFFFF),
                                   border: Border.all(
                                     color: Color(0xFF15AC86),
