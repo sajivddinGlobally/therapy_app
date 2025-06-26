@@ -8,7 +8,6 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:otp_pin_field/otp_pin_field.dart';
 import 'package:therapy_app/Screen/create.new.password.page.dart';
-import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/data/provider/updatePasswordController.dart';
 

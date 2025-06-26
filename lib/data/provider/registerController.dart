@@ -1,5 +1,5 @@
 import 'dart:developer';
-
+import 'dart:io';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:therapy_app/core/network/api.state.dart';
 import 'package:therapy_app/core/utils/pretty.dio.dart';
@@ -45,6 +45,19 @@ class UserFormNotifier extends StateNotifier<UserFormStateModel> {
   void setUserType(String type) => state = state.copyWith(userType: type);
 
   Future<void> registerUser() async {
+    // ✅ Convert profilePicture String? to File?
+    File? profileImageFile;
+    // ✅ Safely check and convert profile picture path to File
+    if (state.profilePicture != null && state.profilePicture!.isNotEmpty) {
+      final file = File(state.profilePicture!);
+      if (await file.exists()) {
+        profileImageFile = file;
+      } else {
+        log("❌ File not found: ${state.profilePicture}");
+        throw Exception("Profile picture file not found.");
+      }
+    }
+
     try {
       final res = await api.register(
         name: state.name ?? '',
@@ -60,6 +73,7 @@ class UserFormNotifier extends StateNotifier<UserFormStateModel> {
         phone: state.phone ?? '',
         gender: state.gender ?? '',
         dob: state.dob ?? '',
+        profilePicture: profileImageFile,
       );
       log("✅ Registered: ${res.response.statusCode}");
     } catch (e) {

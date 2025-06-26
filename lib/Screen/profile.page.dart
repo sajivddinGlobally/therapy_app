@@ -12,6 +12,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:therapy_app/Screen/question1.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/data/provider/registerController.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as path;
 
 class ProfilePage extends ConsumerStatefulWidget {
   const ProfilePage({super.key});
@@ -24,35 +26,71 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   File? image;
   final picker = ImagePicker();
 
-  Future pickImageFromGallery() async {
-    var status = await Permission.camera.request();
-    if (status.isGranted) {
-      final PickedFile = await picker.pickImage(source: ImageSource.gallery);
-      if (PickedFile != null) {
-        setState(() {
-          image = File(PickedFile.path);
-        });
-      }
+  // Future pickImageFromGallery() async {
+  //   var status = await Permission.camera.request();
+  //   if (status.isGranted) {
+  //     final PickedFile = await picker.pickImage(source: ImageSource.gallery);
+  //     if (PickedFile != null) {
+  //       setState(() {
+  //         image = File(PickedFile.path);
+  //       });
+  //     }
+  //   } else {
+  //     print("Galler Permission isdenied");
+  //   }
+  // }
+  Future<void> pickImageFromGallery() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final fileName = path.basename(picked.path);
+      final permanentImage = await File(
+        picked.path,
+      ).copy('${directory.path}/$fileName');
+
+      setState(() => image = permanentImage);
+      ref
+          .read(registerFormProvider.notifier)
+          .setProfilePicture(permanentImage.path);
     } else {
-      print("Galler Permission isdenied");
+      Fluttertoast.showToast(msg: "Image not picked");
     }
   }
 
-  Future pickImageFromCamera() async {
-    var status = await Permission.camera.request();
-    if (status.isGranted) {
-      final PickedFile = await picker.pickImage(source: ImageSource.camera);
-      if (PickedFile != null) {
-        setState(() {
-          image = File(PickedFile.path);
-        });
+  // Future pickImageFromCamera() async {
+  //   var status = await Permission.camera.request();
+  //   if (status.isGranted) {
+  //     final picked = await picker.pickImage(source: ImageSource.camera);
+  //     if (PickedFile != null) {
+  //       setState(() {
+  //         image = File(picked!.path);
+  //       });
 
-        ref
-            .read(registerFormProvider.notifier)
-            .setProfilePicture(PickedFile.path);
-      }
+  //       ref.read(registerFormProvider.notifier).setProfilePicture(picked!.path);
+  //     }
+  //   } else {
+  //     print("Camera Permission isdenied");
+  //   }
+  // }
+  Future<void> pickImageFromCamera() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.camera);
+
+    if (picked != null) {
+      final directory = await getApplicationDocumentsDirectory();
+      final fileName = path.basename(picked.path);
+      final permanentImage = await File(
+        picked.path,
+      ).copy('${directory.path}/$fileName');
+
+      setState(() => image = permanentImage);
+      ref
+          .read(registerFormProvider.notifier)
+          .setProfilePicture(permanentImage.path);
     } else {
-      print("Camera Permission isdenied");
+      Fluttertoast.showToast(msg: "Image not picked");
     }
   }
 

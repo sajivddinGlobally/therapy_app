@@ -43,5 +43,3 @@ final logincontrollerprovider =
     StateNotifierProvider<LoginController, LoginState>(
       (ref) => LoginController(),
     );
-
-
