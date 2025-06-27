@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +16,7 @@ class UpdateProfileController {
     required String phone,
     required String gender,
     required String dob,
-    required File? image,
+    required File? profile_picture,
   }) async {
     final Uri url = Uri.parse(
       "http://therapy.education.globallywebsolutions.com/api/user/profile/update",
@@ -33,14 +32,14 @@ class UpdateProfileController {
     });
 
     // ✅ safe image upload
-    if (image != null) {
-      if (await image.exists()) {
-        log("✅ Uploading image: ${image.path}");
+    if (profile_picture != null) {
+      if (await profile_picture.exists()) {
+        log("✅ Uploading image: ${profile_picture.path}");
         request.files.add(
-          await http.MultipartFile.fromPath('image', image.path),
+          await http.MultipartFile.fromPath('image', profile_picture.path),
         );
       } else {
-        log("❌ Image file does not exist at path: ${image.path}");
+        log("❌ Image file does not exist at path: ${profile_picture.path}");
         Fluttertoast.showToast(
           msg: "Image file not found, skipping image upload",
         );
@@ -52,7 +51,7 @@ class UpdateProfileController {
     request.fields.addAll({
       "name": name,
       "email": email,
-      "phone": phone,
+      "phone_number": phone,
       "gender": gender,
       "dob": dob,
     });

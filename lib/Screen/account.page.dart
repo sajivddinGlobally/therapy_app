@@ -238,7 +238,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                                       //"assets/frame.png",
                                       // "${box.get("profile_picture") ?? "https://placehold.jp/3d4070/ffffff/150x150.png"}",
                                       account.user!.profilePicture ??
-                                          "https://placehold.jp/3d4070/ffffff/150x150.png",
+                                          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png",
                                       fit: BoxFit.cover,
                                     ),
                                   )

@@ -72,7 +72,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           child: ClipOval(
                             child: Image.network(
                               //"assets/profile.png",
-                              "${box.get("profilePicture") ?? "https://placehold.jp/3d4070/ffffff/150x150.png"}",
+                              "${box.get("profilePicture") ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png"}",
                               fit: BoxFit.cover,
                             ),
                           ),

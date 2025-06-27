@@ -88,17 +88,24 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                   borderRadius: BorderRadius.circular(10.r),
                                   color: Colors.blueGrey,
                                 ),
-                                child: Image.network(
-                                  // "assets/dot.png",
-                                  availabletherapy.users![index].profilePicture
-                                      .toString(),
-                                  fit: BoxFit.cover,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Image.network(
-                                      "https://placehold.jp/3d4070/ffffff/150x150.png", // fallback if image fails
-                                      fit: BoxFit.cover,
-                                    );
-                                  },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadiusGeometry.circular(
+                                    10.r,
+                                  ),
+                                  child: Image.network(
+                                    // "assets/dot.png",
+                                    availabletherapy
+                                        .users![index]
+                                        .profilePicture
+                                        .toString(),
+                                    fit: BoxFit.cover,
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return Image.network(
+                                        "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png", // fallback if image fails
+                                        fit: BoxFit.cover,
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               SizedBox(width: 16.w),

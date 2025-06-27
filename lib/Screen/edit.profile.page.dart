@@ -8,7 +8,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/data/provider/profileUpdateController.dart';
 
@@ -440,13 +439,14 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           phone: phoneController.text,
                           gender: selectedGender!,
                           dob: selectedDate.toString(),
-                          image: image,
+                          profile_picture: image,
                         );
                       } catch (e) {
                         setState(() {
                           isLoading = false;
                         });
                         log(e.toString());
+                        Fluttertoast.showToast(msg: "Error");
                       }
                     },
                     child: Container(
