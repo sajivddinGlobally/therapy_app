@@ -218,7 +218,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             Fluttertoast.showToast(
                               msg: loginState.response.message,
                               gravity: ToastGravity.BOTTOM,
-                              toastLength: Toast.LENGTH_LONG,
+                              toastLength: Toast.LENGTH_SHORT,
                               backgroundColor: buttonColor,
                               textColor: Color(0xFFFFFFFF),
                             );
