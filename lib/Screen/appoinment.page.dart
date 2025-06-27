@@ -110,6 +110,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                                   padding: EdgeInsets.only(bottom: 14.h),
                                   child: PastBody(
                                     name: snap[index].userName,
+                                    time: "Today, ${snap[index].time}",
                                     status: snap[index].status,
                                     button1: "Reschedule",
                                     button2: "Join Chat",
@@ -149,9 +150,13 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                             }
                           },
                           loading:
-                              () => Center(
-                                child: CircularProgressIndicator(
-                                  color: buttonColor,
+                              () => SizedBox(
+                                height: MediaQuery.of(context).size.height / 2,
+                                width: MediaQuery.of(context).size.width,
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    color: buttonColor,
+                                  ),
                                 ),
                               ),
                         ),
@@ -165,6 +170,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                       child: Column(
                         children: [
                           PastBody(
+                            time: "Today, 07:00 PM",
                             name: "Dr. Aaron",
                             status: "Cancel",
                             button1: "Book Again",
@@ -175,6 +181,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
+                            time: "Today, 07:00 PM",
                             name: "Dr. Aaron",
                             status: "Complete",
                             button1: "Book Again",
@@ -185,6 +192,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                           ),
                           SizedBox(height: 14.h),
                           PastBody(
+                            time: "Today, 07:00 PM",
                             name: "Dr. Aaron",
                             status: "Complete",
                             button1: "Book Again",
@@ -209,6 +217,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
 
 class PastBody extends StatelessWidget {
   final String name;
+  final String time;
   final String status;
   final String button1;
   final String button2;
@@ -224,6 +233,7 @@ class PastBody extends StatelessWidget {
     required this.voidCallback,
     required this.callback,
     required this.name,
+    required this.time,
   });
 
   @override
@@ -269,7 +279,7 @@ class PastBody extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "Today, 07:00 PM",
+                    time,
                     style: GoogleFonts.inter(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w500,
@@ -292,7 +302,7 @@ class PastBody extends StatelessWidget {
                     child: Text(
                       status,
                       style: GoogleFonts.inter(
-                        fontSize: 18.sp,
+                        fontSize: 15.sp,
                         fontWeight: FontWeight.w400,
                         color: statusColor,
                       ),

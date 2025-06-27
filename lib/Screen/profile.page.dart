@@ -507,16 +507,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     //   ref
                     //       .read(registerFormProvider.notifier)
                     //       .setDOB(dateController.text);
-
                     //   ref
                     //       .read(registerFormProvider.notifier)
                     //       .setProfilePicture(image!.path);
-
                     //   log(nameController.text);
                     //   log(phoneController.text);
                     //   log(selectedGender.toString());
                     //   log(dateController.text);
-
                     //   Fluttertoast.showToast(
                     //     msg: "Saved step 2",
                     //     gravity: ToastGravity.BOTTOM,
@@ -535,10 +532,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     //   setState(() => isLoading = false);
                     //   Fluttertoast.showToast(msg: "Something went wrong: $e");
                     // }
+
                     if (!_formKey.currentState!.validate()) {
                       return;
                     }
-
                     // 🛠️ Fix added here
                     if (image == null) {
                       Fluttertoast.showToast(
@@ -550,9 +547,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       );
                       return;
                     }
-
                     setState(() => isLoading = true);
-
                     try {
                       ref
                           .read(registerFormProvider.notifier)
