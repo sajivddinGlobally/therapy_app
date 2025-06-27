@@ -307,13 +307,17 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                     Divider(color: Colors.black12, endIndent: 10, indent: 10),
                     SizedBox(height: 24.h),
                     GestureDetector(
-                      onTap: () {
-                        Navigator.push(
+                      onTap: () async {
+                        final result = await Navigator.push(
                           context,
                           CupertinoPageRoute(
                             builder: (context) => EditProfilePage(),
                           ),
                         );
+                        if (result == true) {
+                          ref.invalidate(accounProfileProvider);
+                          setState(() {});
+                        }
                       },
                       child: EditProfileBody(
                         icon: Icons.person_outline_outlined,

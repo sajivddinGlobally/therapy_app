@@ -72,7 +72,7 @@ class UpdateProfileController {
           backgroundColor: buttonColor,
           textColor: Colors.white,
         );
-        Navigator.pop(context);
+        Navigator.pop(context, true);
         return data;
       } else {
         // ✅ show proper API error message
