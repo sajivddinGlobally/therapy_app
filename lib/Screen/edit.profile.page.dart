@@ -1,13 +1,16 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/profileUpdateController.dart';
 
 class EditProfilePage extends StatefulWidget {
   const EditProfilePage({super.key});
@@ -75,7 +78,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   String? selectedGender;
 
-  final List<String> genders = ['Male', 'Female', 'Other'];
+  final List<String> genders = ['male', 'female', 'other'];
 
   DateTime? selectedDate;
   final dateController = TextEditingController();
@@ -94,6 +97,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
       });
     }
   }
+
+  final nameController = TextEditingController();
+  final emailController = TextEditingController();
+  final phoneController = TextEditingController();
+
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -135,7 +144,9 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 fit: BoxFit.cover,
                               ),
                             )
-                            : Image.file(image!, fit: BoxFit.cover),
+                            : ClipOval(
+                              child: Image.file(image!, fit: BoxFit.cover),
+                            ),
                   ),
                   Positioned(
                     right: 10.w,
@@ -169,7 +180,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
               child: Column(
                 children: [
                   TextFormField(
-                    initialValue: "Name",
+                    //initialValue: "Name",
+                    controller: nameController,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(left: 10.w),
                       enabledBorder: OutlineInputBorder(
@@ -211,6 +223,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   SizedBox(height: 16.h),
                   TextFormField(
                     maxLength: 10,
+                    controller: phoneController,
                     keyboardType: TextInputType.phone,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.zero,
@@ -258,7 +271,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   SizedBox(height: 16.h),
                   TextFormField(
-                    initialValue: "",
+                    //initialValue: "",
+                    controller: emailController,
                     decoration: InputDecoration(
                       contentPadding: EdgeInsets.only(left: 10.w),
                       enabledBorder: OutlineInputBorder(
@@ -414,11 +428,26 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   ),
                   SizedBox(height: 30.h),
                   GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(builder: (context) => AccountPage()),
-                      );
+                    onTap: () async {
+                      try {
+                        setState(() {
+                          isLoading = true;
+                        });
+                        await UpdateProfileController.profileUpdate(
+                          context: context,
+                          name: nameController.text,
+                          email: emailController.text,
+                          phone: phoneController.text,
+                          gender: selectedGender!,
+                          dob: selectedDate.toString(),
+                          image: image,
+                        );
+                      } catch (e) {
+                        setState(() {
+                          isLoading = false;
+                        });
+                        log(e.toString());
+                      }
                     },
                     child: Container(
                       width: 327.w,
@@ -428,14 +457,21 @@ class _EditProfilePageState extends State<EditProfilePage> {
                         borderRadius: BorderRadius.circular(14.r),
                       ),
                       child: Center(
-                        child: Text(
-                          "Save",
-                          style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.white,
-                          ),
-                        ),
+                        child:
+                            isLoading
+                                ? Center(
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                                : Text(
+                                  "Save",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.white,
+                                  ),
+                                ),
                       ),
                     ),
                   ),

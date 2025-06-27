@@ -242,7 +242,12 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                                       fit: BoxFit.cover,
                                     ),
                                   )
-                                  : Image.file(image!, fit: BoxFit.cover),
+                                  : ClipOval(
+                                    child: Image.file(
+                                      image!,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
                         ),
                         Positioned(
                           right: 10.w,

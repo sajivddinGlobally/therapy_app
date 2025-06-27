@@ -61,4 +61,15 @@ abstract class ApiStateNetwork {
     @Part(name: "user_type") required String userType,
     @Part(name: "profile_picture") File? profilePicture,
   });
+
+  // @MultiPart()
+  // @POST("/api/user/profile/update")
+  // Future<HttpResponse> updateProfile({
+  //   @Part(name: "name") required String name,
+  //   @Part(name: "email") required String email,
+  //   @Part(name: "phone_number") required String phone,
+  //   @Part(name: "gender") required String gender,
+  //   @Part(name: "dob") required String dob,
+  //   @Part(name: "profile_picture") File? profilePicutre,
+  // });
 }
