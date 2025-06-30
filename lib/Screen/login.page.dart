@@ -199,7 +199,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           setState(() {
                             isLogin = true;
                           });
-
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (context) {
+                          //     return Center(
+                          //       child: AlertDialog(
+                          //         backgroundColor: Colors.transparent,
+                          //         actions: [
+                          //           Center(child: CircularProgressIndicator()),
+                          //         ],
+                          //       ),
+                          //     );
+                          //   },
+                          // );
                           final body = LoginBodyModel(
                             email: emailController.text,
                             password: passwordController.text,
@@ -245,6 +257,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             backgroundColor: Colors.red,
                             textColor: Color(0xFFFFFFFF),
                           );
+                          log(e.toString());
                         }
                         setState(() {
                           isLogin = false;
