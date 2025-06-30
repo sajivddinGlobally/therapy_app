@@ -199,6 +199,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           setState(() {
                             isLogin = true;
                           });
+
                           final body = LoginBodyModel(
                             email: emailController.text,
                             password: passwordController.text,

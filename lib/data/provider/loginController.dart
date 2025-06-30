@@ -4,7 +4,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:therapy_app/core/network/api.state.dart';
 import 'package:therapy_app/core/utils/pretty.dio.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
-import 'package:therapy_app/data/model/lognResModel.dart';
 import 'package:therapy_app/data/provider/login.state.dart';
 
 class LoginController extends StateNotifier<LoginState> {
@@ -30,7 +29,7 @@ class LoginController extends StateNotifier<LoginState> {
 
       //set state the success to the response
       state = LoginSuccess(response);
-      log("Login Successful : ${response.toString()}");
+      log("Login Successful : ${response.message}");
     } catch (e) {
       // handle error and set the state error
       state = LoginError(e.toString());
