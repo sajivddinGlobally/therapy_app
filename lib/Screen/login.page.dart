@@ -164,7 +164,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     GestureDetector(
                       onTap: () async {
                         // done method sahi hai
-
                         // setState(() {
                         //   isLogin = true;
                         // });
@@ -178,7 +177,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         //   );
                         //   final data = compute(loginservice.login, body);
                         //   final response = await data;
-
                         //   if (response != null) {
                         //     Fluttertoast.showToast(msg: response.message);
                         //     Navigator.push(
@@ -197,23 +195,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         //   });
                         //   Fluttertoast.showToast(msg: "something went wrong");
                         // }
-
                         try {
                           setState(() {
                             isLogin = true;
                           });
-
                           final body = LoginBodyModel(
                             email: emailController.text,
                             password: passwordController.text,
                           );
-
                           await ref
                               .read(logincontrollerprovider.notifier)
                               .login(body);
-
                           final loginState = ref.read(logincontrollerprovider);
-
                           if (loginState is LoginSuccess) {
                             Fluttertoast.showToast(
                               msg: loginState.response.message,

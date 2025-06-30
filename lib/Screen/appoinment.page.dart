@@ -92,75 +92,70 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                 child: TabBarView(
                   children: [
                     // Upcoming Tab
-                    Column(
-                      children: [
-                        bookingsProvider.when(
-                          data: (snap) {
-                            if (snap.isEmpty) {
-                              return Center(
-                                child: Text("No upcoming appointments."),
-                              );
-                            }
-                            return ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: snap.length,
-                              itemBuilder: (context, index) {
-                                return Padding(
-                                  padding: EdgeInsets.only(bottom: 14.h),
-                                  child: PastBody(
-                                    name: snap[index].userName,
-                                    time: "Today, ${snap[index].time}",
-                                    status: snap[index].status,
-                                    button1: "Reschedule",
-                                    button2: "Join Chat",
-                                    callback: () {
-                                      Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                          builder: (context) => ChatInboxPage(),
-                                        ),
-                                      );
-                                    },
-                                    statusColor: Color(0xFF00BAF7),
-                                    voidCallback: () {
-                                      Navigator.push(
-                                        context,
-                                        CupertinoPageRoute(
-                                          builder: (context) => ReshedulePage(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                );
-                              },
+                    bookingsProvider.when(
+                      data: (snap) {
+                        if (snap.isEmpty) {
+                          return Center(
+                            child: Text("No upcoming appointments."),
+                          );
+                        }
+                        return ListView.builder(
+                          // padding: EdgeInsets.zero,
+                          itemCount: snap.length,
+                          itemBuilder: (context, index) {
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 14.h),
+                              child: PastBody(
+                                name: snap[index].userName,
+                                time: "Today, ${snap[index].time}",
+                                status: snap[index].status,
+                                button1: "Reschedule",
+                                button2: "Join Chat",
+                                callback: () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) => ChatInboxPage(),
+                                    ),
+                                  );
+                                },
+                                statusColor: Color(0xFF00BAF7),
+                                voidCallback: () {
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder: (context) => ReshedulePage(),
+                                    ),
+                                  );
+                                },
+                              ),
                             );
                           },
-                          error: (error, stackTrace) {
-                            if (error is DioException &&
-                                error.response!.statusCode == 401) {
-                              log(error.toString());
-                              return SizedBox.shrink();
-                            } else {
-                              return Center(
-                                child: Text(
-                                  "Something went wrong ${error.toString()}",
-                                ),
-                              );
-                            }
-                          },
-                          loading:
-                              () => SizedBox(
-                                height: MediaQuery.of(context).size.height / 2,
-                                width: MediaQuery.of(context).size.width,
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    color: buttonColor,
-                                  ),
-                                ),
+                        );
+                      },
+                      error: (error, stackTrace) {
+                        if (error is DioException &&
+                            error.response!.statusCode == 401) {
+                          log(error.toString());
+                          return SizedBox.shrink();
+                        } else {
+                          return Center(
+                            child: Text(
+                              "Something went wrong ${error.toString()}",
+                            ),
+                          );
+                        }
+                      },
+                      loading:
+                          () => SizedBox(
+                            height: MediaQuery.of(context).size.height / 2,
+                            width: MediaQuery.of(context).size.width,
+                            child: Center(
+                              child: CircularProgressIndicator(
+                                color: buttonColor,
                               ),
-                        ),
-                      ],
+                            ),
+                          ),
                     ),
                     // Past Tab
                     SingleChildScrollView(
