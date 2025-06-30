@@ -195,7 +195,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               backgroundColor: buttonColor,
                               textColor: Color(0xFFFFFFFF),
                             );
-
                             Navigator.push(
                               context,
                               CupertinoPageRoute(

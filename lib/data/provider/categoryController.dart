@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:therapy_app/core/network/api.state.dart';
 import 'package:therapy_app/core/utils/pretty.dio.dart';
@@ -9,9 +8,7 @@ final categoryProvider = FutureProvider<CategoryModel>((ref) async {
   return categoryService.getCategory();
 });
 
-
-
-// save mental health name 
+// save mental health name
 class selectCategoryNotifier extends StateNotifier<String?> {
   selectCategoryNotifier() : super(null);
 
@@ -28,3 +25,7 @@ final categoryProviderNotifier =
     StateNotifierProvider<selectCategoryNotifier, String?>(
       (ref) => selectCategoryNotifier(),
     );
+
+
+/////////////////// Ye Circular ke liye Provider 
+final isLoadingProvider = StateProvider<bool>((ref) => false);

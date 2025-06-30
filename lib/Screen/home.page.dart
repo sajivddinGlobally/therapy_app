@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:therapy_app/Screen/account.page.dart';
@@ -30,9 +31,23 @@ class _HomePageState extends ConsumerState<HomePage> {
     {"imageUrl": "assets/deepression.png", "txt": "Depression"},
   ];
   int tabBottom = 0;
+
+  void showToast(String msg, {Color color = Colors.green}) {
+    Fluttertoast.showToast(
+      msg: msg,
+      backgroundColor: color,
+      gravity: ToastGravity.BOTTOM,
+
+      textColor: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var box = Hive.box("data");
+    ////////// ye circular ke liye
+    final isLoading = ref.watch(isLoadingProvider);
+    //////////
     final categoryData = ref.watch(categoryProvider);
     if (categoryData.isLoading) {
       return Scaffold(
@@ -72,7 +87,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                           child: ClipOval(
                             child: Image.network(
                               //"assets/profile.png",
-                              "${box.get("profilePicture") ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png"}",
+                              "${box.get("profile_picturee") ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png"}",
                               fit: BoxFit.cover,
                             ),
                           ),

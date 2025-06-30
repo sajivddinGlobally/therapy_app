@@ -161,7 +161,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                     SizedBox(height: 24.h),
-                    GestureDetector(
+                    InkWell(
                       onTap: () async {
                         // done method sahi hai
                         // setState(() {
@@ -283,6 +283,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   )
                                   : CircularProgressIndicator(
                                     color: Colors.white,
+                                    strokeWidth: 2.w, // ✅ thinner and faster
                                   ),
                         ),
                       ),
@@ -294,9 +295,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               Row(
                 children: [
                   Expanded(
-                    child: Divider(
+                    child: const Divider(
                       color: Color(0xFFC8C8C8),
-                      thickness: 1.w,
+                      thickness: 1,
                       indent: 10,
                       endIndent: 10,
                     ),
@@ -311,9 +312,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ),
                   ),
                   Expanded(
-                    child: Divider(
+                    child: const Divider(
                       color: Color(0xFFC8C8C8),
-                      thickness: 1.w,
+                      thickness: 1,
                       indent: 10,
                       endIndent: 10,
                     ),

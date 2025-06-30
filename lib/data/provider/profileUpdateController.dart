@@ -36,7 +36,10 @@ class UpdateProfileController {
       if (await profile_picture.exists()) {
         log("✅ Uploading image: ${profile_picture.path}");
         request.files.add(
-          await http.MultipartFile.fromPath('image', profile_picture.path),
+          await http.MultipartFile.fromPath(
+            'profile_picture',
+            profile_picture.path,
+          ),
         );
       } else {
         log("❌ Image file does not exist at path: ${profile_picture.path}");
