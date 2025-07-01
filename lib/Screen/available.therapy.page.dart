@@ -219,25 +219,39 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              Container(
-                                width: 144.w,
-                                height: 40.h,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.r),
-                                  color: Color(0xFFFFFFFF),
-                                  border: Border.all(
-                                    color: Color(0xFF15AC86),
-                                    width: 1.w,
-                                  ),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "Find Other",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w600,
+                              InkWell(
+                                onTap: () {
+                                  ref.invalidate(
+                                    availableTherapyController(name.toString()),
+                                  );
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder:
+                                          (context) => AvailableTherapyPage(),
+                                    ),
+                                  );
+                                },
+                                child: Container(
+                                  width: 144.w,
+                                  height: 40.h,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    color: Color(0xFFFFFFFF),
+                                    border: Border.all(
                                       color: Color(0xFF15AC86),
-                                      letterSpacing: -1,
+                                      width: 1.w,
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Find Other",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF15AC86),
+                                        letterSpacing: -1,
+                                      ),
                                     ),
                                   ),
                                 ),
