@@ -446,7 +446,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           isLoading = false;
                         });
                         log(e.toString());
-                        Fluttertoast.showToast(msg: "Error");
+                        Fluttertoast.showToast(msg: "Something went wrong");
                       }
                     },
                     child: Container(
