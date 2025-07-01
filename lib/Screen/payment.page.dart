@@ -43,7 +43,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   CupertinoPageRoute(builder: (context) => AddNewCardPage()),
                 );
               },
-              child: payBody(
+              child: PayBody(
                 image: "assets/credit.png",
                 txt: "Credit/Debit Card",
               ),
@@ -55,7 +55,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   tab = 1;
                 });
               },
-              child: upiBody(
+              child: UpiBody(
                 image: "assets/goog.png",
                 txt: "Gpay",
                 bgColor: tab == 1 ? buttonColor : Colors.transparent,
@@ -69,7 +69,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   tab = 2;
                 });
               },
-              child: upiBody(
+              child: UpiBody(
                 image: "assets/pa.png",
                 txt: "Paypal",
                 bgColor: tab == 2 ? buttonColor : Colors.transparent,
@@ -77,7 +77,7 @@ class _PaymentPageState extends State<PaymentPage> {
               ),
             ),
             SizedBox(height: 14.h),
-            payBody(image: "assets/upi.png", txt: "UPI"),
+            const PayBody(image: "assets/upi.png", txt: "UPI"),
             SizedBox(height: MediaQuery.of(context).size.height / 2.6),
             GestureDetector(
               onTap: () {},
@@ -108,10 +108,10 @@ class _PaymentPageState extends State<PaymentPage> {
   }
 }
 
-class payBody extends StatelessWidget {
+class PayBody extends StatelessWidget {
   final String image;
   final String txt;
-  const payBody({super.key, required this.image, required this.txt});
+  const PayBody({super.key, required this.image, required this.txt});
 
   @override
   Widget build(BuildContext context) {
@@ -148,12 +148,12 @@ class payBody extends StatelessWidget {
   }
 }
 
-class upiBody extends StatefulWidget {
+class UpiBody extends StatefulWidget {
   final String image;
   final String txt;
   final Color bgColor;
   final Color bordercolor;
-  const upiBody({
+  const UpiBody({
     super.key,
     required this.image,
     required this.txt,
@@ -162,10 +162,10 @@ class upiBody extends StatefulWidget {
   });
 
   @override
-  State<upiBody> createState() => _upiBodyState();
+  State<UpiBody> createState() => _UpiBodyState();
 }
 
-class _upiBodyState extends State<upiBody> {
+class _UpiBodyState extends State<UpiBody> {
   @override
   Widget build(BuildContext context) {
     return Container(
