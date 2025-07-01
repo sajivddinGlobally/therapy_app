@@ -1,15 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
-import 'package:therapy_app/core/network/api.state.dart';
-import 'package:therapy_app/core/utils/pretty.dio.dart';
-import 'package:therapy_app/data/model/passwordUpdateBodyModel.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({super.key});
