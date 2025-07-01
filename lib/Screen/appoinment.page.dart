@@ -93,21 +93,29 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                     // Upcoming Tab
                     bookingsProvider.when(
                       data: (snap) {
-                        if (snap.isEmpty) {
+                        final upcomingAppointments =
+                            snap
+                                .where(
+                                  (upcoming) => upcoming.status != "completed",
+                                )
+                                .toList();
+
+                        if (upcomingAppointments.isEmpty) {
                           return Center(
                             child: Text("No upcoming appointments."),
                           );
                         }
                         return ListView.builder(
                           // padding: EdgeInsets.zero,
-                          itemCount: snap.length,
+                          itemCount: upcomingAppointments.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.only(bottom: 14.h),
                               child: PastBody(
-                                name: snap[index].userName,
-                                time: "Today, ${snap[index].time}",
-                                status: snap[index].status,
+                                name: upcomingAppointments[index].userName,
+                                time:
+                                    "Today, ${upcomingAppointments[index].time}",
+                                status: upcomingAppointments[index].status,
                                 button1: "Reschedule",
                                 button2: "Join Chat",
                                 callback: () {
@@ -157,46 +165,45 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                           ),
                     ),
                     // Past Tab
-                    SingleChildScrollView(
-                      padding: EdgeInsets.only(
-                        bottom: 16.h,
-                      ), // Optional padding
-                      child: Column(
-                        children: [
-                          PastBody(
-                            time: "Today, 07:00 PM",
-                            name: "Dr. Aaron",
-                            status: "Cancel",
-                            button1: "Book Again",
-                            button2: "Leave a review",
-                            statusColor: Color(0xFFE33556),
-                            voidCallback: () {},
-                            callback: () {},
+                    bookingsProvider.when(
+                      data: (data) {
+                        final pastAppointments =
+                            data
+                                .where((past) => past.status == "completed")
+                                .toList();
+
+                        if (pastAppointments.isEmpty) {
+                          return Center(child: Text("No past appointments."));
+                        }
+
+                        return Padding(
+                          padding: EdgeInsets.only(bottom: 14.h),
+                          child: ListView.builder(
+                            itemCount: pastAppointments.length,
+                            itemBuilder: (context, index) {
+                              return PastBody(
+                                name: pastAppointments[index].userName,
+                                time: "Today, ${pastAppointments[index].time}",
+                                status: pastAppointments[index].status,
+                                button1: "Book Again",
+                                button2: "Leave a review",
+                                statusColor: Color(0xFF00BAF7),
+                                voidCallback: () {},
+                                callback: () {},
+                              );
+                            },
                           ),
-                          SizedBox(height: 14.h),
-                          PastBody(
-                            time: "Today, 07:00 PM",
-                            name: "Dr. Aaron",
-                            status: "Complete",
-                            button1: "Book Again",
-                            button2: "Leave a review",
-                            statusColor: Color(0xFF00BAF7),
-                            voidCallback: () {},
-                            callback: () {},
+                        );
+                      },
+                      error:
+                          (error, stackTrace) =>
+                              Center(child: Text(error.toString())),
+                      loading:
+                          () => Center(
+                            child: CircularProgressIndicator(
+                              color: buttonColor,
+                            ),
                           ),
-                          SizedBox(height: 14.h),
-                          PastBody(
-                            time: "Today, 07:00 PM",
-                            name: "Dr. Aaron",
-                            status: "Complete",
-                            button1: "Book Again",
-                            button2: "Leave a review",
-                            statusColor: Color(0xFF00BAF7),
-                            voidCallback: () {},
-                            callback: () {},
-                          ),
-                        ],
-                      ),
                     ),
                   ],
                 ),
