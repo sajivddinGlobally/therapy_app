@@ -172,9 +172,10 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                         backgroundColor: Colors.red,
                         textColor: Color(0xFFFFFFFF),
                       );
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(builder: (context) => HomePage()),
+                        (route) => false,
                       );
                     },
                     child: Container(

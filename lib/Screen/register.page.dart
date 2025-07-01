@@ -131,6 +131,20 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                               width: 1.w,
                             ),
                           ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.r),
+                            borderSide: BorderSide(
+                              color: Color(0xFFC8C8C8),
+                              width: 1.w,
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.r),
+                            borderSide: BorderSide(
+                              color: Color(0xFFC8C8C8),
+                              width: 1.w,
+                            ),
+                          ),
                           prefixIcon: Icon(
                             Icons.lock_outline_rounded,
                             color: Color(0xFFC8C8C8),
