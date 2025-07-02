@@ -24,6 +24,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
   bool isConf = true;
   final newPassController = TextEditingController();
   final confirPassController = TextEditingController();
+  bool isLoading = false;
 
   void showDiologBox() {
     showDialog(
@@ -264,20 +265,37 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
             SizedBox(height: 36.h),
             GestureDetector(
               onTap: () async {
-                if (newPassController.text != confirPassController.text) {
-                  Fluttertoast.showToast(msg: "Password do not match");
-                }
-                final body = ChangePasswordBodyModel(
-                  newPassword: newPassController.text,
-                  newPasswordConfirmation: confirPassController.text,
-                );
-                final service = ApiStateNetwork(createDio());
-                final response = await service.passwordChange(body);
-                if (response.success) {
-                  showDiologBox();
-                } else {
-                  log(response.message);
-                  //Fluttertoast.showToast(msg: response.message);
+                setState(() {
+                  isLoading = true;
+                });
+                try {
+                  if (newPassController.text != confirPassController.text) {
+                    Fluttertoast.showToast(msg: "Password do not match");
+                  }
+                  final body = ChangePasswordBodyModel(
+                    newPassword: newPassController.text,
+                    newPasswordConfirmation: confirPassController.text,
+                  );
+                  final service = ApiStateNetwork(createDio());
+                  final response = await service.passwordChange(body);
+                  if (response.success) {
+                    showDiologBox();
+                    setState(() {
+                      isLoading = false;
+                    });
+                  } else {
+                    setState(() {
+                      isLoading = false;
+                    });
+                    log(response.message);
+                    //Fluttertoast.showToast(msg: response.message);
+                  }
+                } catch (e) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  log("something went wrong $e");
+                  //Fluttertoast.showToast(msg: "Something went wrong");
                 }
               },
               child: Container(
@@ -288,14 +306,17 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                   borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Center(
-                  child: Text(
-                    "Change Password",
-                    style: GoogleFonts.inter(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child:
+                      isLoading
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                            "Change Password",
+                            style: GoogleFonts.inter(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
                 ),
               ),
             ),

@@ -195,10 +195,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         //   });
                         //   Fluttertoast.showToast(msg: "something went wrong");
                         // }
+                        setState(() {
+                          isLogin = true;
+                        });
                         try {
-                          setState(() {
-                            isLogin = true;
-                          });
                           // showDialog(
                           //   context: context,
                           //   builder: (context) {
@@ -221,7 +221,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               .read(logincontrollerprovider.notifier)
                               .login(body);
                           final loginState = ref.read(logincontrollerprovider);
-                          
+
                           if (loginState is LoginSuccess) {
                             Fluttertoast.showToast(
                               msg: loginState.response.message,
@@ -252,6 +252,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             );
                           }
                         } catch (e) {
+                          setState(() {
+                            isLogin = false;
+                          });
                           Fluttertoast.showToast(
                             msg: "Something Went Wrong",
                             gravity: ToastGravity.BOTTOM,
