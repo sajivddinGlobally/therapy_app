@@ -175,7 +175,6 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                         if (pastAppointments.isEmpty) {
                           return Center(child: Text("No past appointments."));
                         }
-
                         return Padding(
                           padding: EdgeInsets.only(bottom: 14.h),
                           child: ListView.builder(

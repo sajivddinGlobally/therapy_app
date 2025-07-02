@@ -216,10 +216,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             email: emailController.text,
                             password: passwordController.text,
                           );
+
                           await ref
                               .read(logincontrollerprovider.notifier)
                               .login(body);
                           final loginState = ref.read(logincontrollerprovider);
+                          
                           if (loginState is LoginSuccess) {
                             Fluttertoast.showToast(
                               msg: loginState.response.message,
