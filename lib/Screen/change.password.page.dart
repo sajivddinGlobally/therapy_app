@@ -1,18 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/core/network/api.state.dart';
+import 'package:therapy_app/core/utils/pretty.dio.dart';
+import 'package:therapy_app/data/model/changePasswordBodyModel.dart';
 
-class ChangePasswordPage extends StatefulWidget {
+class ChangePasswordPage extends ConsumerStatefulWidget {
   const ChangePasswordPage({super.key});
 
   @override
-  State<ChangePasswordPage> createState() => _ChangePasswordPageState();
+  ConsumerState<ChangePasswordPage> createState() => _ChangePasswordPageState();
 }
 
-class _ChangePasswordPageState extends State<ChangePasswordPage> {
+class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
   bool isNewPass = true;
   bool isConf = true;
   final newPassController = TextEditingController();
@@ -98,9 +105,10 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                   SizedBox(height: 20.h),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(builder: (context) => AccountPage()),
+                        (route) => false,
                       );
                     },
                     child: Container(
@@ -255,7 +263,23 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
             ),
             SizedBox(height: 36.h),
             GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                if (newPassController.text != confirPassController.text) {
+                  Fluttertoast.showToast(msg: "Password do not match");
+                }
+                final body = ChangePasswordBodyModel(
+                  newPassword: newPassController.text,
+                  newPasswordConfirmation: confirPassController.text,
+                );
+                final service = ApiStateNetwork(createDio());
+                final response = await service.passwordChange(body);
+                if (response.success) {
+                  showDiologBox();
+                } else {
+                  log(response.message);
+                  //Fluttertoast.showToast(msg: response.message);
+                }
+              },
               child: Container(
                 width: 327.w,
                 height: 56.h,

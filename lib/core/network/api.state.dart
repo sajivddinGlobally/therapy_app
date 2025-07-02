@@ -3,6 +3,8 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:therapy_app/data/model/bookingsModel.dart';
 import 'package:therapy_app/data/model/categoryModel.dart';
+import 'package:therapy_app/data/model/changePasswordBodyModel.dart';
+import 'package:therapy_app/data/model/changePasswordResModel.dart';
 import 'package:therapy_app/data/model/doctorInfoModel.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/model/lognResModel.dart';
@@ -76,4 +78,9 @@ abstract class ApiStateNetwork {
 
   @GET("/api/users/by-category/{id}")
   Future<DoctorInfoModel> doctorInfo(@Path() String id);
+
+  @POST("/api/change-password")
+  Future<ChangePasswordResModel> passwordChange(
+    @Body() ChangePasswordBodyModel body,
+  );
 }

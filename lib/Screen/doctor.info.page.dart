@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,40 +37,49 @@ class _DoctorInfoPageState extends ConsumerState<DoctorInfoPage> {
       ),
       body: doctorInfo.when(
         data: (snp) {
+          if (snp.data!.isEmpty) {
+            return Center(
+              child: Text(
+                "No data available in this category id",
+                style: GoogleFonts.inter(
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                ),
+              ),
+            );
+          }
           return SingleChildScrollView(
-            child: ListView.builder(
-              itemCount: snp.data!.length,
-              padding: EdgeInsets.zero,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return Column(
-                  children: [
-                    Image.network(
-                      //"assets/doctor.png"
-                      snp.data![index].profilePicture.toString(),
+            child: Column(
+              children: [
+                Image.asset("assets/doctor.png"),
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  //height: MediaQuery.of(context).size.height + 100,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFFFFFFF),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(40.r),
+                      topRight: Radius.circular(40.r),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height + 100,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFFFFFF),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(40.r),
-                          topRight: Radius.circular(40.r),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            offset: Offset(0, -4),
-                            blurRadius: 24,
-                            spreadRadius: 0,
-                            color: Color.fromARGB(63, 4, 22, 49),
-                          ),
-                        ],
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0, -4),
+                        blurRadius: 24,
+                        spreadRadius: 0,
+                        color: Color.fromARGB(63, 4, 22, 49),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 24.w, right: 24.w),
-                        child: Column(
+                    ],
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 24.w, right: 24.w),
+                    child: ListView.builder(
+                      itemCount: snp.data!.length,
+                      padding: EdgeInsets.zero,
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             SizedBox(height: 40.h),
@@ -209,7 +219,8 @@ class _DoctorInfoPageState extends ConsumerState<DoctorInfoPage> {
                             ),
                             SizedBox(height: 15.h),
                             Text(
-                              "About Dr. Aaron",
+                              // "About Dr. Aaron",
+                              "About Dr. ${snp.data![index].name}",
                               style: GoogleFonts.inter(
                                 fontSize: 18.sp,
                                 fontWeight: FontWeight.w600,
@@ -336,6 +347,23 @@ class _DoctorInfoPageState extends ConsumerState<DoctorInfoPage> {
                                     shape: BoxShape.circle,
                                     color: Colors.grey,
                                   ),
+                                  child: ClipOval(
+                                    child: Image.network(
+                                      fit: BoxFit.cover,
+                                      snp.data![index].profilePicture
+                                          .toString(),
+                                      errorBuilder: (
+                                        context,
+                                        error,
+                                        stackTrace,
+                                      ) {
+                                        return Image.network(
+                                          "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png",
+                                          fit: BoxFit.cover,
+                                        );
+                                      },
+                                    ),
+                                  ),
                                 ),
                                 SizedBox(width: 10.w),
                                 Column(
@@ -351,39 +379,65 @@ class _DoctorInfoPageState extends ConsumerState<DoctorInfoPage> {
                                     ),
                                     Row(
                                       children: [
+                                        // Text(
+                                        //   "5.0",
+                                        //   style: GoogleFonts.inter(
+                                        //     fontSize: 12.sp,
+                                        //     fontWeight: FontWeight.w600,
+                                        //     color: Color(0xFF6B7280),
+                                        //   ),
+                                        // ),
+                                        // SizedBox(width: 4.w),
+                                        // Icon(
+                                        //   Icons.star,
+                                        //   color: Colors.amber,
+                                        //   size: 16.sp,
+                                        // ),
+                                        // Icon(
+                                        //   Icons.star,
+                                        //   color: Colors.amber,
+                                        //   size: 16.sp,
+                                        // ),
+                                        // Icon(
+                                        //   Icons.star,
+                                        //   color: Colors.amber,
+                                        //   size: 16.sp,
+                                        // ),
+                                        // Icon(
+                                        //   Icons.star,
+                                        //   color: Colors.amber,
+                                        //   size: 16.sp,
+                                        // ),
+                                        // Icon(
+                                        //   Icons.star,
+                                        //   color: Colors.amber,
+                                        //   size: 16.sp,
+                                        // ),
                                         Text(
-                                          "5.0",
-                                          style: GoogleFonts.inter(
-                                            fontSize: 12.sp,
+                                          snp.data![index].rating ?? "0",
+                                          style: GoogleFonts.openSans(
+                                            fontSize: 15.sp,
                                             fontWeight: FontWeight.w600,
-                                            color: Color(0xFF6B7280),
+                                            color: Color(0xFF2B2B2B),
                                           ),
                                         ),
                                         SizedBox(width: 4.w),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 16.sp,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 16.sp,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 16.sp,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 16.sp,
-                                        ),
-                                        Icon(
-                                          Icons.star,
-                                          color: Colors.amber,
-                                          size: 16.sp,
+                                        RatingBarIndicator(
+                                          rating:
+                                              double.tryParse(
+                                                snp.data![index].rating ?? "0",
+                                              ) ??
+                                              0.0,
+                                          itemCount: 5,
+                                          itemSize: 16.sp,
+                                          direction: Axis.horizontal,
+                                          itemBuilder: (context, index) {
+                                            return Icon(
+                                              Icons.star,
+                                              color: Colors.amberAccent,
+                                              size: 15.sp,
+                                            );
+                                          },
                                         ),
                                       ],
                                     ),
@@ -478,12 +532,12 @@ class _DoctorInfoPageState extends ConsumerState<DoctorInfoPage> {
                             ),
                             SizedBox(height: 20.h),
                           ],
-                        ),
-                      ),
+                        );
+                      },
                     ),
-                  ],
-                );
-              },
+                  ),
+                ),
+              ],
             ),
           );
         },
