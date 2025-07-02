@@ -83,7 +83,12 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                               Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                  builder: (context) => DoctorInfoPage(),
+                                  builder:
+                                      (context) => DoctorInfoPage(
+                                        id:
+                                            availabletherapy.users![index].id
+                                                .toString(),
+                                      ),
                                 ),
                               );
                             },
@@ -194,22 +199,12 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                                   ],
                                 ),
                                 Spacer(),
-                                GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      CupertinoPageRoute(
-                                        builder: (context) => DoctorInfoPage(),
-                                      ),
-                                    );
-                                  },
-                                  child: Text(
-                                    "View Profile ",
-                                    style: GoogleFonts.inter(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w500,
-                                      color: buttonColor,
-                                    ),
+                                Text(
+                                  "View Profile ",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.w500,
+                                    color: buttonColor,
                                   ),
                                 ),
                               ],

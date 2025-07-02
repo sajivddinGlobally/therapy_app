@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:therapy_app/data/model/bookingsModel.dart';
 import 'package:therapy_app/data/model/categoryModel.dart';
+import 'package:therapy_app/data/model/doctorInfoModel.dart';
 import 'package:therapy_app/data/model/loginBodyModel.dart';
 import 'package:therapy_app/data/model/lognResModel.dart';
 import 'package:therapy_app/data/model/accountModel.dart';
@@ -72,4 +73,7 @@ abstract class ApiStateNetwork {
   //   @Part(name: "dob") required String dob,
   //   @Part(name: "profile_picture") File? profilePicutre,
   // });
+
+  @GET("/api/users/by-category/{id}")
+  Future<DoctorInfoModel> doctorInfo(@Path() String id);
 }

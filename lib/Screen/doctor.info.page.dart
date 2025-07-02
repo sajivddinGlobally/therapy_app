@@ -1,18 +1,25 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/data/provider/doctorInfoController.dart';
 
-class DoctorInfoPage extends StatefulWidget {
-  const DoctorInfoPage({super.key});
+class DoctorInfoPage extends ConsumerStatefulWidget {
+  final String id;
+  const DoctorInfoPage({super.key, required this.id});
 
   @override
-  State<DoctorInfoPage> createState() => _DoctorInfoPageState();
+  ConsumerState<DoctorInfoPage> createState() => _DoctorInfoPageState();
 }
 
-class _DoctorInfoPageState extends State<DoctorInfoPage> {
+class _DoctorInfoPageState extends ConsumerState<DoctorInfoPage> {
   @override
   Widget build(BuildContext context) {
+    final doctorInfo = ref.watch(doctorInfoProvider("1"));
+    log(widget.id);
     return Scaffold(
       backgroundColor: Color(0XFF56928A),
       appBar: AppBar(
@@ -27,436 +34,461 @@ class _DoctorInfoPageState extends State<DoctorInfoPage> {
         ),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Image.asset("assets/doctor.png"),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height + 100,
-              decoration: BoxDecoration(
-                color: Color(0xFFFFFFFF),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40.r),
-                  topRight: Radius.circular(40.r),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    offset: Offset(0, -4),
-                    blurRadius: 24,
-                    spreadRadius: 0,
-                    color: Color.fromARGB(63, 4, 22, 49),
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: EdgeInsets.only(left: 24.w, right: 24.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+      body: doctorInfo.when(
+        data: (snp) {
+          return SingleChildScrollView(
+            child: ListView.builder(
+              itemCount: snp.data!.length,
+              padding: EdgeInsets.zero,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (context, index) {
+                return Column(
                   children: [
-                    SizedBox(height: 40.h),
-                    Row(
-                      children: [
-                        Text(
-                          "Dr. Aaron",
-                          style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF2B2B2B),
-                          ),
-                        ),
-                        Spacer(),
-                        Text(
-                          "4.8",
-                          style: GoogleFonts.openSans(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF2B2B2B),
-                          ),
-                        ),
-                        Icon(Icons.star, color: Colors.yellow),
-                      ],
+                    Image.network(
+                      //"assets/doctor.png"
+                      snp.data![index].profilePicture.toString(),
                     ),
-                    SizedBox(height: 8.h),
-                    Text(
-                      "Psychologists | Apollo hospital",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF868686),
-                      ),
-                    ),
-                    SizedBox(height: 16.sp),
                     Container(
-                      padding: EdgeInsets.only(
-                        left: 20.w,
-                        right: 20.w,
-                        top: 10.h,
-                        bottom: 10.h,
-                      ),
+                      width: MediaQuery.of(context).size.width,
+                      height: MediaQuery.of(context).size.height + 100,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.r),
-                        color: Color(0xFFF4F6F9),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text(
-                                "20",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2B2B2B),
-                                ),
-                              ),
-                              Text(
-                                "Reviews",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF868686),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 1.w,
-                            height: 40.h,
-                            decoration: BoxDecoration(color: Color(0xFF57938B)),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "70+",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2B2B2B),
-                                ),
-                              ),
-                              Text(
-                                "Patients",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF868686),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            width: 1.w,
-                            height: 40.h,
-                            decoration: BoxDecoration(color: Color(0xFF57938B)),
-                          ),
-                          Column(
-                            children: [
-                              Text(
-                                "5+",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.bold,
-                                  color: Color(0xFF2B2B2B),
-                                ),
-                              ),
-                              Text(
-                                "Years exp.",
-                                style: GoogleFonts.inter(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w500,
-                                  color: Color(0xFF868686),
-                                ),
-                              ),
-                            ],
+                        color: Color(0xFFFFFFFF),
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(40.r),
+                          topRight: Radius.circular(40.r),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(0, -4),
+                            blurRadius: 24,
+                            spreadRadius: 0,
+                            color: Color.fromARGB(63, 4, 22, 49),
                           ),
                         ],
                       ),
-                    ),
-                    SizedBox(height: 15.h),
-                    Divider(
-                      color: Color(0xFFF4F6F9),
-                      thickness: 1.w,
-                      endIndent: 10,
-                      indent: 10,
-                    ),
-                    SizedBox(height: 15.h),
-                    Text(
-                      "About Dr. Aaron",
-                      style: GoogleFonts.inter(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF2B2B2B),
-                        letterSpacing: -1,
-                      ),
-                    ),
-                    Text.rich(
-                      TextSpan(
-                        text:
-                            "Dr. Aaron, a dedicated Therapist, brings a wealth of experience to Golden Gate Therapy Center in Golden Gate, CA.",
-                        style: GoogleFonts.inter(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFF868686),
-                          letterSpacing: -1,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "view more",
-                            style: GoogleFonts.inter(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xff2B2B2B),
-                              letterSpacing: -1,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
-                    Text(
-                      "Working time",
-                      style: GoogleFonts.inter(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF2B2B2B),
-                        letterSpacing: -1,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 5.w,
-                          height: 5.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFF868686),
-                          ),
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          "Monday to Friday: 09:00 AM - 05:00PM",
-                          style: GoogleFonts.inter(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF868686),
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          width: 5.w,
-                          height: 5.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color(0xFF868686),
-                          ),
-                        ),
-                        SizedBox(width: 8.w),
-                        Text(
-                          "Saturday and Sunday: 10:00 AM - 02:00PM",
-                          style: GoogleFonts.inter(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xFF868686),
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15.h),
-                    Divider(
-                      color: Color(0xFFF4F6F9),
-                      thickness: 1.w,
-                      endIndent: 10,
-                      indent: 10,
-                    ),
-                    SizedBox(height: 15.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Reviews ",
-                          style: GoogleFonts.inter(
-                            fontSize: 14.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF2B2B2B),
-                            letterSpacing: -1,
-                          ),
-                        ),
-                        Text(
-                          "See All",
-                          style: GoogleFonts.inter(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w600,
-                            color: Color(0xFF15AC86),
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 24.h),
-                    Row(
-                      children: [
-                        Container(
-                          width: 57.w,
-                          height: 57.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Column(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 24.w, right: 24.w),
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(height: 40.h),
+                            Row(
+                              children: [
+                                Text(
+                                  //"Dr. Aaron",
+                                  snp.data![index].name.toString(),
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF2B2B2B),
+                                  ),
+                                ),
+                                Spacer(),
+                                Text(
+                                  // "4.8",
+                                  snp.data![index].rating.toString(),
+                                  style: GoogleFonts.openSans(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF2B2B2B),
+                                  ),
+                                ),
+                                Icon(Icons.star, color: Colors.yellow),
+                              ],
+                            ),
+                            SizedBox(height: 8.h),
                             Text(
-                              "Emily Anderson",
+                              // "Psychologists | Apollo hospital",
+                              snp.data![index].specialization.toString(),
                               style: GoogleFonts.inter(
                                 fontSize: 16.sp,
                                 fontWeight: FontWeight.w600,
-                                color: Color(0xFF374151),
+                                color: Color(0xFF868686),
+                              ),
+                            ),
+                            SizedBox(height: 16.sp),
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: 20.w,
+                                right: 20.w,
+                                top: 10.h,
+                                bottom: 10.h,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Color(0xFFF4F6F9),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "20",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF2B2B2B),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Reviews",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF868686),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    width: 1.w,
+                                    height: 40.h,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFF57938B),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "70+",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF2B2B2B),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Patients",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF868686),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Container(
+                                    width: 1.w,
+                                    height: 40.h,
+                                    decoration: BoxDecoration(
+                                      color: Color(0xFF57938B),
+                                    ),
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        "5+",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.bold,
+                                          color: Color(0xFF2B2B2B),
+                                        ),
+                                      ),
+                                      Text(
+                                        "Years exp.",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFF868686),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 15.h),
+                            Divider(
+                              color: Color(0xFFF4F6F9),
+                              thickness: 1.w,
+                              endIndent: 10,
+                              indent: 10,
+                            ),
+                            SizedBox(height: 15.h),
+                            Text(
+                              "About Dr. Aaron",
+                              style: GoogleFonts.inter(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF2B2B2B),
+                                letterSpacing: -1,
+                              ),
+                            ),
+                            Text.rich(
+                              TextSpan(
+                                text:
+                                    "Dr. Aaron, a dedicated Therapist, brings a wealth of experience to Golden Gate Therapy Center in Golden Gate, CA.",
+                                style: GoogleFonts.inter(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w400,
+                                  color: Color(0xFF868686),
+                                  letterSpacing: -1,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: "view more",
+                                    style: GoogleFonts.inter(
+                                      fontSize: 15.sp,
+                                      fontWeight: FontWeight.w600,
+                                      color: Color(0xff2B2B2B),
+                                      letterSpacing: -1,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 24.h),
+                            Text(
+                              "Working time",
+                              style: GoogleFonts.inter(
+                                fontSize: 18.sp,
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF2B2B2B),
+                                letterSpacing: -1,
                               ),
                             ),
                             Row(
                               children: [
-                                Text(
-                                  "5.0",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF6B7280),
+                                Container(
+                                  width: 5.w,
+                                  height: 5.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFF868686),
                                   ),
                                 ),
-                                SizedBox(width: 4.w),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
+                                SizedBox(width: 8.w),
+                                Text(
+                                  "Monday to Friday: 09:00 AM - 05:00PM",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF868686),
+                                    letterSpacing: -1,
+                                  ),
                                 ),
                               ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 15.h),
-                    Text(
-                      "Dr. Aaron is a true professional who genuinely cares about his patients. I highly recommend to anyone seeking exceptional cardiac care.",
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF6B7280),
-                        letterSpacing: -1,
-                      ),
-                    ),
-                    SizedBox(height: 24.h),
-                    Row(
-                      children: [
-                        Container(
-                          width: 57.w,
-                          height: 57.h,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                        ),
-                        SizedBox(width: 10.w),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Emily Anderson",
-                              style: GoogleFonts.inter(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xFF374151),
-                              ),
                             ),
                             Row(
                               children: [
-                                Text(
-                                  "5.0",
-                                  style: GoogleFonts.inter(
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF6B7280),
+                                Container(
+                                  width: 5.w,
+                                  height: 5.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Color(0xFF868686),
                                   ),
                                 ),
-                                SizedBox(width: 4.w),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
-                                ),
-                                Icon(
-                                  Icons.star,
-                                  color: Colors.amber,
-                                  size: 16.sp,
+                                SizedBox(width: 8.w),
+                                Text(
+                                  "Saturday and Sunday: 10:00 AM - 02:00PM",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w400,
+                                    color: Color(0xFF868686),
+                                    letterSpacing: -1,
+                                  ),
                                 ),
                               ],
                             ),
+                            SizedBox(height: 15.h),
+                            Divider(
+                              color: Color(0xFFF4F6F9),
+                              thickness: 1.w,
+                              endIndent: 10,
+                              indent: 10,
+                            ),
+                            SizedBox(height: 15.h),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  "Reviews ",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF2B2B2B),
+                                    letterSpacing: -1,
+                                  ),
+                                ),
+                                Text(
+                                  "See All",
+                                  style: GoogleFonts.inter(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Color(0xFF15AC86),
+                                    letterSpacing: -1,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 24.h),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 57.w,
+                                  height: 57.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(width: 10.w),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Emily Anderson",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF374151),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "5.0",
+                                          style: GoogleFonts.inter(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF6B7280),
+                                          ),
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15.h),
+                            Text(
+                              "Dr. Aaron is a true professional who genuinely cares about his patients. I highly recommend to anyone seeking exceptional cardiac care.",
+                              style: GoogleFonts.inter(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF6B7280),
+                                letterSpacing: -1,
+                              ),
+                            ),
+                            SizedBox(height: 24.h),
+                            Row(
+                              children: [
+                                Container(
+                                  width: 57.w,
+                                  height: 57.h,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.grey,
+                                  ),
+                                ),
+                                SizedBox(width: 10.w),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "Emily Anderson",
+                                      style: GoogleFonts.inter(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Color(0xFF374151),
+                                      ),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          "5.0",
+                                          style: GoogleFonts.inter(
+                                            fontSize: 12.sp,
+                                            fontWeight: FontWeight.w600,
+                                            color: Color(0xFF6B7280),
+                                          ),
+                                        ),
+                                        SizedBox(width: 4.w),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                        Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                          size: 16.sp,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 15.h),
+                            Text(
+                              "Dr. Aaron is a true professional who genuinely cares about his patients. I highly recommend to anyone seeking exceptional cardiac care.",
+                              style: GoogleFonts.inter(
+                                fontSize: 14.sp,
+                                fontWeight: FontWeight.w400,
+                                color: Color(0xFF6B7280),
+                                letterSpacing: -1,
+                              ),
+                            ),
+                            SizedBox(height: 20.h),
                           ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 15.h),
-                    Text(
-                      "Dr. Aaron is a true professional who genuinely cares about his patients. I highly recommend to anyone seeking exceptional cardiac care.",
-                      style: GoogleFonts.inter(
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xFF6B7280),
-                        letterSpacing: -1,
                       ),
                     ),
-                    SizedBox(height: 20.h),
                   ],
-                ),
-              ),
+                );
+              },
             ),
-          ],
-        ),
+          );
+        },
+        error: (error, stackTrace) => Center(child: Text(error.toString())),
+        loading: () => Center(child: CircularProgressIndicator()),
       ),
       bottomSheet: Padding(
         padding: EdgeInsets.only(bottom: 10.h),
