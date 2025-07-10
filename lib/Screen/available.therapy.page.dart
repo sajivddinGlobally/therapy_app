@@ -215,7 +215,7 @@ class _AvailableTherapyPageState extends ConsumerState<AvailableTherapyPage> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               InkWell(
-                                onTap: () {
+                                onTap: () async {
                                   ref.invalidate(
                                     availableTherapyController(name.toString()),
                                   );
