@@ -195,6 +195,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         //   });
                         //   Fluttertoast.showToast(msg: "something went wrong");
                         // }
+                        if (emailController.text.isEmpty ||
+                            passwordController.text.isEmpty) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text("Please fill correct data")),
+                          );
+                          return;
+                        }
+
                         setState(() {
                           isLogin = true;
                         });
