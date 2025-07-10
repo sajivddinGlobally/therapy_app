@@ -99,11 +99,12 @@ class _ResheduleDatePageState extends State<ResheduleDatePage> {
                   SizedBox(height: 20.h),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(
                           builder: (context) => AppoinmentPage(),
                         ),
+                        (route) => false,
                       );
                     },
                     child: Container(
@@ -128,9 +129,10 @@ class _ResheduleDatePageState extends State<ResheduleDatePage> {
                   SizedBox(height: 30.h),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(builder: (context) => HomePage()),
+                        (route) => false,
                       );
                     },
                     child: Center(
