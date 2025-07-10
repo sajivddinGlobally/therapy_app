@@ -62,11 +62,13 @@ class Category {
 
 enum Description {
     CATEGORY_FOR_PSYCHOLOGICAL_AND_EMOTIONAL_WELLBEING,
+    HELLLLLLLL,
     HELLO_TESITNG
 }
 
 final descriptionValues = EnumValues({
     "Category for psychological and emotional wellbeing": Description.CATEGORY_FOR_PSYCHOLOGICAL_AND_EMOTIONAL_WELLBEING,
+    "hellllllll": Description.HELLLLLLLL,
     "hello tesitng": Description.HELLO_TESITNG
 });
 
