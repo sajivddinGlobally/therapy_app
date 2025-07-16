@@ -1,6 +1,8 @@
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
+import 'package:therapy_app/data/model/bookBodyModel.dart';
+import 'package:therapy_app/data/model/bookResModel.dart';
 import 'package:therapy_app/data/model/bookingsModel.dart';
 import 'package:therapy_app/data/model/categoryModel.dart';
 import 'package:therapy_app/data/model/changePasswordBodyModel.dart';
@@ -92,4 +94,7 @@ abstract class ApiStateNetwork {
 
   @GET("/api/users/28/bookings")
   Future<List<UserBookingResModel>> userBooking();
+
+  @POST("/api/bookings")
+  Future<BookResModel> book(@Body() BookBodyModel body);
 }
