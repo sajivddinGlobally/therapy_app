@@ -55,9 +55,10 @@ class _Question3PageState extends ConsumerState<Question3Page> {
                   SizedBox(height: 20.h),
                   GestureDetector(
                     onTap: () {
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                         context,
                         CupertinoPageRoute(builder: (context) => LoginPage()),
+                        (route) => false,
                       );
                     },
                     child: Container(
