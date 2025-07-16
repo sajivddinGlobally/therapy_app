@@ -108,6 +108,7 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
                         ),
                         (route) => false,
                       );
+                      
                     },
                     child: Container(
                       width: 291.w,
@@ -249,44 +250,6 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
                 color: Color(0xFF2B2B2B),
               ),
             ),
-            // Container(
-            //   margin: EdgeInsets.only(top: 6.h),
-            //   height: 50.h,
-            //   child: ListView.builder(
-            //     scrollDirection: Axis.horizontal,
-            //     padding: EdgeInsets.zero,
-            //     itemCount: 5,
-            //     itemBuilder: (context, index) {
-            //       return Padding(
-            //         padding: EdgeInsets.only(right: 13.w),
-            //         child: Column(
-            //           children: [
-            //             Container(
-            //               padding: EdgeInsets.only(
-            //                 left: 16.w,
-            //                 right: 16.w,
-            //                 bottom: 10.h,
-            //                 top: 10.h,
-            //               ),
-            //               decoration: BoxDecoration(
-            //                 borderRadius: BorderRadius.circular(14.r),
-            //                 color: Color(0xFFF4F6F9),
-            //               ),
-            //               child: Text(
-            //                 "09:00 AM",
-            //                 style: GoogleFonts.inter(
-            //                   fontSize: 12.sp,
-            //                   fontWeight: FontWeight.w600,
-            //                   color: Color(0xFF2B2B2B),
-            //                 ),
-            //               ),
-            //             ),
-            //           ],
-            //         ),
-            //       );
-            //     },
-            //   ),
-            // ),
             Container(
               margin: EdgeInsets.only(top: 10.h),
               height: 50.h,
@@ -306,21 +269,25 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
                         setState(() {});
                       },
                       child: Container(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: 16.w,
-                          vertical: 10.h,
+                        padding: EdgeInsets.only(
+                          left: 16.w,
+                          right: 16.w,
+                          bottom: 10.h,
+                          top: 10.h,
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(14.r),
                           color: isSelected ? buttonColor : Color(0xFFF4F6F9),
                         ),
-                        child: Text(
-                          slot,
-                          style: GoogleFonts.inter(
-                            fontSize: 12.sp,
-                            fontWeight: FontWeight.w600,
-                            color:
-                                isSelected ? Colors.white : Color(0xFF2B2B2B),
+                        child: Center(
+                          child: Text(
+                            slot,
+                            style: GoogleFonts.inter(
+                              fontSize: 12.sp,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  isSelected ? Colors.white : Color(0xFF2B2B2B),
+                            ),
                           ),
                         ),
                       ),
@@ -381,57 +348,6 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
               ),
             ),
             SizedBox(height: 20.h),
-            // Spacer(),
-            // SizedBox(height: MediaQuery.of(context).size.height / 2),
-            // GestureDetector(
-            //   onTap: () async {
-            //     //showDiologBox();
-            //     if (selectedDate == null || selectedTimeSlot == null) {
-            //       ScaffoldMessenger.of(context).showSnackBar(
-            //         SnackBar(
-            //           content: Text("Please select both date and time slot"),
-            //         ),
-            //       );
-            //       return;
-            //     }
-
-            //     // 🔥 Call API (assume bookingId = 5 here)
-            //     await notifier.submitReschedule(5);
-
-            //     final apiState = ref.read(rescheduleFlowProvider);
-            //     apiState.when(
-            //       data: (data) {
-            //         if (data.response != null) {
-            //           showDiologBox();
-            //         }
-            //       },
-            //       error: (e, st) {
-            //         ScaffoldMessenger.of(
-            //           context,
-            //         ).showSnackBar(SnackBar(content: Text("Error: $e")));
-            //       },
-            //       loading: () {},
-            //     );
-            //   },
-            //   child: Container(
-            //     width: 327.w,
-            //     height: 56.h,
-            //     decoration: BoxDecoration(
-            //       color: buttonColor,
-            //       borderRadius: BorderRadius.circular(14.r),
-            //     ),
-            //     child: Center(
-            //       child: Text(
-            //         "Continue",
-            //         style: GoogleFonts.inter(
-            //           fontSize: 16.sp,
-            //           fontWeight: FontWeight.w500,
-            //           color: Colors.white,
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            // ),
           ],
         ),
       ),
