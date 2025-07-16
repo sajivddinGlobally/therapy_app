@@ -108,14 +108,14 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                         }
                         return ListView.builder(
                           // padding: EdgeInsets.zero,
-                          itemCount: data.length,
+                          itemCount: upcomingAppointments.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.only(bottom: 14.h),
                               child: PastBody(
-                                name: data[index].therapistName,
-                                time: "Today, ${data[index].time}",
-                                status: data[index].status,
+                                name: upcomingAppointments[index].therapistName,
+                                time: "Today, ${upcomingAppointments[index].time}",
+                                status: upcomingAppointments[index].status,
                                 button1: "Reschedule",
                                 button2: "Join Chat",
                                 callback: () {
