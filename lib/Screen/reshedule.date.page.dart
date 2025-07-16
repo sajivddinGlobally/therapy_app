@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/appoinment.page.dart';
 import 'package:therapy_app/Screen/book.reshedule.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/resheduleController.dart';
 
-class ResheduleDatePage extends StatefulWidget {
+class ResheduleDatePage extends ConsumerStatefulWidget {
   const ResheduleDatePage({super.key});
 
   @override
-  State<ResheduleDatePage> createState() => _ResheduleDatePageState();
+  ConsumerState<ResheduleDatePage> createState() => _ResheduleDatePageState();
 }
 
-class _ResheduleDatePageState extends State<ResheduleDatePage> {
+class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
   void showDiologBox() {
     showDialog(
       context: context,
@@ -154,8 +156,22 @@ class _ResheduleDatePageState extends State<ResheduleDatePage> {
       },
     );
   }
+
+  // Local state for UI selection
+  DateTime? selectedDate;
+  String? selectedTimeSlot;
+  final List<String> timeSlots = [
+    "09:00 AM",
+    "10:00 AM",
+    "11:00 AM",
+    "12:00 PM",
+    "01:00 PM",
+  ];
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(rescheduleFlowProvider);
+    final notifier = ref.read(rescheduleFlowProvider.notifier);
+
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -186,7 +202,44 @@ class _ResheduleDatePageState extends State<ResheduleDatePage> {
               ),
             ),
             SizedBox(height: 6.h),
-            AppoinmentBody(txt: "Select Date"),
+            // AppoinmentBody(txt: "Select Date"),
+            SizedBox(height: 10.h),
+            GestureDetector(
+              onTap: () async {
+                DateTime? date = await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime.now(),
+                  lastDate: DateTime.now().add(Duration(days: 30)),
+                );
+                if (date != null) {
+                  selectedDate = date;
+                  notifier.setDate(date.toIso8601String());
+                  setState(() {});
+                }
+              },
+              child: Container(
+                width: double.infinity,
+                height: 50.h,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14.r),
+                  color: Color(0xFFF4F6F9),
+                ),
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Text(
+                  selectedDate != null
+                      ? "${selectedDate!.toLocal()}".split(' ')[0]
+                      : "Tap to select date",
+                  style: GoogleFonts.inter(
+                    fontSize: 14.sp,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+
             SizedBox(height: 20.h),
             Text(
               "Message ",
@@ -196,48 +249,117 @@ class _ResheduleDatePageState extends State<ResheduleDatePage> {
                 color: Color(0xFF2B2B2B),
               ),
             ),
+            // Container(
+            //   margin: EdgeInsets.only(top: 6.h),
+            //   height: 50.h,
+            //   child: ListView.builder(
+            //     scrollDirection: Axis.horizontal,
+            //     padding: EdgeInsets.zero,
+            //     itemCount: 5,
+            //     itemBuilder: (context, index) {
+            //       return Padding(
+            //         padding: EdgeInsets.only(right: 13.w),
+            //         child: Column(
+            //           children: [
+            //             Container(
+            //               padding: EdgeInsets.only(
+            //                 left: 16.w,
+            //                 right: 16.w,
+            //                 bottom: 10.h,
+            //                 top: 10.h,
+            //               ),
+            //               decoration: BoxDecoration(
+            //                 borderRadius: BorderRadius.circular(14.r),
+            //                 color: Color(0xFFF4F6F9),
+            //               ),
+            //               child: Text(
+            //                 "09:00 AM",
+            //                 style: GoogleFonts.inter(
+            //                   fontSize: 12.sp,
+            //                   fontWeight: FontWeight.w600,
+            //                   color: Color(0xFF2B2B2B),
+            //                 ),
+            //               ),
+            //             ),
+            //           ],
+            //         ),
+            //       );
+            //     },
+            //   ),
+            // ),
             Container(
-              margin: EdgeInsets.only(top: 6.h),
+              margin: EdgeInsets.only(top: 10.h),
               height: 50.h,
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 padding: EdgeInsets.zero,
-                itemCount: 5,
+                itemCount: timeSlots.length,
                 itemBuilder: (context, index) {
+                  final slot = timeSlots[index];
+                  final isSelected = selectedTimeSlot == slot;
                   return Padding(
                     padding: EdgeInsets.only(right: 13.w),
-                    child: Column(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: 16.w,
-                            right: 16.w,
-                            bottom: 10.h,
-                            top: 10.h,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14.r),
-                            color: Color(0xFFF4F6F9),
-                          ),
-                          child: Text(
-                            "09:00 AM",
-                            style: GoogleFonts.inter(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF2B2B2B),
-                            ),
+                    child: GestureDetector(
+                      onTap: () {
+                        selectedTimeSlot = slot;
+                        notifier.setTimeSlot(slot);
+                        setState(() {});
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 16.w,
+                          vertical: 10.h,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14.r),
+                          color: isSelected ? buttonColor : Color(0xFFF4F6F9),
+                        ),
+                        child: Text(
+                          slot,
+                          style: GoogleFonts.inter(
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.w600,
+                            color:
+                                isSelected ? Colors.white : Color(0xFF2B2B2B),
                           ),
                         ),
-                      ],
+                      ),
                     ),
                   );
                 },
               ),
             ),
-            SizedBox(height: MediaQuery.of(context).size.height / 2),
+            Spacer(),
             GestureDetector(
-              onTap: () {
-                showDiologBox();
+              onTap: () async {
+                if (selectedDate == null || selectedTimeSlot == null) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text("Please select both date and time slot"),
+                    ),
+                  );
+                  return;
+                }
+
+                // 🔥 Call API (assume bookingId = 5 here)
+                await notifier.submitReschedule(5);
+
+                final apiState = ref.read(rescheduleFlowProvider);
+                apiState.when(
+                  data: (data) {
+                    if (data.response != null) {
+                      showDiologBox();
+                    }
+                  },
+                  error: (e, st) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text("Error: $e")));
+                  },
+                  loading: () {
+                    return CircularProgressIndicator(color: Colors.white);
+                  },
+                );
               },
               child: Container(
                 width: 327.w,
@@ -258,6 +380,58 @@ class _ResheduleDatePageState extends State<ResheduleDatePage> {
                 ),
               ),
             ),
+            SizedBox(height: 20.h),
+            // Spacer(),
+            // SizedBox(height: MediaQuery.of(context).size.height / 2),
+            // GestureDetector(
+            //   onTap: () async {
+            //     //showDiologBox();
+            //     if (selectedDate == null || selectedTimeSlot == null) {
+            //       ScaffoldMessenger.of(context).showSnackBar(
+            //         SnackBar(
+            //           content: Text("Please select both date and time slot"),
+            //         ),
+            //       );
+            //       return;
+            //     }
+
+            //     // 🔥 Call API (assume bookingId = 5 here)
+            //     await notifier.submitReschedule(5);
+
+            //     final apiState = ref.read(rescheduleFlowProvider);
+            //     apiState.when(
+            //       data: (data) {
+            //         if (data.response != null) {
+            //           showDiologBox();
+            //         }
+            //       },
+            //       error: (e, st) {
+            //         ScaffoldMessenger.of(
+            //           context,
+            //         ).showSnackBar(SnackBar(content: Text("Error: $e")));
+            //       },
+            //       loading: () {},
+            //     );
+            //   },
+            //   child: Container(
+            //     width: 327.w,
+            //     height: 56.h,
+            //     decoration: BoxDecoration(
+            //       color: buttonColor,
+            //       borderRadius: BorderRadius.circular(14.r),
+            //     ),
+            //     child: Center(
+            //       child: Text(
+            //         "Continue",
+            //         style: GoogleFonts.inter(
+            //           fontSize: 16.sp,
+            //           fontWeight: FontWeight.w500,
+            //           color: Colors.white,
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

@@ -1,22 +1,29 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/reshedule.date.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/resheduleController.dart';
 
-class ReshedulePage extends StatefulWidget {
+class ReshedulePage extends ConsumerStatefulWidget {
   const ReshedulePage({super.key});
 
   @override
-  State<ReshedulePage> createState() => _ReshedulePageState();
+  ConsumerState<ReshedulePage> createState() => _ReshedulePageState();
 }
 
-class _ReshedulePageState extends State<ReshedulePage> {
+class _ReshedulePageState extends ConsumerState<ReshedulePage> {
   String? selectedGender;
   final List<String> genders = ['Other'];
+  final messageController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(rescheduleFlowProvider);
+    final notifier = ref.read(rescheduleFlowProvider.notifier);
+
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(
@@ -104,10 +111,16 @@ class _ReshedulePageState extends State<ReshedulePage> {
                         child: Text(gender),
                       );
                     }).toList(),
+                // onChanged: (value) {
+                //   setState(() {
+                //     selectedGender = value;
+                //   });
+                // },
                 onChanged: (value) {
                   setState(() {
                     selectedGender = value;
                   });
+                  notifier.setReason(value!);
                 },
               ),
               SizedBox(height: 14.h),
@@ -123,6 +136,10 @@ class _ReshedulePageState extends State<ReshedulePage> {
               SizedBox(height: 6.h),
               TextField(
                 maxLines: 7,
+                controller: messageController,
+                onChanged: (value) {
+                  notifier.setMessage(value);
+                },
                 decoration: InputDecoration(
                   filled: true,
                   fillColor: Color(0xFFF4F6F9),
@@ -150,7 +167,22 @@ class _ReshedulePageState extends State<ReshedulePage> {
               ),
               SizedBox(height: MediaQuery.of(context).size.height / 3.6),
               GestureDetector(
-                onTap: () {
+                onTap: () async {
+                  // Navigator.push(
+                  //   context,
+                  //   CupertinoPageRoute(
+                  //     builder: (context) => ResheduleDatePage(),
+                  //   ),
+                  // );
+                  if (selectedGender == null ||
+                      messageController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("Please fill all fields")),
+                    );
+                    return;
+                  }
+                  notifier.setReason(selectedGender!);
+                  notifier.setMessage(messageController.text.trim());
                   Navigator.push(
                     context,
                     CupertinoPageRoute(

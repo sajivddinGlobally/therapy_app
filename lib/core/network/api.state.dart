@@ -12,6 +12,8 @@ import 'package:therapy_app/data/model/accountModel.dart';
 import 'package:therapy_app/data/model/mentalHealthavailabeModel.dart';
 import 'package:therapy_app/data/model/passwordUpdateBodyModel.dart';
 import 'package:therapy_app/data/model/passwordUpdateResModel.dart';
+import 'package:therapy_app/data/model/resheduleBodyModel.dart';
+import 'package:therapy_app/data/model/resheduleResModel.dart';
 import 'package:therapy_app/data/model/sendOTPBodyModel.dart';
 import 'package:therapy_app/data/model/sendOTPResModel.dart';
 
@@ -83,4 +85,7 @@ abstract class ApiStateNetwork {
   Future<ChangePasswordResModel> passwordChange(
     @Body() ChangePasswordBodyModel body,
   );
+
+  @POST("/api/booking/reschedule")
+  Future<ResheduleResModel> reshedule(@Body() ResheduleBodyModel body);
 }
