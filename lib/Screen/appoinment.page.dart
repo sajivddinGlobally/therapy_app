@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
   @override
   Widget build(BuildContext context) {
     final bookingsProvider = ref.watch(bookingsControlelr);
+    final userBookingProvider = ref.watch(userBookingController);
     return Scaffold(
       backgroundColor: Color(0xFFF4F6F9),
       appBar: AppBar(
@@ -91,15 +93,14 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                 child: TabBarView(
                   children: [
                     // Upcoming Tab
-                    bookingsProvider.when(
-                      data: (snap) {
+                    userBookingProvider.when(
+                      data: (data) {
                         final upcomingAppointments =
-                            snap
+                            data
                                 .where(
                                   (upcoming) => upcoming.status != "completed",
                                 )
                                 .toList();
-
                         if (upcomingAppointments.isEmpty) {
                           return Center(
                             child: Text("No upcoming appointments."),
@@ -107,15 +108,14 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                         }
                         return ListView.builder(
                           // padding: EdgeInsets.zero,
-                          itemCount: upcomingAppointments.length,
+                          itemCount: data.length,
                           itemBuilder: (context, index) {
                             return Padding(
                               padding: EdgeInsets.only(bottom: 14.h),
                               child: PastBody(
-                                name: upcomingAppointments[index].userName,
-                                time:
-                                    "Today, ${upcomingAppointments[index].time}",
-                                status: upcomingAppointments[index].status,
+                                name: data[index].therapistName,
+                                time: "Today, ${data[index].time}",
+                                status: data[index].status,
                                 button1: "Reschedule",
                                 button2: "Join Chat",
                                 callback: () {
@@ -165,7 +165,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                           ),
                     ),
                     // Past Tab
-                    bookingsProvider.when(
+                    userBookingProvider.when(
                       data: (data) {
                         final pastAppointments =
                             data
@@ -181,7 +181,7 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                             itemCount: pastAppointments.length,
                             itemBuilder: (context, index) {
                               return PastBody(
-                                name: pastAppointments[index].userName,
+                                name: pastAppointments[index].therapistName,
                                 time: "Today, ${pastAppointments[index].time}",
                                 status: pastAppointments[index].status,
                                 button1: "Book Again",

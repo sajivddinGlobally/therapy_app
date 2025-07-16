@@ -16,6 +16,7 @@ import 'package:therapy_app/data/model/resheduleBodyModel.dart';
 import 'package:therapy_app/data/model/resheduleResModel.dart';
 import 'package:therapy_app/data/model/sendOTPBodyModel.dart';
 import 'package:therapy_app/data/model/sendOTPResModel.dart';
+import 'package:therapy_app/data/model/userbookingResModel.dart';
 
 part 'api.state.g.dart';
 
@@ -88,4 +89,7 @@ abstract class ApiStateNetwork {
 
   @POST("/api/booking/reschedule")
   Future<ResheduleResModel> reshedule(@Body() ResheduleBodyModel body);
+
+  @GET("/api/users/28/bookings")
+  Future<List<UserBookingResModel>> userBooking();
 }
