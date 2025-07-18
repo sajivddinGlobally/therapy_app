@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/call.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class ChatPage extends StatefulWidget {
@@ -13,6 +15,8 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   final messafeController = TextEditingController();
+  final userIdController = TextEditingController();
+  final callIdController = TextEditingController();
 
   // ✅ Add message list
   final List<Map<String, dynamic>> _messages = [];
@@ -61,6 +65,24 @@ class _ChatPageState extends State<ChatPage> {
           ),
         ),
         centerTitle: true,
+        // actions: [
+        //   IconButton(
+        //     onPressed: () {
+        //       Navigator.push(
+        //         context,
+        //         CupertinoPageRoute(
+        //           builder:
+        //               (context) => CallPage(
+        //                 userID: userIdController.text.trim(),
+        //                 callID: callIdController.text.trim(),
+        //               ),
+        //         ),
+        //       );
+        //     },
+        //     icon: Icon(Icons.videocam_outlined),
+        //   ),
+        //   SizedBox(width: 20.w),
+        // ],
       ),
       body: Padding(
         padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 20.h),
