@@ -428,6 +428,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   SizedBox(height: 30.h),
                   GestureDetector(
                     onTap: () async {
+                      if (image == null) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Please Select image")),
+                        );
+                      }
                       try {
                         setState(() {
                           isLoading = true;

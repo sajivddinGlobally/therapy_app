@@ -34,6 +34,7 @@ class UpdateProfileController {
     // ✅ safe image upload
     if (profile_picture != null) {
       if (await profile_picture.exists()) {
+        
         log("✅ Uploading image: ${profile_picture.path}");
         request.files.add(
           await http.MultipartFile.fromPath(

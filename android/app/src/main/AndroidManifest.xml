@@ -3,12 +3,12 @@
 <uses-permission android:name="android.permission.CAMERA"/>
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-<<<<<<< HEAD
+
 <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-=======
+
 <uses-permission android:name="android.permission.RECORD_AUDIO" />
 <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
->>>>>>> 6a6f2b8b6dae646ba5efb1dcab41a65510afde13
+
     <application
         android:label="therapy_app"
         android:name="${applicationName}"

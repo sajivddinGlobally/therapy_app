@@ -15,10 +15,12 @@ import 'package:zego_uikit_prebuilt_call/zego_uikit_prebuilt_call.dart';
 import 'package:zego_uikit_signaling_plugin/zego_uikit_signaling_plugin.dart';
 import 'package:zego_uikit/zego_uikit.dart';
 import 'dart:math';
+
 int generateRandomNumber() {
   Random random = Random();
   return random.nextInt(101); // 0 to 100 (101 is exclusive)
 }
+
 class AppoinmentPage extends ConsumerStatefulWidget {
   const AppoinmentPage({super.key});
 
@@ -28,7 +30,6 @@ class AppoinmentPage extends ConsumerStatefulWidget {
 
 class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
   int defaultab = 0;
-  
 
   @override
   void initState() {
@@ -38,20 +39,21 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
     final id = box.get('id');
     // setupZegoCall(userID: 'user_id${id}', appSign: '122d7b1fea005f18c4d1c90da9d4ff7023760fa1c4f6a67a2f87d47c04c6aa67');
   }
+
   @override
   void dispose() {
     ZegoUIKitPrebuiltCallInvitationService().uninit();
     super.dispose();
   }
+
   void makeCall(String targetUserID) {
     ZegoSendCallInvitationButton(
       isVideoCall: true,
       resourceID: "zegouikit_call", // must match ZEGOCLOUD dashboard
-      invitees: [
-        ZegoUIKitUser(id: targetUserID, name: "Target"),
-      ],
+      invitees: [ZegoUIKitUser(id: targetUserID, name: "Target")],
     ).onPressed;
   }
+
   @override
   Widget build(BuildContext context) {
     final bookingsProvider = ref.watch(bookingsControlelr);
@@ -145,12 +147,24 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                               padding: EdgeInsets.only(bottom: 14.h),
                               child: PastBody(
                                 name: upcomingAppointments[index].therapistName,
-                                time: "Today, ${upcomingAppointments[index].time}",
+                                time:
+                                    "Today, ${upcomingAppointments[index].time}",
                                 status: upcomingAppointments[index].status,
                                 button1: "Reschedule",
                                 button2: "Join Chat",
                                 callback: () {
-                                 Navigator.push(context, CupertinoPageRoute(builder: (context) => GroupCallPage(userId: 'user_${generateRandomNumber()}', userName: '${upcomingAppointments[index].therapistName}',)));
+                                  Navigator.push(
+                                    context,
+                                    CupertinoPageRoute(
+                                      builder:
+                                          (context) => GroupCallPage(
+                                            userId:
+                                                'user_${generateRandomNumber()}',
+                                            userName:
+                                                '${upcomingAppointments[index].therapistName}',
+                                          ),
+                                    ),
+                                  );
                                 },
                                 statusColor: Color(0xFF00BAF7),
                                 voidCallback: () {
@@ -169,7 +183,6 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
                       error: (error, stackTrace) {
                         if (error is DioException &&
                             error.response!.statusCode == 401) {
-                      
                           return SizedBox.shrink();
                         } else {
                           return Center(
@@ -239,43 +252,43 @@ class _AppoinmentPageState extends ConsumerState<AppoinmentPage> {
       ),
     );
   }
-  void setupZegoCall({
-  required String userID,
-  required String appSign,
-}) {
-  ZegoUIKitPrebuiltCallInvitationService().init(
-    appID: 1398680085,
-    appSign: appSign,
-    userID: userID,
-    userName: "User_$userID",
-    plugins: [ZegoUIKitSignalingPlugin()],
-    notificationConfig: ZegoCallInvitationNotificationConfig(
-      androidNotificationConfig: ZegoCallAndroidNotificationConfig(
-        channelID: "1",
-        channelName: "call",
-        showFullScreen: true,
-        
-      )
-    ),
-    
-  );
-}
-}
 
+  void setupZegoCall({required String userID, required String appSign}) {
+    ZegoUIKitPrebuiltCallInvitationService().init(
+      appID: 1398680085,
+      appSign: appSign,
+      userID: userID,
+      userName: "User_$userID",
+      plugins: [ZegoUIKitSignalingPlugin()],
+      notificationConfig: ZegoCallInvitationNotificationConfig(
+        androidNotificationConfig: ZegoCallAndroidNotificationConfig(
+          channelID: "1",
+          channelName: "call",
+          showFullScreen: true,
+        ),
+      ),
+    );
+  }
+}
 
 class GroupCallPage extends StatelessWidget {
   final String userId;
   final String userName;
-  const GroupCallPage({super.key, required this.userId, required this.userName});
+  const GroupCallPage({
+    super.key,
+    required this.userId,
+    required this.userName,
+  });
 
-    // optional
+  // optional
   final String callID = 'group_call_1'; // same callID => same group call
 
   @override
   Widget build(BuildContext context) {
     return ZegoUIKitPrebuiltCall(
       appID: 1398680085, // 🟡 Replace with your ZEGOCLOUD appID
-      appSign: '122d7b1fea005f18c4d1c90da9d4ff7023760fa1c4f6a67a2f87d47c04c6aa67', // 🟡 Replace with your appSign
+      appSign:
+          '122d7b1fea005f18c4d1c90da9d4ff7023760fa1c4f6a67a2f87d47c04c6aa67', // 🟡 Replace with your appSign
       userID: userId,
       userName: userName,
       callID: callID,
@@ -283,7 +296,6 @@ class GroupCallPage extends StatelessWidget {
     );
   }
 }
-
 
 class PastBody extends StatelessWidget {
   final String name;
