@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/doctorList.page.dart';
 import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/register.page.dart';
@@ -302,6 +303,33 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       ),
                     ),
                   ],
+                ),
+              ),
+              InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    CupertinoPageRoute(builder: (context) => DoctorListPage()),
+                  );
+                },
+                child: Container(
+                  margin: EdgeInsets.only(top: 20.h),
+                  width: 327.w,
+                  height: 56.h,
+                  decoration: BoxDecoration(
+                    color: buttonColor,
+                    borderRadius: BorderRadius.circular(14.r),
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Login with Doctor",
+                      style: GoogleFonts.inter(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
                 ),
               ),
               SizedBox(height: 30.h),
