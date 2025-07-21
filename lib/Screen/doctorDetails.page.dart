@@ -704,9 +704,7 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                 ),
               ),
               SizedBox(height: 10.h),
-              // Center(
-              //   child: Text("Map Here ", style: TextStyle(fontSize: 30.sp)),
-              // ),
+              Center(child: Image.asset("assets/location.png")),
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
