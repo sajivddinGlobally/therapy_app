@@ -682,18 +682,18 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                               "Shahbag",
                               style: GoogleFonts.inter(
                                 fontSize: 14.sp,
-                                fontWeight: FontWeight.w400,
+                                fontWeight: FontWeight.w500,
                                 color: Color(0xFF424242),
-                                letterSpacing: -1,
+                                letterSpacing: -0.3,
                               ),
                             ),
                             Text(
                               "BSSMU - Bangaband..",
                               style: GoogleFonts.inter(
                                 fontSize: 13.sp,
-                                fontWeight: FontWeight.w300,
+                                fontWeight: FontWeight.w400,
                                 color: Color(0xFF8C8C8C),
-                                letterSpacing: -1,
+                                letterSpacing: -0.4,
                               ),
                             ),
                           ],
@@ -711,7 +711,10 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(300.w, 40.h),
-                    backgroundColor: Color(0xff163453),
+                    backgroundColor: buttonColor,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.r),
+                    ),
                   ),
                   onPressed: () {},
                   child: Text(
