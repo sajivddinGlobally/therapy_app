@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/doctorHome.page.dart';
-import 'package:therapy_app/Screen/doctorList.page.dart';
+
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
