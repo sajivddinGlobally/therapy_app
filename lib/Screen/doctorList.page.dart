@@ -15,20 +15,20 @@ class DoctorListPage extends StatefulWidget {
 class _DoctorListPageState extends State<DoctorListPage> {
   List<Map<String, dynamic>> doctorList = [
     {
-      "image": "assets/doctor1.png",
-      "name": "Dr. Ahmed Khan",
+      "image": "assets/a1.jpg",
+      "name": "Ahmed Khan",
       "specility": "Cardiologist",
       "exp": "2 years",
     },
     {
-      "image": "assets/doctor2.png",
-      "name": "Dr. Ahmed Khan",
+      "image": "assets/boys.png",
+      "name": "Ahmed Khan",
       "specility": "Cardiologist",
       "exp": "4 years",
     },
     {
-      "image": "assets/doctor3.png",
-      "name": "Dr. Ahmed Khan",
+      "image": "assets/swiper.png",
+      "name": "Ahmed Khan",
       "specility": "Cardiologist",
       "exp": "3 years",
     },
@@ -41,7 +41,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
         automaticallyImplyLeading: false,
         backgroundColor: bgColor,
         title: Text(
-          "Top Doctors",
+          "Upcoming",
           style: GoogleFonts.inter(
             fontSize: 18.sp,
             fontWeight: FontWeight.w600,
@@ -122,6 +122,9 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     child: Image.asset(
                                       //"assets/doctor1.png",
                                       doctorList[index]['image'].toString(),
+                                      width: 72.w,
+                                      height: 72.h,
+                                      fit: BoxFit.cover,
                                     ),
                                   ),
                                   SizedBox(width: 10.w),
@@ -202,24 +205,24 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     color: Color(0xff18181B),
                                   ),
                                 ),
-                                Container(
-                                  width: 64.w,
-                                  height: 32.h,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.r),
-                                    color: buttonColor,
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Book",
-                                      style: GoogleFonts.inter(
-                                        fontSize: 12.sp,
-                                        fontWeight: FontWeight.w500,
-                                        color: Color(0xFFFFFFFF),
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                // Container(
+                                //   width: 64.w,
+                                //   height: 32.h,
+                                //   decoration: BoxDecoration(
+                                //     borderRadius: BorderRadius.circular(10.r),
+                                //     color: buttonColor,
+                                //   ),
+                                //   child: Center(
+                                //     child: Text(
+                                //       "Book",
+                                //       style: GoogleFonts.inter(
+                                //         fontSize: 12.sp,
+                                //         fontWeight: FontWeight.w500,
+                                //         color: Color(0xFFFFFFFF),
+                                //       ),
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ],
