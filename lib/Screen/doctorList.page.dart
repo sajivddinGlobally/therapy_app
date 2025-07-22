@@ -56,7 +56,11 @@ class _DoctorListPageState extends State<DoctorListPage> {
             SizedBox(height: 15.h),
             TextField(
               decoration: InputDecoration(
-                contentPadding: EdgeInsets.only(top: 14.h, bottom: 14.h),
+                contentPadding: EdgeInsets.only(
+                  top: 14.h,
+                  bottom: 14.h,
+                  right: 10.w,
+                ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.r),
                   borderSide: BorderSide(
