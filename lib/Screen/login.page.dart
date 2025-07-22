@@ -226,7 +226,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             email: emailController.text,
                             password: passwordController.text,
                           );
-
                           await ref
                               .read(logincontrollerprovider.notifier)
                               .login(body);
@@ -240,8 +239,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                               backgroundColor: buttonColor,
                               textColor: Color(0xFFFFFFFF),
                             );
-                            if (!mounted)
-                              return; // ✅ Safety check for navigation
+                            // Navigation after flushbar
+                            if (!mounted) return;
                             Navigator.pushReplacement(
                               context,
                               CupertinoPageRoute(
