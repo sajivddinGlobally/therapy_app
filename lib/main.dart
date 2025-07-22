@@ -19,10 +19,9 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox("data");
 
+  FlutterNativeSplash.remove(); // splash hatana
 
   runApp(ProviderScope(child: const MyApp()));
-  
-    FlutterNativeSplash.remove();
 }
 
 class MyApp extends StatelessWidget {
