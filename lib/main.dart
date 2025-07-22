@@ -1,10 +1,10 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:therapy_app/Screen/home.page.dart';
+import 'package:therapy_app/Screen/splash.page.dart';
 import 'package:therapy_app/core/utils/globalKey.dart';
 
 void main() async {
@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
               // tested with just a hot reload.
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             ),
-            home: HomePage(),
+            home: SplashPage(),
           );
         },
       ),

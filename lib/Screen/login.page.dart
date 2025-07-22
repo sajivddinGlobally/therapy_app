@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -204,7 +203,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           );
                           return;
                         }
-
                         setState(() {
                           isLogin = true;
                         });
@@ -305,33 +303,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ],
                 ),
               ),
-              InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    CupertinoPageRoute(builder: (context) => DoctorListPage()),
-                  );
-                },
-                child: Container(
-                  margin: EdgeInsets.only(top: 20.h),
-                  width: 327.w,
-                  height: 56.h,
-                  decoration: BoxDecoration(
-                    color: buttonColor,
-                    borderRadius: BorderRadius.circular(14.r),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Login with Doctor",
-                      style: GoogleFonts.inter(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+
               SizedBox(height: 30.h),
               Row(
                 children: [
