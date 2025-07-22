@@ -322,21 +322,6 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                         Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => LanguagePage(),
-                          ),
-                        );
-                      },
-                      child: EditProfileBody(
-                        icon: Icons.language_outlined,
-                        txt: 'Languages',
-                      ),
-                    ),
-                    SizedBox(height: 25.h),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          CupertinoPageRoute(
                             builder: (context) => LegalPolicyPage(),
                           ),
                         );
