@@ -17,156 +17,217 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: bgColor,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: 30.h),
-          Row(
-            children: [
-              SizedBox(width: 24.w),
-              Container(
-                width: 48.w,
-                height: 48.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.grey,
-                ),
-                child: ClipOval(
-                  child: Image.asset(
-                    "assets/profile.png",
-                    //"${box.get("profile_picturee") ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png"}",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              SizedBox(width: 8.w),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Hi,Alicent Hightower",
-                    style: GoogleFonts.nunito(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF2B2B2B),
-                      letterSpacing: -1,
-                      height: 1.0,
-                    ),
-                  ),
-                  Text(
-                    "How are you feeling! ",
-                    style: GoogleFonts.nunito(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xFF868686),
-                      letterSpacing: -1,
-                    ),
-                  ),
-                ],
-              ),
-              Spacer(),
-              Container(
-                width: 52.w,
-                height: 52.h,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Color(0xFFF4F6F9),
-                ),
-                child: Center(
-                  child: Icon(Icons.notifications_none, color: Colors.black),
-                ),
-              ),
-              SizedBox(width: 24.w),
-            ],
-          ),
-          SizedBox(height: 22.h),
-          Padding(
-            padding: EdgeInsets.only(left: 24.w, right: 24.w),
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Color(0xFFF4F6F9),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14.r),
-                  borderSide: BorderSide.none,
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(14.r),
-                  borderSide: BorderSide.none,
-                ),
-                prefixIcon: Icon(
-                  Icons.search,
-                  color: Color(0xFF2B2B2B),
-                  size: 25.sp,
-                ),
-                hintText: "Search...",
-                hintStyle: GoogleFonts.nunito(
-                  fontSize: 16.sp,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF868686),
-                ),
-                suffixIcon: Icon(
-                  Icons.tune_outlined,
-                  color: Color(0xFF868686),
-                  size: 25.sp,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 22.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 30.h),
+            Row(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                SizedBox(width: 24.w),
+                Container(
+                  width: 48.w,
+                  height: 48.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.grey,
+                  ),
+                  child: ClipOval(
+                    child: Image.asset(
+                      "assets/profile.png",
+                      //"${box.get("profile_picturee") ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png"}",
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(width: 8.w),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Upcoming Appointment",
-                      style: GoogleFonts.inter(
+                      "Hi,Alicent Hightower",
+                      style: GoogleFonts.nunito(
                         fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.bold,
                         color: Color(0xFF2B2B2B),
+                        letterSpacing: -1,
+                        height: 1.0,
                       ),
                     ),
                     Text(
-                      "See All",
-                      style: GoogleFonts.inter(
+                      "How are you feeling! ",
+                      style: GoogleFonts.nunito(
                         fontSize: 16.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF15AC86),
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF868686),
+                        letterSpacing: -1,
                       ),
                     ),
                   ],
                 ),
-                SizedBox(height: 14.h),
+                Spacer(),
                 Container(
-                  padding: EdgeInsets.all(16),
+                  width: 52.w,
+                  height: 52.h,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(16.r),
-                    color: Color(0xFF15AC86),
+                    shape: BoxShape.circle,
+                    color: Color(0xFFF4F6F9),
                   ),
-                  child: Column(
+                  child: Center(
+                    child: Icon(Icons.notifications_none, color: Colors.black),
+                  ),
+                ),
+                SizedBox(width: 24.w),
+              ],
+            ),
+            SizedBox(height: 22.h),
+            Padding(
+              padding: EdgeInsets.only(left: 24.w, right: 24.w),
+              child: TextField(
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Color(0xFFF4F6F9),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(14.r),
+                    borderSide: BorderSide.none,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color(0xFF2B2B2B),
+                    size: 25.sp,
+                  ),
+                  hintText: "Search...",
+                  hintStyle: GoogleFonts.nunito(
+                    fontSize: 16.sp,
+                    fontWeight: FontWeight.w600,
+                    color: Color(0xFF868686),
+                  ),
+                  suffixIcon: Icon(
+                    Icons.tune_outlined,
+                    color: Color(0xFF868686),
+                    size: 25.sp,
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 22.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 56.w,
-                            height: 56.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(8.r),
+                      Text(
+                        "Upcoming Appointment",
+                        style: GoogleFonts.inter(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF2B2B2B),
+                        ),
+                      ),
+                      Text(
+                        "See All",
+                        style: GoogleFonts.inter(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF15AC86),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 14.h),
+                  Container(
+                    padding: EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.r),
+                      color: Color(0xFF15AC86),
+                    ),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            Container(
+                              width: 56.w,
+                              height: 56.h,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8.r),
+                              ),
+                              child: Image.asset(
+                                "assets/dot.png",
+                                fit: BoxFit.cover,
+                              ),
                             ),
-                            child: Image.asset(
-                              "assets/dot.png",
-                              fit: BoxFit.cover,
+                            SizedBox(width: 12.w),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Dr. Aaron ",
+                                  style: GoogleFonts.nunito(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.white,
+                                    letterSpacing: -1,
+                                  ),
+                                ),
+                                Row(
+                                  children: [
+                                    Text(
+                                      "10:00 AM",
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        letterSpacing: -1,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Container(
+                                      width: 5.w,
+                                      height: 5.h,
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      "Physiotherapist ",
+                                      style: GoogleFonts.nunito(
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w600,
+                                        color: Colors.white,
+                                        letterSpacing: -1,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
                             ),
-                          ),
-                          SizedBox(width: 12.w),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Dr. Aaron ",
+                          ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: 14.w,
+                                right: 14.w,
+                                top: 5.h,
+                                bottom: 5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50.r),
+                                color: Color(0xFF44bd9E),
+                              ),
+                              child: Text(
+                                "Starts in 10 mins",
                                 style: GoogleFonts.nunito(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w600,
@@ -174,108 +235,49 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                                   letterSpacing: -1,
                                 ),
                               ),
-                              Row(
+                            ),
+                            SizedBox(width: 8.w),
+                            Container(
+                              padding: EdgeInsets.only(
+                                left: 14.w,
+                                right: 14.w,
+                                top: 5.h,
+                                bottom: 5.h,
+                              ),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.r),
+                                color: Color(0xFFFFFFFF),
+                              ),
+                              child: Row(
                                 children: [
+                                  Icon(
+                                    Icons.video_camera_back_outlined,
+                                    color: Color(0xFF44bd9E),
+                                    size: 20.sp,
+                                  ),
+                                  SizedBox(width: 5.w),
                                   Text(
-                                    "10:00 AM",
+                                    "Join Session",
                                     style: GoogleFonts.nunito(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.w600,
-                                      color: Colors.white,
-                                      letterSpacing: -1,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Container(
-                                    width: 5.w,
-                                    height: 5.h,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: Colors.white,
-                                    ),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Text(
-                                    "Physiotherapist ",
-                                    style: GoogleFonts.nunito(
-                                      fontSize: 16.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: Colors.white,
+                                      color: Color(0xFF44bd9E),
                                       letterSpacing: -1,
                                     ),
                                   ),
                                 ],
                               ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 20.h),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            padding: EdgeInsets.only(
-                              left: 14.w,
-                              right: 14.w,
-                              top: 5.h,
-                              bottom: 5.h,
                             ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50.r),
-                              color: Color(0xFF44bd9E),
-                            ),
-                            child: Text(
-                              "Starts in 10 mins",
-                              style: GoogleFonts.nunito(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                                letterSpacing: -1,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 8.w),
-                          Container(
-                            padding: EdgeInsets.only(
-                              left: 14.w,
-                              right: 14.w,
-                              top: 5.h,
-                              bottom: 5.h,
-                            ),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              color: Color(0xFFFFFFFF),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(
-                                  Icons.video_camera_back_outlined,
-                                  color: Color(0xFF44bd9E),
-                                  size: 20.sp,
-                                ),
-                                SizedBox(width: 5.w),
-                                Text(
-                                  "Join Session",
-                                  style: GoogleFonts.nunito(
-                                    fontSize: 16.sp,
-                                    fontWeight: FontWeight.w600,
-                                    color: Color(0xFF44bd9E),
-                                    letterSpacing: -1,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Color(0xFFFFFFFF),
