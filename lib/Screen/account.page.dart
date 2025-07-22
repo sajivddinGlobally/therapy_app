@@ -250,30 +250,6 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                                     ),
                                   ),
                         ),
-                        // Positioned(
-                        //   right: 10.w,
-                        //   bottom: 10.h,
-                        //   child: GestureDetector(
-                        //     onTap: () {
-                        //       showImage();
-                        //     },
-                        //     child: Container(
-                        //       width: 30.w,
-                        //       height: 30.h,
-                        //       decoration: BoxDecoration(
-                        //         borderRadius: BorderRadius.circular(10.r),
-                        //         color: buttonColor,
-                        //       ),
-                        //       child: Center(
-                        //         child: Icon(
-                        //           Icons.edit,
-                        //           color: Colors.white,
-                        //           size: 20.sp,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
                       ],
                     ),
                     SizedBox(height: 14.h),
