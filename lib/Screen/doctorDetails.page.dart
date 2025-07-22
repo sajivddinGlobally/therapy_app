@@ -521,8 +521,14 @@ class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
                                               left: 10.w,
                                               top: 10.h,
                                             ),
-                                            width: 104.w,
-                                            height: 40.h,
+                                            padding: EdgeInsets.only(
+                                              left: 10.w,
+                                              right: 10.w,
+                                              top: 10.h,
+                                              bottom: 10.h,
+                                            ),
+                                            // width: 104.w,
+                                            // height: 40.h,
                                             decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(20.r),

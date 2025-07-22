@@ -70,7 +70,7 @@ class _SplashPageState extends State<SplashPage> {
                 ),
                 child: Center(
                   child: Text(
-                    "Login with Doctor",
+                    "Doctor",
                     style: GoogleFonts.inter(
                       fontSize: 16.sp,
                       fontWeight: FontWeight.w500,
