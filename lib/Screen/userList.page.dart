@@ -212,8 +212,7 @@ class _UserListPageState extends State<UserListPage> {
                                       context,
                                       CupertinoPageRoute(
                                         builder:
-                                            (context) =>
-                                                DoctorUserDetailsScreen(),
+                                            (context) => DoctorUserDetailsScreen(),
                                       ),
                                     );
                                   },
