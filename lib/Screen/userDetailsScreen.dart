@@ -201,6 +201,8 @@
 //     );
 //   }
 // }
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -274,13 +276,15 @@ class DoctorUserDetailsScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(left: 5.w, right: 5.w),
+        
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             buildActionButton(Icons.play_arrow, "Start", Colors.green),
-            buildActionButton(Icons.note_add, "Notes", Colors.orange),
-            buildActionButton(Icons.call, "Call", Colors.blue),
-            buildActionButton(Icons.schedule, "Reschedule", Colors.teal),
+
+            // buildActionButton(Icons.note_add, "Notes", Colors.orange),
+            // buildActionButton(Icons.call, "Call", Colors.blue),
+            // buildActionButton(Icons.schedule, "Reschedule", Colors.teal),
           ],
         ),
       ),
@@ -399,8 +403,8 @@ class DoctorUserDetailsScreen extends StatelessWidget {
     return Expanded(
       child: ElevatedButton.icon(
         onPressed: () {},
-        icon: Icon(icon, size: 16.sp),
-        label: Text(label, style: GoogleFonts.poppins(fontSize: 12.sp)),
+        // icon: Icon(icon, size: 16.sp),
+        label: Text(label, style: GoogleFonts.poppins(fontSize: 16.sp)),
         style: ElevatedButton.styleFrom(
           backgroundColor: color,
           foregroundColor: Colors.white,
