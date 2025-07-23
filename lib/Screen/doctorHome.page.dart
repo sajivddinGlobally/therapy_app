@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:therapy_app/Screen/doctorDetails.page.dart';
-import 'package:therapy_app/Screen/doctorList.page.dart';
+import 'package:therapy_app/Screen/userDetails.page.dart';
+import 'package:therapy_app/Screen/userList.page.dart';
 import 'package:therapy_app/Screen/doctorProfilePage.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
@@ -339,7 +339,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                                             CupertinoPageRoute(
                                               builder:
                                                   (context) =>
-                                                      DoctorDetailsPage(),
+                                                      UserDetailsPage(),
                                             ),
                                           );
                                         },
@@ -442,16 +442,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                                             ),
                                           ),
                                           InkWell(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                CupertinoPageRoute(
-                                                  builder:
-                                                      (context) =>
-                                                          DoctorDetailsPage(),
-                                                ),
-                                              );
-                                            },
+                                            onTap: () {},
                                             child: Container(
                                               width: 64.w,
                                               height: 32.h,
@@ -486,7 +477,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                   ),
                 )
                 : tabBottom == 1
-                ? DoctorListPage()
+                ? UserListPage()
                 : DoctorProfilePage(),
         bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Color(0xFFFFFFFF),

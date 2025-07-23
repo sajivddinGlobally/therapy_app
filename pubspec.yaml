@@ -92,12 +92,12 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/therapy.png"
 
-flutter_native_splash:
-  color: "#ffffff"  # बैकग्राउंड कलर
-  image: "assets/therapy.png"  # आपका कस्टम आइकन
-  android: true
-  ios: true
-  fullscreen: true  
+# flutter_native_splash:
+#   color: "#ffffff"  # बैकग्राउंड कलर
+#   image: "assets/therapy.png"  # आपका कस्टम आइकन
+#   android: true
+#   ios: true
+#   fullscreen: true  
 flutter:
 
   # The following line ensures that the Material Icons font is

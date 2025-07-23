@@ -2,18 +2,20 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:therapy_app/Screen/doctorDetails.page.dart';
+import 'package:therapy_app/Screen/userDetails.page.dart';
+import 'package:therapy_app/Screen/userDetailsScreen.dart';
+
 import 'package:therapy_app/constant/myColor.dart';
 
-class DoctorListPage extends StatefulWidget {
-  const DoctorListPage({super.key});
+class UserListPage extends StatefulWidget {
+  const UserListPage({super.key});
 
   @override
-  State<DoctorListPage> createState() => _DoctorListPageState();
+  State<UserListPage> createState() => _UserListPageState();
 }
 
-class _DoctorListPageState extends State<DoctorListPage> {
-  List<Map<String, dynamic>> doctorList = [
+class _UserListPageState extends State<UserListPage> {
+  List<Map<String, dynamic>> userList = [
     {
       "image": "assets/a1.jpg",
       "name": "Ahmed Khan",
@@ -87,7 +89,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: doctorList.length,
+                itemCount: userList.length,
                 itemBuilder: (context, index) {
                   return Column(
                     children: [
@@ -111,7 +113,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                 Navigator.push(
                                   context,
                                   CupertinoPageRoute(
-                                    builder: (context) => DoctorDetailsPage(),
+                                    builder: (context) => UserDetailsPage(),
                                   ),
                                 );
                               },
@@ -121,7 +123,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     borderRadius: BorderRadius.circular(10.r),
                                     child: Image.asset(
                                       //"assets/doctor1.png",
-                                      doctorList[index]['image'].toString(),
+                                      userList[index]['image'].toString(),
                                       width: 72.w,
                                       height: 72.h,
                                       fit: BoxFit.cover,
@@ -134,7 +136,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     children: [
                                       Text(
                                         // "Dr. Ahmed Khan",
-                                        doctorList[index]['name'].toString(),
+                                        userList[index]['name'].toString(),
                                         style: GoogleFonts.inter(
                                           fontSize: 14.sp,
                                           fontWeight: FontWeight.w700,
@@ -144,8 +146,7 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                       SizedBox(height: 2.h),
                                       Text(
                                         // "Cardiologist",
-                                        doctorList[index]['specility']
-                                            .toString(),
+                                        userList[index]['specility'].toString(),
                                         style: GoogleFonts.inter(
                                           fontSize: 13.sp,
                                           fontWeight: FontWeight.w400,
@@ -205,24 +206,36 @@ class _DoctorListPageState extends State<DoctorListPage> {
                                     color: Color(0xff18181B),
                                   ),
                                 ),
-                                // Container(
-                                //   width: 64.w,
-                                //   height: 32.h,
-                                //   decoration: BoxDecoration(
-                                //     borderRadius: BorderRadius.circular(10.r),
-                                //     color: buttonColor,
-                                //   ),
-                                //   child: Center(
-                                //     child: Text(
-                                //       "Book",
-                                //       style: GoogleFonts.inter(
-                                //         fontSize: 12.sp,
-                                //         fontWeight: FontWeight.w500,
-                                //         color: Color(0xFFFFFFFF),
-                                //       ),
-                                //     ),
-                                //   ),
-                                // ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      CupertinoPageRoute(
+                                        builder:
+                                            (context) =>
+                                                DoctorUserDetailsScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    width: 64.w,
+                                    height: 32.h,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      color: buttonColor,
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Book",
+                                        style: GoogleFonts.inter(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w500,
+                                          color: Color(0xFFFFFFFF),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ],

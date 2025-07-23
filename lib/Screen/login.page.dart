@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:therapy_app/Screen/doctorList.page.dart';
+import 'package:therapy_app/Screen/userList.page.dart';
 import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/register.page.dart';

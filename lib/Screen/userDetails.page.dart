@@ -4,14 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
-class DoctorDetailsPage extends StatefulWidget {
-  const DoctorDetailsPage({super.key});
+class UserDetailsPage extends StatefulWidget {
+  const UserDetailsPage({super.key});
 
   @override
-  State<DoctorDetailsPage> createState() => _DoctorDetailsPageState();
+  State<UserDetailsPage> createState() => _UserDetailsPageState();
 }
 
-class _DoctorDetailsPageState extends State<DoctorDetailsPage> {
+class _UserDetailsPageState extends State<UserDetailsPage> {
   int tabBo = 0;
   @override
   Widget build(BuildContext context) {
