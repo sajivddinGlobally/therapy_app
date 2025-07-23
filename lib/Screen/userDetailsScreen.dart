@@ -273,7 +273,7 @@ class DoctorUserDetailsScreen extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(16.w),
+        padding: EdgeInsets.only(left: 5.w, right: 5.w),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
