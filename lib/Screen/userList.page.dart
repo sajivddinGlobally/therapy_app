@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/Screen/userDetails.page.dart';
 import 'package:therapy_app/Screen/userDetailsScreen.dart';
-
 import 'package:therapy_app/constant/myColor.dart';
 
 class UserListPage extends StatefulWidget {
