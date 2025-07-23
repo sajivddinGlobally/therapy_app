@@ -106,11 +106,7 @@ class _ChangePasswordPageState extends ConsumerState<ChangePasswordPage> {
                   SizedBox(height: 20.h),
                   GestureDetector(
                     onTap: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        CupertinoPageRoute(builder: (context) => AccountPage()),
-                        (route) => false,
-                      );
+                      Navigator.pop(context);
                     },
                     child: Container(
                       width: 291.w,

@@ -305,7 +305,7 @@ class DoctorUserDetailsScreen extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 30.r,
-            backgroundImage: AssetImage('assets/user_placeholder.png'),
+            backgroundImage: AssetImage('assets/boys.png'),
           ),
           SizedBox(width: 12.w),
           Column(
