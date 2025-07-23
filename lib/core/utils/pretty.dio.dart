@@ -45,7 +45,6 @@ Dio createDio() {
           handler.next(e);
           return;
         }
-
         if (e.response?.statusCode == 401) {
           log(e.response.toString());
           Fluttertoast.showToast(
@@ -61,6 +60,7 @@ Dio createDio() {
           );
           return handler.next(e);
         }
+        
         // if (e.response!.statusCode == 422) {
         //   log(e.response!.data["error"]);
         //   Fluttertoast.showToast(msg: e.response!.data["error"]);
