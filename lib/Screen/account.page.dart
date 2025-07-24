@@ -288,7 +288,9 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                         final result = await Navigator.push(
                           context,
                           CupertinoPageRoute(
-                            builder: (context) => EditProfilePage(),
+                            builder:
+                                (context) =>
+                                    EditProfilePage(userType: 'patient'),
                           ),
                         );
                         if (result == true) {

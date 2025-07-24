@@ -9,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/Screen/change.password.page.dart';
+import 'package:therapy_app/Screen/edit.profile.page.dart';
 import 'package:therapy_app/Screen/legal.policy.page.dart';
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
@@ -127,7 +128,7 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 ),
                 Text(
                   // "Email",
-                  box.get("email")??"email",
+                  box.get("email") ?? "email",
                   style: GoogleFonts.inter(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
@@ -148,7 +149,15 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 Divider(color: Colors.black12, endIndent: 10, indent: 10),
                 SizedBox(height: 24.h),
                 GestureDetector(
-                  onTap: () async {},
+                  onTap: () async {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder:
+                            (context) => EditProfilePage(userType: 'therapist'),
+                      ),
+                    );
+                  },
                   child: EditProfileBody(
                     icon: Icons.person_outline_outlined,
                     txt: 'Edit Profile',

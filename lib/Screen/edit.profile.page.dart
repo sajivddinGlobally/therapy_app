@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,15 +11,17 @@ import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/data/provider/profileUpdateController.dart';
+import 'package:therapy_app/data/provider/registerController.dart';
 
-class EditProfilePage extends StatefulWidget {
-  const EditProfilePage({super.key});
+class EditProfilePage extends ConsumerStatefulWidget {
+  final String userType;
+  const EditProfilePage({super.key, required this.userType});
 
   @override
-  State<EditProfilePage> createState() => _EditProfilePageState();
+  ConsumerState<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> {
+class _EditProfilePageState extends ConsumerState<EditProfilePage> {
   File? image;
   final picker = ImagePicker();
 
@@ -377,54 +380,55 @@ class _EditProfilePageState extends State<EditProfilePage> {
                     },
                   ),
                   SizedBox(height: 16.h),
-                  TextFormField(
-                    onTap: () {
-                      pickDate();
-                    },
-                    controller: dateController,
-                    readOnly: true,
-                    decoration: InputDecoration(
-                      contentPadding: EdgeInsets.only(left: 10.w),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.r),
-                        borderSide: BorderSide(
-                          color: Color(0xFFC8C8C8),
-                          width: 1.w,
+                  if (widget.userType != "therapist")
+                    TextFormField(
+                      onTap: () {
+                        pickDate();
+                      },
+                      controller: dateController,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        contentPadding: EdgeInsets.only(left: 10.w),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
                         ),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.r),
-                        borderSide: BorderSide(
-                          color: Color(0xFFC8C8C8),
-                          width: 1.w,
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
                         ),
-                      ),
-                      errorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.r),
-                        borderSide: BorderSide(
-                          color: Color(0xFFC8C8C8),
-                          width: 1.w,
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
                         ),
-                      ),
-                      focusedErrorBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14.r),
-                        borderSide: BorderSide(
-                          color: Color(0xFFC8C8C8),
-                          width: 1.w,
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
                         ),
-                      ),
-                      prefixIcon: Icon(
-                        Icons.date_range_outlined,
-                        color: Color(0xFF2B2B2B),
-                      ),
-                      hintText: "Date of Birth",
-                      hintStyle: GoogleFonts.inter(
-                        fontSize: 15.sp,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF2B2B2B),
+                        prefixIcon: Icon(
+                          Icons.date_range_outlined,
+                          color: Color(0xFF2B2B2B),
+                        ),
+                        hintText: "Date of Birth",
+                        hintStyle: GoogleFonts.inter(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF2B2B2B),
+                        ),
                       ),
                     ),
-                  ),
                   SizedBox(height: 30.h),
                   GestureDetector(
                     onTap: () async {
@@ -443,7 +447,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                           email: emailController.text,
                           phone: phoneController.text,
                           gender: selectedGender!,
-                          dob: selectedDate.toString(),
+                          dob:
+                              widget.userType != "therapist"
+                                  ? (selectedDate != null
+                                      ? selectedDate.toString()
+                                      : "")
+                                  : "",
                           profile_picture: image,
                         );
                       } catch (e) {
