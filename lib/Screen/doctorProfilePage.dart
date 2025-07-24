@@ -2,12 +2,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:therapy_app/Screen/account.page.dart';
 import 'package:therapy_app/Screen/change.password.page.dart';
 import 'package:therapy_app/Screen/legal.policy.page.dart';
+import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
 class DoctorProfilePage extends StatefulWidget {
@@ -75,6 +78,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box("data");
+    var token = box.get("token");
     return Scaffold(
       backgroundColor: bgColor,
       body: Column(
@@ -96,9 +101,10 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                       child:
                           image == null
                               ? ClipOval(
-                                child: Image.asset(
-                                  "assets/frame.png",
-                                  // "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png",
+                                child: Image.network(
+                                  // "assets/frame.png",
+                                  box.get("profile_picturee") ??
+                                      "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png",
                                   fit: BoxFit.cover,
                                 ),
                               )
@@ -110,7 +116,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                 ),
                 SizedBox(height: 14.h),
                 Text(
-                  "Name",
+                  // "Name",
+                  box.get("name") ?? "name",
                   style: GoogleFonts.nunito(
                     fontSize: 18.sp,
                     fontWeight: FontWeight.bold,
@@ -119,7 +126,8 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   ),
                 ),
                 Text(
-                  "Email",
+                  // "Email",
+                  box.get("email")??"email",
                   style: GoogleFonts.inter(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w500,
@@ -183,46 +191,64 @@ class _DoctorProfilePageState extends State<DoctorProfilePage> {
                   txt: 'Help and Support',
                 ),
                 SizedBox(height: 25.h),
-                // if (token == null) ...[
-                //   GestureDetector(
-                //     onTap: () {},
-                //     child: Row(
-                //       children: [
-                //         Icon(
-                //           Icons.login,
-                //           color: Color(0xFFF44336),
-                //           size: 25.sp,
-                //         ),
-                //         SizedBox(width: 16.w),
-                //         Text(
-                //           "Login",
-                //           style: GoogleFonts.inter(
-                //             fontSize: 16.sp,
-                //             fontWeight: FontWeight.w500,
-                //             color: Color(0xFFF44336),
-                //           ),
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ] ,
-                GestureDetector(
-                  onTap: () {},
-                  child: Row(
-                    children: [
-                      Icon(Icons.logout, color: Color(0xFFF44336), size: 25.sp),
-                      SizedBox(width: 16.w),
-                      Text(
-                        "Logout",
-                        style: GoogleFonts.inter(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
+                if (token == null) ...[
+                  GestureDetector(
+                    onTap: () {},
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.login,
                           color: Color(0xFFF44336),
+                          size: 25.sp,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 16.w),
+                        Text(
+                          "Login",
+                          style: GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFFF44336),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
+                ] else ...[
+                  GestureDetector(
+                    onTap: () {
+                      box.clear();
+                      Fluttertoast.showToast(
+                        msg: "Logout Successfull",
+                        gravity: ToastGravity.BOTTOM,
+                        toastLength: Toast.LENGTH_SHORT,
+                        backgroundColor: Colors.red,
+                        textColor: Color(0xFFFFFFFF),
+                      );
+                      Navigator.pushReplacement(
+                        context,
+                        CupertinoPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(
+                          Icons.logout,
+                          color: Color(0xFFF44336),
+                          size: 25.sp,
+                        ),
+                        SizedBox(width: 16.w),
+                        Text(
+                          "Logout",
+                          style: GoogleFonts.inter(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFFF44336),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

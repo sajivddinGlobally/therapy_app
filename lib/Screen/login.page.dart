@@ -198,6 +198,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             // Navigation after flushbar
                             if (!mounted) return;
                             final userType = loginState.response.user!.userType;
+                          
                             if (userType == "therapist") {
                               Navigator.pushReplacement(
                                 context,

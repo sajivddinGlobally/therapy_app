@@ -1,20 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:therapy_app/Screen/userDetails.page.dart';
 import 'package:therapy_app/Screen/userList.page.dart';
 import 'package:therapy_app/Screen/doctorProfilePage.dart';
 import 'package:therapy_app/constant/myColor.dart';
+import 'package:therapy_app/data/provider/userListController.dart';
 
-class DoctorHomePage extends StatefulWidget {
+class DoctorHomePage extends ConsumerStatefulWidget {
   const DoctorHomePage({super.key});
 
   @override
-  State<DoctorHomePage> createState() => _DoctorHomePageState();
+  ConsumerState<DoctorHomePage> createState() => _DoctorHomePageState();
 }
 
-class _DoctorHomePageState extends State<DoctorHomePage> {
+class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
   int tabBottom = 0;
   List<Map<String, dynamic>> doctorList = [
     {
@@ -38,6 +41,9 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
   ];
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box("data");
+
+    final userListProvider = ref.watch(userListController);
     return WillPopScope(
       onWillPop: () async {
         if (tabBottom != 0) {
@@ -69,9 +75,9 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                               color: Colors.grey,
                             ),
                             child: ClipOval(
-                              child: Image.asset(
-                                "assets/profile.png",
-                                //"${box.get("profile_picturee") ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png"}",
+                              child: Image.network(
+                                // "assets/profile.png",
+                                "${box.get("profile_picturee") ?? "https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/1665px-No-Image-Placeholder.png"}",
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -81,7 +87,8 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Hi,Alicent Hightower",
+                                // "Hi,Alicent Hightower",
+                                "Hi, ${box.get("name")}",
                                 style: GoogleFonts.nunito(
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
@@ -304,174 +311,236 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                           ],
                         ),
                       ),
-                      Padding(
-                        padding: EdgeInsets.only(left: 24.w, right: 24.w),
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          padding: EdgeInsets.zero,
-                          itemCount: doctorList.length,
-                          itemBuilder: (context, index) {
-                            return Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.only(top: 20.h),
-                                  padding: EdgeInsets.only(
-                                    left: 12.w,
-                                    right: 12.w,
-                                    top: 12.h,
-                                    bottom: 12.h,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.r),
-                                    border: Border.all(
-                                      color: Color(0xffE4E4E7),
-                                    ),
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            CupertinoPageRoute(
-                                              builder:
-                                                  (context) =>
-                                                      UserDetailsPage(),
-                                            ),
-                                          );
-                                        },
-                                        child: Row(
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.r),
-                                              child: Image.asset(
-                                                //"assets/doctor1.png",
-                                                doctorList[index]['image']
-                                                    .toString(),
-                                              ),
-                                            ),
-                                            SizedBox(width: 10.w),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
+                      userListProvider.when(
+                        data: (userList) {
+                          return Padding(
+                            padding: EdgeInsets.only(left: 24.w, right: 24.w),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                              padding: EdgeInsets.zero,
+                              itemCount: userList.bookings.length,
+                              itemBuilder: (context, index) {
+                                return Column(
+                                  children: [
+                                    Container(
+                                      margin: EdgeInsets.only(top: 20.h),
+                                      padding: EdgeInsets.only(
+                                        left: 12.w,
+                                        right: 12.w,
+                                        top: 12.h,
+                                        bottom: 12.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          16.r,
+                                        ),
+                                        border: Border.all(
+                                          color: Color(0xffE4E4E7),
+                                        ),
+                                      ),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                CupertinoPageRoute(
+                                                  builder:
+                                                      (context) =>
+                                                          UserDetailsPage(),
+                                                ),
+                                              );
+                                            },
+                                            child: Row(
                                               children: [
-                                                Text(
-                                                  // "Dr. Ahmed Khan",
-                                                  doctorList[index]['name']
-                                                      .toString(),
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 14.sp,
-                                                    fontWeight: FontWeight.w700,
-                                                    color: Color(0xff18181B),
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                        10.r,
+                                                      ),
+                                                  child: Image.network(
+                                                    //"assets/doctor1.png",
+                                                    // doctorList[index]['image']
+                                                    //     .toString(),
+                                                    userList
+                                                        .bookings[index]
+                                                        .user
+                                                        .profilePicture
+                                                        .toString(),
+                                                    width: 90.w,
+                                                    height: 90.h,
+                                                    fit: BoxFit.cover,
+                                                    errorBuilder: (
+                                                      context,
+                                                      error,
+                                                      stackTrace,
+                                                    ) {
+                                                      return Image.network(
+                                                        "https://demofree.sirv.com/nope-not-here.jpg",
+                                                        width: 90.w,
+                                                        height: 90.h,
+                                                        fit: BoxFit.cover,
+                                                      );
+                                                    },
                                                   ),
                                                 ),
-                                                SizedBox(height: 2.h),
-                                                Text(
-                                                  // "Cardiologist",
-                                                  doctorList[index]['specility']
-                                                      .toString(),
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 13.sp,
-                                                    fontWeight: FontWeight.w400,
-                                                    color: buttonColor,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 2.h),
-                                                Row(
+                                                SizedBox(width: 10.w),
+                                                Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
                                                   children: [
-                                                    Icon(
-                                                      Icons
-                                                          .shopping_bag_outlined,
-                                                      color: Color(0xff71717A),
-                                                      size: 20.sp,
-                                                    ),
-                                                    SizedBox(width: 5.h),
                                                     Text(
-                                                      "2 years",
+                                                      // "Dr. Ahmed Khan",
+                                                      // doctorList[index]['name']
+                                                      //     .toString(),
+                                                      userList
+                                                          .bookings[index]
+                                                          .user
+                                                          .name,
                                                       style: GoogleFonts.inter(
-                                                        fontSize: 15.sp,
+                                                        fontSize: 14.sp,
                                                         fontWeight:
-                                                            FontWeight.w500,
+                                                            FontWeight.w700,
                                                         color: Color(
-                                                          0xff71717A,
+                                                          0xff18181B,
                                                         ),
                                                       ),
                                                     ),
-                                                    SizedBox(width: 15.h),
-                                                    Icon(
-                                                      Icons.star_border,
-                                                      color: Color(0xff71717A),
-                                                      size: 20.sp,
-                                                    ),
-                                                    SizedBox(width: 5.h),
+                                                    SizedBox(height: 2.h),
                                                     Text(
-                                                      "4.8 ",
+                                                      // "Cardiologist",
+                                                      // doctorList[index]['specility']
+                                                      //     .toString(),
+                                                      userList
+                                                          .bookings[index]
+                                                          .user
+                                                          .specialization,
                                                       style: GoogleFonts.inter(
-                                                        fontSize: 15.sp,
+                                                        fontSize: 13.sp,
                                                         fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Color(
-                                                          0xff71717A,
-                                                        ),
+                                                            FontWeight.w400,
+                                                        color: buttonColor,
                                                       ),
+                                                    ),
+                                                    SizedBox(height: 2.h),
+                                                    Row(
+                                                      children: [
+                                                        Icon(
+                                                          Icons
+                                                              .shopping_bag_outlined,
+                                                          color: Color(
+                                                            0xff71717A,
+                                                          ),
+                                                          size: 20.sp,
+                                                        ),
+                                                        SizedBox(width: 5.h),
+                                                        Text(
+                                                          "2 years",
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                fontSize: 15.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color(
+                                                                  0xff71717A,
+                                                                ),
+                                                              ),
+                                                        ),
+                                                        SizedBox(width: 15.h),
+                                                        Icon(
+                                                          Icons.star_border,
+                                                          color: Color(
+                                                            0xff71717A,
+                                                          ),
+                                                          size: 20.sp,
+                                                        ),
+                                                        SizedBox(width: 5.h),
+                                                        Text(
+                                                          "4.8 ",
+                                                          style:
+                                                              GoogleFonts.inter(
+                                                                fontSize: 15.sp,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .w500,
+                                                                color: Color(
+                                                                  0xff71717A,
+                                                                ),
+                                                              ),
+                                                        ),
+                                                      ],
                                                     ),
                                                   ],
                                                 ),
                                               ],
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.h),
-                                      Divider(color: Color(0xffE4E4E7)),
-                                      SizedBox(height: 8.h),
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            "৳ 500.00",
-                                            style: GoogleFonts.inter(
-                                              fontSize: 18.sp,
-                                              fontWeight: FontWeight.w700,
-                                              color: Color(0xff18181B),
-                                            ),
                                           ),
-                                          InkWell(
-                                            onTap: () {},
-                                            child: Container(
-                                              width: 64.w,
-                                              height: 32.h,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10.r),
-                                                color: buttonColor,
+                                          SizedBox(height: 10.h),
+                                          Divider(color: Color(0xffE4E4E7)),
+                                          SizedBox(height: 8.h),
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                "৳ 500.00",
+                                                style: GoogleFonts.inter(
+                                                  fontSize: 18.sp,
+                                                  fontWeight: FontWeight.w700,
+                                                  color: Color(0xff18181B),
+                                                ),
                                               ),
-                                              child: Center(
-                                                child: Text(
-                                                  "View",
-                                                  style: GoogleFonts.inter(
-                                                    fontSize: 12.sp,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Color(0xFFFFFFFF),
+                                              InkWell(
+                                                onTap: () {},
+                                                child: Container(
+                                                  width: 64.w,
+                                                  height: 32.h,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                          10.r,
+                                                        ),
+                                                    color: buttonColor,
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "View",
+                                                      style: GoogleFonts.inter(
+                                                        fontSize: 12.sp,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        color: Color(
+                                                          0xFFFFFFFF,
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
-                                            ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        ),
+                                    ),
+                                  ],
+                                );
+                              },
+                            ),
+                          );
+                        },
+                        error:
+                            (error, stackTrace) =>
+                                Center(child: Text(error.toString())),
+                        loading:
+                            () => Center(
+                              child: CircularProgressIndicator(
+                                color: Colors.green,
+                              ),
+                            ),
                       ),
                     ],
                   ),
