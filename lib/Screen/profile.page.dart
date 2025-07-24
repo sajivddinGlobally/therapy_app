@@ -8,6 +8,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/Screen/question1.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/data/provider/registerController.dart';
@@ -125,7 +126,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
   final List<String> genders = ['male', 'female', 'other'];
 
   String? selectedType;
-  final List<String> typeList = ["patient", "therepiest"];
+  final List<String> typeList = ["patient", "therapist"];
 
   DateTime? selectedDate;
   final dateController = TextEditingController();
@@ -503,116 +504,204 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       },
                     ),
                     SizedBox(height: 16.h),
-                    if(selectedType == "patient")
-                    TextFormField(
-                      onTap: () {
-                        pickDate();
-                      },
-                      controller: dateController,
-                      readOnly: true,
-                      decoration: InputDecoration(
-                        contentPadding: EdgeInsets.only(left: 10.w),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14.r),
-                          borderSide: BorderSide(
+                    if (selectedGender == "patient")
+                      TextFormField(
+                        onTap: () {
+                          pickDate();
+                        },
+                        controller: dateController,
+                        readOnly: true,
+                        decoration: InputDecoration(
+                          contentPadding: EdgeInsets.only(left: 10.w),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.r),
+                            borderSide: BorderSide(
+                              color: Color(0xFFC8C8C8),
+                              width: 1.w,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.r),
+                            borderSide: BorderSide(
+                              color: Color(0xFFC8C8C8),
+                              width: 1.w,
+                            ),
+                          ),
+                          errorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.r),
+                            borderSide: BorderSide(
+                              color: Color(0xFFC8C8C8),
+                              width: 1.w,
+                            ),
+                          ),
+                          focusedErrorBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(14.r),
+                            borderSide: BorderSide(
+                              color: Color(0xFFC8C8C8),
+                              width: 1.w,
+                            ),
+                          ),
+                          prefixIcon: Icon(
+                            Icons.date_range_outlined,
                             color: Color(0xFFC8C8C8),
-                            width: 1.w,
+                          ),
+                          hintText: "Date of Birth",
+                          hintStyle: GoogleFonts.inter(
+                            fontSize: 15.sp,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFFC8C8C8),
                           ),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14.r),
-                          borderSide: BorderSide(
-                            color: Color(0xFFC8C8C8),
-                            width: 1.w,
-                          ),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14.r),
-                          borderSide: BorderSide(
-                            color: Color(0xFFC8C8C8),
-                            width: 1.w,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(14.r),
-                          borderSide: BorderSide(
-                            color: Color(0xFFC8C8C8),
-                            width: 1.w,
-                          ),
-                        ),
-                        prefixIcon: Icon(
-                          Icons.date_range_outlined,
-                          color: Color(0xFFC8C8C8),
-                        ),
-                        hintText: "Date of Birth",
-                        hintStyle: GoogleFonts.inter(
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFC8C8C8),
-                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select your date of birth';
+                          }
+                          return null;
+                        },
                       ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please select your date of birth';
-                        }
-                        return null;
-                      },
-                    ),
                   ],
                 ),
               ),
               SizedBox(height: 30.h),
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: GestureDetector(
+              //     onTap: () async {
+              //       if (!_formKey.currentState!.validate()) {
+              //         return;
+              //       }
+
+              //       if (image == null) {
+              //         Fluttertoast.showToast(
+              //           msg: "Please upload image.",
+              //           gravity: ToastGravity.BOTTOM,
+              //           toastLength: Toast.LENGTH_SHORT,
+              //           backgroundColor: Colors.red,
+              //           textColor: Colors.white,
+              //         );
+              //         return;
+              //       }
+              //       setState(() => isLoading = true);
+
+              //       if (selectedType == "therapist") {
+              //         try {
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setName(nameController.text);
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setPhone(phoneController.text);
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setGender(selectedGender!);
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setDOB(dateController.text);
+
+              //           // 🛠️ Only run if image is not null (already checked above)
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setProfilePicture(image!.path);
+
+              //           log(nameController.text);
+              //           log(phoneController.text);
+              //           log(selectedGender.toString());
+              //           log(dateController.text);
+
+              //           Fluttertoast.showToast(
+              //             msg: "Saved step 2",
+              //             gravity: ToastGravity.BOTTOM,
+              //             toastLength: Toast.LENGTH_SHORT,
+              //             backgroundColor: buttonColor,
+              //             textColor: Colors.white,
+              //           );
+              //           Navigator.push(
+              //             context,
+              //             CupertinoPageRoute(
+              //               builder: (context) => Question1Page(),
+              //             ),
+              //           );
+              //         } catch (e) {
+              //           Fluttertoast.showToast(msg: "Something went wrong: $e");
+              //         } finally {
+              //           setState(() => isLoading = false);
+              //         }
+              //       } else {
+              //         try {
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setName(nameController.text);
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setPhone(phoneController.text);
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setGender(selectedGender!);
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setUserType(selectedType!);
+
+              //           // 🛠️ Only run if image is not null (already checked above)
+              //           ref
+              //               .read(registerFormProvider.notifier)
+              //               .setProfilePicture(image!.path);
+
+              //           log(nameController.text);
+              //           log(phoneController.text);
+              //           log(selectedGender.toString());
+              //           log(dateController.text);
+
+              //           Fluttertoast.showToast(
+              //             msg: "Saved step 2",
+              //             gravity: ToastGravity.BOTTOM,
+              //             toastLength: Toast.LENGTH_SHORT,
+              //             backgroundColor: buttonColor,
+              //             textColor: Colors.white,
+              //           );
+              //           Navigator.push(
+              //             context,
+              //             CupertinoPageRoute(builder: (context) => LoginPage()),
+              //           );
+              //         } catch (e) {
+              //           Fluttertoast.showToast(msg: "Something went wrong: $e");
+              //         } finally {
+              //           setState(() => isLoading = false);
+              //         }
+              //       }
+              //     },
+              //     child: Container(
+              //       width: 327.w,
+              //       height: 56.h,
+              //       decoration: BoxDecoration(
+              //         color: buttonColor,
+              //         borderRadius: BorderRadius.circular(14.r),
+              //       ),
+              //       child: Center(
+              //         child:
+              //             isLoading
+              //                 ? Center(
+              //                   child: CircularProgressIndicator(
+              //                     color: Colors.white,
+              //                   ),
+              //                 )
+              //                 : Text(
+              //                   "Continue",
+              //                   style: GoogleFonts.inter(
+              //                     fontSize: 16.sp,
+              //                     fontWeight: FontWeight.w500,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
               Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () async {
-                    // if (!_formKey.currentState!.validate()) {
-                    //   return;
-                    // }
-                    // setState(() => isLoading = true);
-                    // try {
-                    //   ref
-                    //       .read(registerFormProvider.notifier)
-                    //       .setName(nameController.text);
-                    //   ref
-                    //       .read(registerFormProvider.notifier)
-                    //       .setPhone(phoneController.text);
-                    //   ref
-                    //       .read(registerFormProvider.notifier)
-                    //       .setGender(selectedGender!);
-                    //   ref
-                    //       .read(registerFormProvider.notifier)
-                    //       .setDOB(dateController.text);
-                    //   ref
-                    //       .read(registerFormProvider.notifier)
-                    //       .setProfilePicture(image!.path);
-                    //   log(nameController.text);
-                    //   log(phoneController.text);
-                    //   log(selectedGender.toString());
-                    //   log(dateController.text);
-                    //   Fluttertoast.showToast(
-                    //     msg: "Saved step 2",
-                    //     gravity: ToastGravity.BOTTOM,
-                    //     toastLength: Toast.LENGTH_SHORT,
-                    //     backgroundColor: buttonColor,
-                    //     textColor: Color(0xFFFFFFFF),
-                    //   );
-                    //   Navigator.push(
-                    //     context,
-                    //     CupertinoPageRoute(
-                    //       builder: (context) => Question1Page(),
-                    //     ),
-                    //   );
-                    //   setState(() => isLoading = false);
-                    // } catch (e) {
-                    //   setState(() => isLoading = false);
-                    //   Fluttertoast.showToast(msg: "Something went wrong: $e");
-                    // }
+                    if (!_formKey.currentState!.validate()) return;
 
-                    if (!_formKey.currentState!.validate()) {
-                      return;
-                    }
-                    // 🛠️ Fix added here
                     if (image == null) {
                       Fluttertoast.showToast(
                         msg: "Please upload image.",
@@ -623,31 +712,24 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       );
                       return;
                     }
+
                     setState(() => isLoading = true);
+
                     try {
-                      ref
-                          .read(registerFormProvider.notifier)
-                          .setName(nameController.text);
-                      ref
-                          .read(registerFormProvider.notifier)
-                          .setPhone(phoneController.text);
-                      ref
-                          .read(registerFormProvider.notifier)
-                          .setGender(selectedGender!);
-                      ref
-                          .read(registerFormProvider.notifier)
-                          .setDOB(dateController.text);
+                      final notifier = ref.read(registerFormProvider.notifier);
 
-                      // 🛠️ Only run if image is not null (already checked above)
-                      ref
-                          .read(registerFormProvider.notifier)
-                          .setProfilePicture(image!.path);
-
-                      log(nameController.text);
-                      log(phoneController.text);
-                      log(selectedGender.toString());
-                      log(dateController.text);
-
+                      // ✅ Set common fields
+                      notifier
+                        ..setName(nameController.text)
+                        ..setPhone(phoneController.text)
+                        ..setGender(selectedGender!)
+                        ..setProfilePicture(image!.path)
+                        ..setUserType(selectedType!);
+                        
+                      // ❗Only for patient: set DOB
+                      if (selectedType == "patient") {
+                        notifier.setDOB(dateController.text);
+                      }
                       Fluttertoast.showToast(
                         msg: "Saved step 2",
                         gravity: ToastGravity.BOTTOM,
@@ -655,10 +737,15 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         backgroundColor: buttonColor,
                         textColor: Colors.white,
                       );
+
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => Question1Page(),
+                          builder:
+                              (context) =>
+                                  selectedType == "therapist"
+                                      ? LoginPage()
+                                      : Question1Page(),
                         ),
                       );
                     } catch (e) {
@@ -677,11 +764,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     child: Center(
                       child:
                           isLoading
-                              ? Center(
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                ),
-                              )
+                              ? CircularProgressIndicator(color: Colors.white)
                               : Text(
                                 "Continue",
                                 style: GoogleFonts.inter(
