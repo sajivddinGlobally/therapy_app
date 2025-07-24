@@ -32,8 +32,7 @@ class LoginController extends StateNotifier<LoginState> {
       log("Login Successful : ${response.message}");
     } catch (e) {
       // handle error and set the state error
-      state = LoginError(e.toString());
-      log(e.toString());
+      state = LoginError(e.toString());log(e.toString());
     }
   }
 }

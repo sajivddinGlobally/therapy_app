@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:therapy_app/Screen/doctorHome.page.dart';
 import 'package:therapy_app/Screen/userList.page.dart';
 import 'package:therapy_app/Screen/forgot.password.page.dart';
 import 'package:therapy_app/Screen/home.page.dart';
@@ -164,38 +165,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     SizedBox(height: 24.h),
                     InkWell(
                       onTap: () async {
-                        // done method sahi hai
-                        // setState(() {
-                        //   isLogin = true;
-                        // });
-                        // final body = LoginBodyModel(
-                        //   email: emailController.text,
-                        //   password: passwordController.text,
-                        // );
-                        // try {
-                        //   final loginservice = ApiStateNetwork(
-                        //     await createDio(),
-                        //   );
-                        //   final data = compute(loginservice.login, body);
-                        //   final response = await data;
-                        //   if (response != null) {
-                        //     Fluttertoast.showToast(msg: response.message);
-                        //     Navigator.push(
-                        //       context,
-                        //       CupertinoPageRoute(
-                        //         builder: (context) => HomePage(),
-                        //       ),
-                        //     );
-                        //   } else {
-                        //     log("failed");
-                        //     Fluttertoast.showToast(msg: "failed");
-                        //   }
-                        // } catch (e) {
-                        //   setState(() {
-                        //     isLogin = false;
-                        //   });
-                        //   Fluttertoast.showToast(msg: "something went wrong");
-                        // }
                         if (emailController.text.isEmpty ||
                             passwordController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -207,19 +176,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           isLogin = true;
                         });
                         try {
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (context) {
-                          //     return Center(
-                          //       child: AlertDialog(
-                          //         backgroundColor: Colors.transparent,
-                          //         actions: [
-                          //           Center(child: CircularProgressIndicator()),
-                          //         ],
-                          //       ),
-                          //     );
-                          //   },
-                          // );
                           final body = LoginBodyModel(
                             email: emailController.text,
                             password: passwordController.text,
@@ -241,12 +197,22 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             );
                             // Navigation after flushbar
                             if (!mounted) return;
-                            Navigator.pushReplacement(
-                              context,
-                              CupertinoPageRoute(
-                                builder: (context) => HomePage(),
-                              ),
-                            );
+                            final userType = loginState.response.user!.userType;
+                            if (userType == "therapist") {
+                              Navigator.pushReplacement(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => DoctorHomePage(),
+                                ),
+                              );
+                            } else {
+                              Navigator.pushReplacement(
+                                context,
+                                CupertinoPageRoute(
+                                  builder: (context) => HomePage(),
+                                ),
+                              );
+                            }
                           } else if (loginState is LoginError) {
                             setState(() {
                               isLogin = false;
