@@ -120,10 +120,12 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String? selectedGender, type;
+  String? selectedGender;
 
   final List<String> genders = ['male', 'female', 'other'];
-  final List<String> types = ["patient", "therepiest"];
+
+  String? selectedType;
+  final List<String> typeList = ["patient", "therepiest"];
 
   DateTime? selectedDate;
   final dateController = TextEditingController();
@@ -434,7 +436,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         color: Color(0xFF868686),
                       ),
                       padding: EdgeInsets.zero,
-                      value: selectedGender,
+                      value: selectedType,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         contentPadding: EdgeInsets.only(
@@ -479,7 +481,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         ),
                       ),
                       items:
-                          types.map((type) {
+                          typeList.map((type) {
                             return DropdownMenuItem(
                               value: type,
                               child: Text(type),
@@ -490,7 +492,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           ref
                               .read(registerFormProvider.notifier)
                               .setUserType(value!);
-                          selectedGender = value;
+                          selectedType = value;
                         });
                       },
                       validator: (value) {
@@ -501,6 +503,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       },
                     ),
                     SizedBox(height: 16.h),
+                    if(selectedType == "patient")
                     TextFormField(
                       onTap: () {
                         pickDate();
