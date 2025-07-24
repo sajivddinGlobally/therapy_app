@@ -485,7 +485,14 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                               child: Text(type),
                             );
                           }).toList(),
-                      onChanged: (value) {},
+                      onChanged: (value) {
+                        setState(() {
+                          ref
+                              .read(registerFormProvider.notifier)
+                              .setUserType(value!);
+                          selectedGender = value;
+                        });
+                      },
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please Select Type";
