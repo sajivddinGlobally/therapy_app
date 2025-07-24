@@ -120,9 +120,10 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
 
   final _formKey = GlobalKey<FormState>();
 
-  String? selectedGender;
+  String? selectedGender, type;
 
   final List<String> genders = ['male', 'female', 'other'];
+  final List<String> types = ["patient", "therepiest"];
 
   DateTime? selectedDate;
   final dateController = TextEditingController();
@@ -422,6 +423,72 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return "Please Select Gender";
+                        }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 16.h),
+                    DropdownButtonFormField<String>(
+                      icon: Icon(
+                        Icons.keyboard_arrow_down,
+                        color: Color(0xFF868686),
+                      ),
+                      padding: EdgeInsets.zero,
+                      value: selectedGender,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        contentPadding: EdgeInsets.only(
+                          left: 10.w,
+                          right: 10.w,
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(14.r),
+                          borderSide: BorderSide(
+                            color: Color(0xFFC8C8C8),
+                            width: 1.w,
+                          ),
+                        ),
+                      ),
+                      hint: Text(
+                        "Type",
+                        style: GoogleFonts.inter(
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFFC8C8C8),
+                        ),
+                      ),
+                      items:
+                          types.map((type) {
+                            return DropdownMenuItem(
+                              value: type,
+                              child: Text(type),
+                            );
+                          }).toList(),
+                      onChanged: (value) {},
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return "Please Select Type";
                         }
                         return null;
                       },
