@@ -21,11 +21,11 @@ class LoginController extends StateNotifier<LoginState> {
       final response = await apistatenetwork.login(body);
 
       var box = Hive.box("data");
-      await box.put("id", response.user.id);
-      await box.put("name", response.user.name);
-      await box.put("email", response.user.email);
-      await box.put("token", response.user.token);
-      await box.put("profile_picturee", response.user.profilePicture);
+      await box.put("id", response.user!.id);
+      await box.put("name", response.user!.name);
+      await box.put("email", response.user!.email);
+      await box.put("token", response.user!.token);
+      await box.put("profile_picturee", response.user!.profilePicture);
 
       //set state the success to the response
       state = LoginSuccess(response);

@@ -231,7 +231,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
                           if (loginState is LoginSuccess) {
                             Fluttertoast.showToast(
-                              msg: loginState.response.message,
+                              msg:
+                                  loginState.response.message ??
+                                  "Login successful",
                               gravity: ToastGravity.BOTTOM,
                               toastLength: Toast.LENGTH_SHORT,
                               backgroundColor: buttonColor,

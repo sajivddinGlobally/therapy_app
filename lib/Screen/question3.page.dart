@@ -148,9 +148,9 @@ class _Question3PageState extends ConsumerState<Question3Page> {
                       isLoading = true;
                     });
                     ref.read(registerFormProvider.notifier).setCategoryId(1);
-                    ref
-                        .read(registerFormProvider.notifier)
-                        .setUserType("therapist");
+                    // ref
+                    //     .read(registerFormProvider.notifier)
+                    //     .setUserType("therapist");
                     await ref
                         .read(registerFormProvider.notifier)
                         .registerUser();

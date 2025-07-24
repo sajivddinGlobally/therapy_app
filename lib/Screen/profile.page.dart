@@ -504,7 +504,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       },
                     ),
                     SizedBox(height: 16.h),
-                    if (selectedGender == "patient")
+                    if (selectedGender != "therapist")
                       TextFormField(
                         onTap: () {
                           pickDate();
@@ -563,144 +563,13 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                 ),
               ),
               SizedBox(height: 30.h),
-              // Align(
-              //   alignment: Alignment.center,
-              //   child: GestureDetector(
-              //     onTap: () async {
-              //       if (!_formKey.currentState!.validate()) {
-              //         return;
-              //       }
-
-              //       if (image == null) {
-              //         Fluttertoast.showToast(
-              //           msg: "Please upload image.",
-              //           gravity: ToastGravity.BOTTOM,
-              //           toastLength: Toast.LENGTH_SHORT,
-              //           backgroundColor: Colors.red,
-              //           textColor: Colors.white,
-              //         );
-              //         return;
-              //       }
-              //       setState(() => isLoading = true);
-
-              //       if (selectedType == "therapist") {
-              //         try {
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setName(nameController.text);
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setPhone(phoneController.text);
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setGender(selectedGender!);
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setDOB(dateController.text);
-
-              //           // 🛠️ Only run if image is not null (already checked above)
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setProfilePicture(image!.path);
-
-              //           log(nameController.text);
-              //           log(phoneController.text);
-              //           log(selectedGender.toString());
-              //           log(dateController.text);
-
-              //           Fluttertoast.showToast(
-              //             msg: "Saved step 2",
-              //             gravity: ToastGravity.BOTTOM,
-              //             toastLength: Toast.LENGTH_SHORT,
-              //             backgroundColor: buttonColor,
-              //             textColor: Colors.white,
-              //           );
-              //           Navigator.push(
-              //             context,
-              //             CupertinoPageRoute(
-              //               builder: (context) => Question1Page(),
-              //             ),
-              //           );
-              //         } catch (e) {
-              //           Fluttertoast.showToast(msg: "Something went wrong: $e");
-              //         } finally {
-              //           setState(() => isLoading = false);
-              //         }
-              //       } else {
-              //         try {
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setName(nameController.text);
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setPhone(phoneController.text);
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setGender(selectedGender!);
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setUserType(selectedType!);
-
-              //           // 🛠️ Only run if image is not null (already checked above)
-              //           ref
-              //               .read(registerFormProvider.notifier)
-              //               .setProfilePicture(image!.path);
-
-              //           log(nameController.text);
-              //           log(phoneController.text);
-              //           log(selectedGender.toString());
-              //           log(dateController.text);
-
-              //           Fluttertoast.showToast(
-              //             msg: "Saved step 2",
-              //             gravity: ToastGravity.BOTTOM,
-              //             toastLength: Toast.LENGTH_SHORT,
-              //             backgroundColor: buttonColor,
-              //             textColor: Colors.white,
-              //           );
-              //           Navigator.push(
-              //             context,
-              //             CupertinoPageRoute(builder: (context) => LoginPage()),
-              //           );
-              //         } catch (e) {
-              //           Fluttertoast.showToast(msg: "Something went wrong: $e");
-              //         } finally {
-              //           setState(() => isLoading = false);
-              //         }
-              //       }
-              //     },
-              //     child: Container(
-              //       width: 327.w,
-              //       height: 56.h,
-              //       decoration: BoxDecoration(
-              //         color: buttonColor,
-              //         borderRadius: BorderRadius.circular(14.r),
-              //       ),
-              //       child: Center(
-              //         child:
-              //             isLoading
-              //                 ? Center(
-              //                   child: CircularProgressIndicator(
-              //                     color: Colors.white,
-              //                   ),
-              //                 )
-              //                 : Text(
-              //                   "Continue",
-              //                   style: GoogleFonts.inter(
-              //                     fontSize: 16.sp,
-              //                     fontWeight: FontWeight.w500,
-              //                     color: Colors.white,
-              //                   ),
-              //                 ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Align(
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () async {
-                    if (!_formKey.currentState!.validate()) return;
+                    if (!_formKey.currentState!.validate()) {
+                      return;
+                    }
 
                     if (image == null) {
                       Fluttertoast.showToast(
@@ -712,46 +581,100 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                       );
                       return;
                     }
-
                     setState(() => isLoading = true);
 
-                    try {
-                      final notifier = ref.read(registerFormProvider.notifier);
+                    if (selectedType != "therapist") {
+                      try {
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setName(nameController.text);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setPhone(phoneController.text);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setGender(selectedGender!);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setDOB(dateController.text);
 
-                      // ✅ Set common fields
-                      notifier
-                        ..setName(nameController.text)
-                        ..setPhone(phoneController.text)
-                        ..setGender(selectedGender!)
-                        ..setProfilePicture(image!.path)
-                        ..setUserType(selectedType!);
-                        
-                      // ❗Only for patient: set DOB
-                      if (selectedType == "patient") {
-                        notifier.setDOB(dateController.text);
+                        // 🛠️ Only run if image is not null (already checked above)
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setProfilePicture(image!.path);
+
+                        log(nameController.text);
+                        log(phoneController.text);
+                        log(selectedGender.toString());
+                        log(dateController.text);
+
+                        Fluttertoast.showToast(
+                          msg: "Saved step 2",
+                          gravity: ToastGravity.BOTTOM,
+                          toastLength: Toast.LENGTH_SHORT,
+                          backgroundColor: buttonColor,
+                          textColor: Colors.white,
+                        );
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                            builder: (context) => Question1Page(),
+                          ),
+                        );
+                      } catch (e) {
+                        Fluttertoast.showToast(msg: "Something went wrong: $e");
+                      } finally {
+                        setState(() => isLoading = false);
                       }
-                      Fluttertoast.showToast(
-                        msg: "Saved step 2",
-                        gravity: ToastGravity.BOTTOM,
-                        toastLength: Toast.LENGTH_SHORT,
-                        backgroundColor: buttonColor,
-                        textColor: Colors.white,
-                      );
+                    } else {
+                      try {
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setName(nameController.text);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setPhone(phoneController.text);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setGender(selectedGender!);
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setUserType(selectedType!);
 
-                      Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                          builder:
-                              (context) =>
-                                  selectedType == "therapist"
-                                      ? LoginPage()
-                                      : Question1Page(),
-                        ),
-                      );
-                    } catch (e) {
-                      Fluttertoast.showToast(msg: "Something went wrong: $e");
-                    } finally {
-                      setState(() => isLoading = false);
+                        // 🛠️ Only run if image is not null (already checked above)
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setProfilePicture(image!.path);
+
+                        ref
+                            .read(registerFormProvider.notifier)
+                            .setCategoryId(1);
+
+                        await ref
+                            .read(registerFormProvider.notifier)
+                            .registerUser();
+
+                        log(nameController.text);
+                        log(phoneController.text);
+                        log(selectedGender.toString());
+                        log(selectedType!);
+
+                        Fluttertoast.showToast(
+                          msg: "Saved step ",
+                          gravity: ToastGravity.BOTTOM,
+                          toastLength: Toast.LENGTH_SHORT,
+                          backgroundColor: buttonColor,
+                          textColor: Colors.white,
+                        );
+                        Navigator.push(
+                          context,
+                          CupertinoPageRoute(builder: (context) => LoginPage()),
+                        );
+                      } catch (e) {
+                        Fluttertoast.showToast(msg: "Something went wrong: $e");
+                      } finally {
+                        setState(() => isLoading = false);
+                      }
                     }
                   },
                   child: Container(
@@ -764,7 +687,11 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                     child: Center(
                       child:
                           isLoading
-                              ? CircularProgressIndicator(color: Colors.white)
+                              ? Center(
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                ),
+                              )
                               : Text(
                                 "Continue",
                                 style: GoogleFonts.inter(
@@ -777,6 +704,87 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                   ),
                 ),
               ),
+              // Align(
+              //   alignment: Alignment.center,
+              //   child: GestureDetector(
+              //     onTap: () async {
+              //       if (!_formKey.currentState!.validate()) return;
+
+              //       if (image == null) {
+              //         Fluttertoast.showToast(
+              //           msg: "Please upload image.",
+              //           gravity: ToastGravity.BOTTOM,
+              //           toastLength: Toast.LENGTH_SHORT,
+              //           backgroundColor: Colors.red,
+              //           textColor: Colors.white,
+              //         );
+              //         return;
+              //       }
+
+              //       setState(() => isLoading = true);
+
+              //       try {
+              //         final notifier = ref.read(registerFormProvider.notifier);
+
+              //         // ✅ Set common fields
+              //         notifier
+              //           ..setName(nameController.text)
+              //           ..setPhone(phoneController.text)
+              //           ..setGender(selectedGender!)
+              //           ..setProfilePicture(image!.path)
+              //           ..setUserType(selectedType!);
+
+              //         // ❗Only for patient: set DOB
+              //         if (selectedType == "patient") {
+              //           notifier.setDOB(dateController.text);
+              //         }
+              //         Fluttertoast.showToast(
+              //           msg: "Saved step 2",
+              //           gravity: ToastGravity.BOTTOM,
+              //           toastLength: Toast.LENGTH_SHORT,
+              //           backgroundColor: buttonColor,
+              //           textColor: Colors.white,
+              //         );
+
+              //         Navigator.push(
+              //           context,
+              //           CupertinoPageRoute(
+              //             builder:
+              //                 (context) =>
+              //                     selectedType == "therapist"
+              //                         ? LoginPage()
+              //                         : Question1Page(),
+              //           ),
+              //         );
+              //       } catch (e) {
+              //         Fluttertoast.showToast(msg: "Something went wrong: $e");
+              //       } finally {
+              //         setState(() => isLoading = false);
+              //       }
+              //     },
+              //     child: Container(
+              //       width: 327.w,
+              //       height: 56.h,
+              //       decoration: BoxDecoration(
+              //         color: buttonColor,
+              //         borderRadius: BorderRadius.circular(14.r),
+              //       ),
+              //       child: Center(
+              //         child:
+              //             isLoading
+              //                 ? CircularProgressIndicator(color: Colors.white)
+              //                 : Text(
+              //                   "Continue",
+              //                   style: GoogleFonts.inter(
+              //                     fontSize: 16.sp,
+              //                     fontWeight: FontWeight.w500,
+              //                     color: Colors.white,
+              //                   ),
+              //                 ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
