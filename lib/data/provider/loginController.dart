@@ -19,7 +19,6 @@ class LoginController extends StateNotifier<LoginState> {
       final dio = await createDio();
       final apistatenetwork = ApiStateNetwork(dio);
       final response = await apistatenetwork.login(body);
-
       var box = Hive.box("data");
       await box.put("id", response.user!.id);
       await box.put("name", response.user!.name);
