@@ -752,7 +752,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                         await Notifier.registerUser();
 
                         Fluttertoast.showToast(
-                          msg: "Saved step",
+                          msg: "Registeration Successfull",
                           gravity: ToastGravity.BOTTOM,
                           backgroundColor: buttonColor,
                           textColor: Colors.white,
