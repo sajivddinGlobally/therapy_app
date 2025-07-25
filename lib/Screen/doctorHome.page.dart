@@ -44,6 +44,16 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
     var box = Hive.box("data");
 
     final userListProvider = ref.watch(userListController);
+    if (userListProvider.isLoading) {
+      return Scaffold(
+        body: Center(child: CircularProgressIndicator(color: buttonColor)),
+      );
+    }
+    if (userListProvider.hasError) {
+      return Scaffold(
+        body: Center(child: Text(userListProvider.error.toString())),
+      );
+    }
     return WillPopScope(
       onWillPop: () async {
         if (tabBottom != 0) {
@@ -538,7 +548,7 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                         loading:
                             () => Center(
                               child: CircularProgressIndicator(
-                                color: Colors.green,
+                                color: buttonColor,
                               ),
                             ),
                       ),

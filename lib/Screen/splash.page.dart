@@ -2,6 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:therapy_app/Screen/doctorHome.page.dart';
+import 'package:therapy_app/Screen/home.page.dart';
 import 'package:therapy_app/Screen/login.page.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
@@ -15,6 +18,10 @@ class SplashPage extends StatefulWidget {
 class _SplashPageState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box("data");
+    var token = box.get("token");
+    var type = box.get("userType");
+    Widget targetPage;
     return Scaffold(
       backgroundColor: Color(0xFFFFFFFF),
       body: Column(
@@ -26,9 +33,16 @@ class _SplashPageState extends State<SplashPage> {
           Center(
             child: GestureDetector(
               onTap: () {
+                if (token == null) {
+                  targetPage = LoginPage();
+                } else if (type == "therapist") {
+                  targetPage = DoctorHomePage();
+                } else {
+                  targetPage = HomePage();
+                }
                 Navigator.push(
                   context,
-                  CupertinoPageRoute(builder: (context) => LoginPage()),
+                  CupertinoPageRoute(builder: (context) => targetPage),
                 );
               },
               child: Container(

@@ -283,7 +283,8 @@ class _DoctorProfilePageState extends ConsumerState<DoctorProfilePage> {
           );
         },
         error: (error, stackTrace) => Center(child: Text(error.toString())),
-        loading: () => Center(child: CircularProgressIndicator()),
+        loading:
+            () => Center(child: CircularProgressIndicator(color: buttonColor)),
       ),
     );
   }

@@ -26,6 +26,7 @@ class LoginController extends StateNotifier<LoginState> {
       await box.put("email", response.user!.email);
       await box.put("token", response.user!.token);
       await box.put("profile_picturee", response.user!.profilePicture);
+      await box.put("userType", response.user!.userType);
 
       //set state the success to the response
       state = LoginSuccess(response);
