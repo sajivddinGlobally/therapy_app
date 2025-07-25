@@ -174,7 +174,7 @@ class _AccountPageState extends ConsumerState<AccountPage> {
                       );
                       Navigator.pushAndRemoveUntil(
                         context,
-                        CupertinoPageRoute(builder: (context) => HomePage()),
+                        CupertinoPageRoute(builder: (context) => LoginPage()),
                         (route) => false,
                       );
                     },
