@@ -421,7 +421,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                           Icons.date_range_outlined,
                           color: Color(0xFF2B2B2B),
                         ),
-                        hintText: "Date of Birth asdfaf",
+                        hintText: "Date of Birth",
                         hintStyle: GoogleFonts.inter(
                           fontSize: 15.sp,
                           fontWeight: FontWeight.w600,
