@@ -757,7 +757,7 @@ class _ProfilePageState extends ConsumerState<ProfilePage> {
                           backgroundColor: buttonColor,
                           textColor: Colors.white,
                         );
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           CupertinoPageRoute(builder: (_) => LoginPage()),
                         );
