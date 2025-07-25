@@ -54,6 +54,7 @@ abstract class ApiStateNetwork {
 
   @MultiPart()
   @POST("/api/register")
+  
   Future<HttpResponse> register({
     @Part(name: "name") required String name,
     @Part(name: "email") required String email,

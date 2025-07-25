@@ -108,7 +108,6 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
                         ),
                         (route) => false,
                       );
-                      
                     },
                     child: Container(
                       width: 291.w,

@@ -80,6 +80,7 @@ class RescheduleNotifier
         timeSlot: flowState.selectedTimeSlot ?? '',
         reason: flowState.reason ?? '',
         message: flowState.message ?? '',
+        therapistId: '5',
       );
 
       final response = await api.reshedule(body);

@@ -43,6 +43,7 @@ class Data {
     DateTime updatedAt;
     String reason;
     String message;
+    String therapistId;
 
     Data({
         required this.id,
@@ -55,6 +56,7 @@ class Data {
         required this.updatedAt,
         required this.reason,
         required this.message,
+        required this.therapistId,
     });
 
     factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -68,6 +70,7 @@ class Data {
         updatedAt: DateTime.parse(json["updated_at"]),
         reason: json["reason"],
         message: json["message"],
+        therapistId: json["therapist_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -81,5 +84,6 @@ class Data {
         "updated_at": updatedAt.toIso8601String(),
         "reason": reason,
         "message": message,
+        "therapist_id": therapistId,
     };
 }

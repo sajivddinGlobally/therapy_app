@@ -14,6 +14,7 @@ class ResheduleBodyModel {
     String timeSlot;
     String reason;
     String message;
+    String therapistId;
 
     ResheduleBodyModel({
         required this.bookingId,
@@ -21,6 +22,7 @@ class ResheduleBodyModel {
         required this.timeSlot,
         required this.reason,
         required this.message,
+        required this.therapistId,
     });
 
     factory ResheduleBodyModel.fromJson(Map<String, dynamic> json) => ResheduleBodyModel(
@@ -29,6 +31,7 @@ class ResheduleBodyModel {
         timeSlot: json["time_slot"],
         reason: json["reason"],
         message: json["message"],
+        therapistId: json["therapist_id"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -37,5 +40,6 @@ class ResheduleBodyModel {
         "time_slot": timeSlot,
         "reason": reason,
         "message": message,
+        "therapist_id": therapistId,
     };
 }
