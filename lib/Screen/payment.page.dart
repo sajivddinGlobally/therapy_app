@@ -108,7 +108,9 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        CupertinoPageRoute(builder: (context) => AppoinmentPage()),
+                        CupertinoPageRoute(
+                          builder: (context) => AppoinmentPage(),
+                        ),
                       );
                     },
                     child: Container(
@@ -236,6 +238,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
                     date: DateTime.now(),
                     timeSlot: "timeSlot",
                     paymentMethod: "paymentMethod".toString(),
+                    therapistId: '5',
                   );
                   final service = ApiStateNetwork(createDio());
                   final response = await service.book(body);

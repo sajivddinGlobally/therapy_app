@@ -1,4 +1,3 @@
-
 // To parse this JSON data, do
 //
 //     final bookResModel = bookResModelFromJson(jsonString);
@@ -35,6 +34,7 @@ class Booking {
     String timeSlot;
     String paymentMethod;
     String status;
+    String therapistId;
     DateTime updatedAt;
     DateTime createdAt;
     int id;
@@ -45,6 +45,7 @@ class Booking {
         required this.timeSlot,
         required this.paymentMethod,
         required this.status,
+        required this.therapistId,
         required this.updatedAt,
         required this.createdAt,
         required this.id,
@@ -56,6 +57,7 @@ class Booking {
         timeSlot: json["time_slot"],
         paymentMethod: json["payment_method"],
         status: json["status"],
+        therapistId: json["therapist_id"],
         updatedAt: DateTime.parse(json["updated_at"]),
         createdAt: DateTime.parse(json["created_at"]),
         id: json["id"],
@@ -67,6 +69,7 @@ class Booking {
         "time_slot": timeSlot,
         "payment_method": paymentMethod,
         "status": status,
+        "therapist_id": therapistId,
         "updated_at": updatedAt.toIso8601String(),
         "created_at": createdAt.toIso8601String(),
         "id": id,
