@@ -167,6 +167,9 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
     "12:00 PM",
     "01:00 PM",
   ];
+
+  bool isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(rescheduleFlowProvider);
@@ -306,6 +309,9 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
                   );
                   return;
                 }
+                setState(() {
+                  isLoading = true;
+                });
 
                 // 🔥 Call API (assume bookingId = 5 here)
                 await notifier.submitReschedule(5);
@@ -313,11 +319,13 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
                 final apiState = ref.read(rescheduleFlowProvider);
                 apiState.when(
                   data: (data) {
+                    setState(() => isLoading = false);
                     if (data.response != null) {
                       showDiologBox();
                     }
                   },
                   error: (e, st) {
+                    setState(() => isLoading = false);
                     ScaffoldMessenger.of(
                       context,
                     ).showSnackBar(SnackBar(content: Text("Error: $e")));
@@ -335,14 +343,17 @@ class _ResheduleDatePageState extends ConsumerState<ResheduleDatePage> {
                   borderRadius: BorderRadius.circular(14.r),
                 ),
                 child: Center(
-                  child: Text(
-                    "Continue",
-                    style: GoogleFonts.inter(
-                      fontSize: 16.sp,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  ),
+                  child:
+                      isLoading
+                          ? CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                            "Continue",
+                            style: GoogleFonts.inter(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.white,
+                            ),
+                          ),
                 ),
               ),
             ),
