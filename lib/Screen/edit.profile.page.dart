@@ -436,6 +436,7 @@ class _EditProfilePageState extends ConsumerState<EditProfilePage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(content: Text("Please Select image")),
                         );
+                        return; // ✅ stop execution here
                       }
                       try {
                         setState(() {
