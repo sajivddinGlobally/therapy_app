@@ -1,20 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:therapy_app/constant/myColor.dart';
 
-class UserDetailsPage extends StatefulWidget {
+
+class UserDetailsPage extends ConsumerStatefulWidget {
   const UserDetailsPage({super.key});
 
   @override
-  State<UserDetailsPage> createState() => _UserDetailsPageState();
+  ConsumerState<UserDetailsPage> createState() => _UserDetailsPageState();
 }
 
-class _UserDetailsPageState extends State<UserDetailsPage> {
+class _UserDetailsPageState extends ConsumerState<UserDetailsPage> {
   int tabBo = 0;
   @override
   Widget build(BuildContext context) {
+   
     return Scaffold(
       backgroundColor: bgColor,
       appBar: AppBar(

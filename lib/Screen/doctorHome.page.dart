@@ -39,7 +39,7 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
       "exp": "3 years",
     },
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     var box = Hive.box("data");
@@ -330,7 +330,7 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
                               padding: EdgeInsets.zero,
-                              itemCount: userList.bookings.length,
+                              itemCount: userList.bookings!.length,
                               itemBuilder: (context, index) {
                                 return Column(
                                   children: [
@@ -360,8 +360,16 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                 context,
                                                 CupertinoPageRoute(
                                                   builder:
-                                                      (context) =>
-                                                          UserDetailsPage(),
+                                                      (
+                                                        context,
+                                                      ) => UserDetailsPage(
+                                                        // id:
+                                                        //     userList
+                                                        //         .bookings[index]
+                                                        //         .user
+                                                        //         .id
+                                                        //         .toString(),
+                                                      ),
                                                 ),
                                               );
                                             },
@@ -377,8 +385,8 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                     // doctorList[index]['image']
                                                     //     .toString(),
                                                     userList
-                                                        .bookings[index]
-                                                        .user
+                                                        .bookings![index]
+                                                        .user!
                                                         .profilePicture
                                                         .toString(),
                                                     width: 90.w,
@@ -408,9 +416,9 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                       // doctorList[index]['name']
                                                       //     .toString(),
                                                       userList
-                                                          .bookings[index]
-                                                          .user
-                                                          .name,
+                                                          .bookings![index]
+                                                          .user!
+                                                          .name.toString(),
                                                       style: GoogleFonts.inter(
                                                         fontSize: 14.sp,
                                                         fontWeight:
@@ -426,9 +434,9 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                       // doctorList[index]['specility']
                                                       //     .toString(),
                                                       userList
-                                                          .bookings[index]
-                                                          .user
-                                                          .specialization,
+                                                          .bookings![index]
+                                                          .user!
+                                                          .specialization.toString(),
                                                       style: GoogleFonts.inter(
                                                         fontSize: 13.sp,
                                                         fontWeight:

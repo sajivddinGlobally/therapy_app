@@ -54,7 +54,6 @@ abstract class ApiStateNetwork {
 
   @MultiPart()
   @POST("/api/register")
-  
   Future<HttpResponse> register({
     @Part(name: "name") required String name,
     @Part(name: "email") required String email,
@@ -103,4 +102,7 @@ abstract class ApiStateNetwork {
   // user
   @GET("/api/therapist/5/bookings")
   Future<UserListModel> fetchUserList();
+
+  // @GET("/api/user/{id}")
+  // Future<FetchUserDetailsByIdModel> userDetails(@Path() String id);
 }

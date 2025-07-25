@@ -204,12 +204,20 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class DoctorUserDetailsScreen extends StatelessWidget {
+class DoctorUserDetailsScreen extends ConsumerStatefulWidget {
   const DoctorUserDetailsScreen({super.key});
 
+  @override
+  ConsumerState<DoctorUserDetailsScreen> createState() =>
+      _DoctorUserDetailsScreenState();
+}
+
+class _DoctorUserDetailsScreenState
+    extends ConsumerState<DoctorUserDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -276,7 +284,7 @@ class DoctorUserDetailsScreen extends StatelessWidget {
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(left: 5.w, right: 5.w),
-        
+
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
