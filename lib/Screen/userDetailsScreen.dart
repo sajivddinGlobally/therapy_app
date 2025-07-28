@@ -207,19 +207,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:therapy_app/data/provider/userDetailsController.dart';
 
-class DoctorUserDetailsScreen extends ConsumerStatefulWidget {
-  const DoctorUserDetailsScreen({super.key});
+class UserDetailsScreen extends ConsumerStatefulWidget {
+  const UserDetailsScreen({super.key});
 
   @override
-  ConsumerState<DoctorUserDetailsScreen> createState() =>
-      _DoctorUserDetailsScreenState();
+  ConsumerState<UserDetailsScreen> createState() => _UserDetailsScreenState();
 }
 
-class _DoctorUserDetailsScreenState
-    extends ConsumerState<DoctorUserDetailsScreen> {
+class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box("data");
+
+    final userDetailsProvider = ref.watch(userDetailsController("5"));
     return Scaffold(
       backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
@@ -235,52 +238,67 @@ class _DoctorUserDetailsScreenState
         elevation: 0.5,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
-        child: Column(
-          children: [
-            buildHeaderSection(),
+      body: userDetailsProvider.when(
+        data: (data) {
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 10.h),
+            child: Column(
+              children: [
+                buildHeaderSection(
+                  data.profilePicture ??
+                      "https://demofree.sirv.com/nope-not-here.jpg",
+                  data.name,
+                  // data.gender ?? box.get("gender"),
+                  data.gender?.toString() ?? "N/A",
+                ),
 
-            buildSectionCard("Appointment", [
-              buildRow("Date & Time", "26 July 2025 · 11:30 AM"),
-              buildRow("Type", "First-time Consultation"),
-              buildRow("Duration", "45 minutes"),
-              buildRow("Status", "Confirmed"),
-            ]),
+                buildSectionCard("Appointment", [
+                  buildRow("Date & Time", "26 July 2025 · 11:30 AM"),
+                  buildRow("Type", "First-time Consultation"),
+                  buildRow("Duration", "45 minutes"),
+                  buildRow("Status", "Confirmed"),
+                ]),
 
-            buildSectionCard("Case Information", [
-              buildRow("Primary Issue", "Anxiety, Overthinking"),
-              buildRow("Description", "Trouble sleeping for last 2 weeks"),
-              buildRow("First Visit", "10 July 2025"),
-            ]),
+                buildSectionCard("Case Information", [
+                  buildRow("Primary Issue", "Anxiety, Overthinking"),
+                  buildRow("Description", "Trouble sleeping for last 2 weeks"),
+                  buildRow("First Visit", "10 July 2025"),
+                ]),
 
-            buildSectionCard("Therapist", [
-              buildRow("Name", "Dr. Seema Verma"),
-              buildRow("Speciality", "Clinical Psychologist"),
-              buildRow("Rating", "⭐ 4.8"),
-            ]),
+                buildSectionCard("Therapist", [
+                  buildRow("Name", "${box.get("name")}"),
+                  buildRow("Speciality", "${box.get("specialization")}"),
+                  buildRow("Rating", box.get("rating") ?? "⭐ 4.8"),
+                ]),
 
-            buildSectionCard("Contact", [
-              buildRow("Phone", "+91 98765 43210"),
-              buildRow("Email", "ravi.sharma@email.com"),
-              buildRow("Address", "Bangalore, India"),
-            ]),
+                buildSectionCard("Contact", [
+                  // buildRow("Phone", "+91 98765 43210"),
+                  // buildRow("Email", "ravi.sharma@email.com"),
+                  buildRow(
+                    "Phone",
+                    data.phoneNumber?.toString() ?? "Not Provided",
+                  ),
+                  buildRow(
+                    "Email",
+                    data.email.isNotEmpty ? data.email : "Not available",
+                  ),
+                  buildRow("DOB", data.dob?.toString() ?? "Not Available"),
+                  //buildRow("Address", "Bangalore, India"),
+                ]),
 
-            buildSectionCard("Session History", [
-              buildRow("Last Session", "12 July 2025"),
-              buildRow("Last Notes", "Advised sleep journaling"),
-              buildRow("Feedback", "Improving, follow-up after 1 week"),
-            ]),
+                buildSectionCard("Session History", [
+                  buildRow("Last Session", "12 July 2025"),
+                  buildRow("Last Notes", "Advised sleep journaling"),
+                  buildRow("Feedback", "Improving, follow-up after 1 week"),
+                ]),
 
-            buildSectionCard("Documents", [
-              buildRow("Prescription", "Download PDF"),
-              buildRow("Reports", "Sleep reports"),
-              buildRow("Photos", "Mood tracker"),
-            ]),
-
-            SizedBox(height: 30.h),
-          ],
-        ),
+                SizedBox(height: 30.h),
+              ],
+            ),
+          );
+        },
+        error: (error, stackTrace) => Center(child: Text(error.toString())),
+        loading: () => Center(child: CircularProgressIndicator()),
       ),
       bottomNavigationBar: Padding(
         padding: EdgeInsets.only(left: 5.w, right: 5.w),
@@ -299,7 +317,7 @@ class _DoctorUserDetailsScreenState
     );
   }
 
-  Widget buildHeaderSection() {
+  Widget buildHeaderSection(String image, String name, String gender) {
     return Container(
       padding: EdgeInsets.all(16.w),
       decoration: BoxDecoration(
@@ -315,23 +333,22 @@ class _DoctorUserDetailsScreenState
       ),
       child: Row(
         children: [
-          CircleAvatar(
-            radius: 30.r,
-            backgroundImage: AssetImage('assets/boys.png'),
-          ),
+          CircleAvatar(radius: 30.r, backgroundImage: NetworkImage(image)),
           SizedBox(width: 12.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Ravi Sharma',
+                // 'Ravi Sharma',
+                name,
                 style: GoogleFonts.poppins(
                   fontSize: 16.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               Text(
-                'APT20250726 · Male · 28 yrs',
+                // 'APT20250726 · Male · 28 yrs',
+                gender,
                 style: GoogleFonts.poppins(
                   fontSize: 13.sp,
                   color: Colors.grey[700],

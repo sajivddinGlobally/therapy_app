@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:therapy_app/Screen/userDetails.page.dart';
 import 'package:therapy_app/Screen/userDetailsScreen.dart';
 import 'package:therapy_app/constant/myColor.dart';
 import 'package:therapy_app/data/provider/userListController.dart';
@@ -166,7 +165,7 @@ class _UserListPageState extends ConsumerState<UserListPage> {
                                               CupertinoPageRoute(
                                                 builder:
                                                     (context) =>
-                                                        UserDetailsPage(),
+                                                        UserDetailsScreen(),
                                               ),
                                             );
                                           },
@@ -305,7 +304,7 @@ class _UserListPageState extends ConsumerState<UserListPage> {
                                                   CupertinoPageRoute(
                                                     builder:
                                                         (context) =>
-                                                            DoctorUserDetailsScreen(),
+                                                            UserDetailsScreen(),
                                                   ),
                                                 );
                                               },

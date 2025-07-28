@@ -4,7 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:therapy_app/Screen/userDetails.page.dart';
+import 'package:therapy_app/Screen/userDetailsScreen.dart';
 import 'package:therapy_app/Screen/userList.page.dart';
 import 'package:therapy_app/Screen/doctorProfilePage.dart';
 import 'package:therapy_app/constant/myColor.dart';
@@ -362,7 +362,7 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                   builder:
                                                       (
                                                         context,
-                                                      ) => UserDetailsPage(
+                                                      ) => UserDetailsScreen(
                                                         // id:
                                                         //     userList
                                                         //         .bookings[index]

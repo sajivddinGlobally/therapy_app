@@ -20,6 +20,7 @@ import 'package:therapy_app/data/model/sendOTPBodyModel.dart';
 import 'package:therapy_app/data/model/sendOTPResModel.dart';
 import 'package:therapy_app/data/model/userListModel.dart';
 import 'package:therapy_app/data/model/userbookingResModel.dart';
+import 'package:therapy_app/data/model/userlistByIDResModel.dart';
 
 part 'api.state.g.dart';
 
@@ -103,6 +104,6 @@ abstract class ApiStateNetwork {
   @GET("/api/therapist/5/bookings")
   Future<UserListModel> fetchUserList();
 
-  // @GET("/api/user/{id}")
-  // Future<FetchUserDetailsByIdModel> userDetails(@Path() String id);
+  @GET("/api/user/{id}")
+  Future<UserListByIdModel> userDetails(@Path() String id);
 }
