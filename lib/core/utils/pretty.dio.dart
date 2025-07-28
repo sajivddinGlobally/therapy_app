@@ -60,7 +60,7 @@ Dio createDio() {
           );
           return handler.next(e);
         }
-        
+
         // if (e.response!.statusCode == 422) {
         //   log(e.response!.data["error"]);
         //   Fluttertoast.showToast(msg: e.response!.data["error"]);
@@ -82,7 +82,17 @@ Dio createDio() {
                     .join("\n");
               }
             }
+            // ✅✅ ✅ NEW: HANDLE "errors" KEY FROM SERVER ✅✅✅
+            else if (data.containsKey('errors')) {
+              final errors = data['errors'];
+              if (errors is Map<String, dynamic>) {
+                errorMessage = errors.entries
+                    .map((e) => (e.value as List).join(", "))
+                    .join("\n");
+              }
+            }
           }
+
           Fluttertoast.showToast(
             msg: errorMessage,
             gravity: ToastGravity.BOTTOM,

@@ -19,6 +19,7 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
     var box = Hive.box("data");
 
     final userDetailsProvider = ref.watch(userDetailsController(widget.id));
+    
     return Scaffold(
       backgroundColor: const Color(0xFFF6F7FB),
       appBar: AppBar(
