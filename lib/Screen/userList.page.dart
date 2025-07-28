@@ -160,14 +160,21 @@ class _UserListPageState extends ConsumerState<UserListPage> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            // Navigator.push(
-                                            //   context,
-                                            //   CupertinoPageRoute(
-                                            //     builder:
-                                            //         (context) =>
-                                            //             UserDetailsScreen(id: filteredBookings[index].,),
-                                            //   ),
-                                            // );
+                                            Navigator.push(
+                                              context,
+                                              CupertinoPageRoute(
+                                                builder:
+                                                    (
+                                                      context,
+                                                    ) => UserDetailsScreen(
+                                                      id:
+                                                          snap
+                                                              .bookings![index]
+                                                              .id
+                                                              .toString(),
+                                                    ),
+                                              ),
+                                            );
                                           },
                                           child: Row(
                                             children: [
@@ -297,40 +304,40 @@ class _UserListPageState extends ConsumerState<UserListPage> {
                                                 color: Color(0xff18181B),
                                               ),
                                             ),
-                                            InkWell(
-                                              onTap: () {
-                                                // Navigator.push(
-                                                //   context,
-                                                //   CupertinoPageRoute(
-                                                //     builder:
-                                                //         (context) =>
-                                                //             UserDetailsScreen(),
-                                                //   ),
-                                                // );
-                                              },
-                                              child: Container(
-                                                width: 64.w,
-                                                height: 32.h,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                        10.r,
-                                                      ),
-                                                  color: buttonColor,
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    "Book",
-                                                    style: GoogleFonts.inter(
-                                                      fontSize: 12.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Color(0xFFFFFFFF),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            // InkWell(
+                                            //   onTap: () {
+                                            //     // Navigator.push(
+                                            //     //   context,
+                                            //     //   CupertinoPageRoute(
+                                            //     //     builder:
+                                            //     //         (context) =>
+                                            //     //             UserDetailsScreen(),
+                                            //     //   ),
+                                            //     // );
+                                            //   },
+                                            //   child: Container(
+                                            //     width: 64.w,
+                                            //     height: 32.h,
+                                            //     decoration: BoxDecoration(
+                                            //       borderRadius:
+                                            //           BorderRadius.circular(
+                                            //             10.r,
+                                            //           ),
+                                            //       color: buttonColor,
+                                            //     ),
+                                            //     child: Center(
+                                            //       child: Text(
+                                            //         "Book",
+                                            //         style: GoogleFonts.inter(
+                                            //           fontSize: 12.sp,
+                                            //           fontWeight:
+                                            //               FontWeight.w500,
+                                            //           color: Color(0xFFFFFFFF),
+                                            //         ),
+                                            //       ),
+                                            //     ),
+                                            //   ),
+                                            // ),
                                           ],
                                         ),
                                       ],
