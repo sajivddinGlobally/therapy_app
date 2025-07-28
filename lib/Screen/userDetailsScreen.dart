@@ -267,8 +267,8 @@ class _UserDetailsScreenState extends ConsumerState<UserDetailsScreen> {
 
                 buildSectionCard("Therapist", [
                   buildRow("Name", "${box.get("name")}"),
-                  buildRow("Speciality", "${box.get("specialization")}"),
-                  buildRow("Rating", box.get("rating") ?? "⭐ 4.8"),
+                  buildRow("Speciality", "${data.specialization}"),
+                  buildRow("Rating", data.rating ?? "⭐ 4.8"),
                 ]),
 
                 buildSectionCard("Contact", [
