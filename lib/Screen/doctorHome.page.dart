@@ -363,12 +363,11 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                       (
                                                         context,
                                                       ) => UserDetailsScreen(
-                                                        // id:
-                                                        //     userList
-                                                        //         .bookings[index]
-                                                        //         .user
-                                                        //         .id
-                                                        //         .toString(),
+                                                        id:
+                                                            userList
+                                                                .bookings![index]
+                                                                .id
+                                                                .toString(),
                                                       ),
                                                 ),
                                               );
@@ -418,7 +417,8 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                       userList
                                                           .bookings![index]
                                                           .user!
-                                                          .name.toString(),
+                                                          .name
+                                                          .toString(),
                                                       style: GoogleFonts.inter(
                                                         fontSize: 14.sp,
                                                         fontWeight:
@@ -436,7 +436,8 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                       userList
                                                           .bookings![index]
                                                           .user!
-                                                          .specialization.toString(),
+                                                          .specialization
+                                                          .toString(),
                                                       style: GoogleFonts.inter(
                                                         fontSize: 13.sp,
                                                         fontWeight:
@@ -514,7 +515,23 @@ class _DoctorHomePageState extends ConsumerState<DoctorHomePage> {
                                                 ),
                                               ),
                                               InkWell(
-                                                onTap: () {},
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    CupertinoPageRoute(
+                                                      builder:
+                                                          (
+                                                            context,
+                                                          ) => UserDetailsScreen(
+                                                            id:
+                                                                userList
+                                                                    .bookings![index]
+                                                                    .id
+                                                                    .toString(),
+                                                          ),
+                                                    ),
+                                                  );
+                                                },
                                                 child: Container(
                                                   width: 64.w,
                                                   height: 32.h,

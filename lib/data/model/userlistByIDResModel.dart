@@ -4,9 +4,11 @@
 
 import 'dart:convert';
 
-UserListByIdModel userListByIdModelFromJson(String str) => UserListByIdModel.fromJson(json.decode(str));
+UserListByIdModel userListByIdModelFromJson(String str) =>
+    UserListByIdModel.fromJson(json.decode(str));
 
-String userListByIdModelToJson(UserListByIdModel data) => json.encode(data.toJson());
+String userListByIdModelToJson(UserListByIdModel data) =>
+    json.encode(data.toJson());
 
 class UserListByIdModel {
   int id;
@@ -49,7 +51,8 @@ class UserListByIdModel {
     required this.dob,
   });
 
-  factory UserListByIdModel.fromJson(Map<String, dynamic> json) => UserListByIdModel(
+  factory UserListByIdModel.fromJson(Map<String, dynamic> json) =>
+      UserListByIdModel(
         id: json["id"],
         name: json["name"],
         email: json["email"],
@@ -64,30 +67,33 @@ class UserListByIdModel {
         languages: json["languages"],
         rating: json["rating"],
         userType: json["user_type"],
-        sessionFee: List<String>.from(json["session_fee"].map((x) => x)),
+        // sessionFee: List<String>.from(json["session_fee"].map((x) => x)),
+        sessionFee:
+            (json["session_fee"] as List?)?.map((x) => x.toString()).toList() ??
+            [],
         phoneNumber: json["phone_number"],
         gender: json["gender"],
         dob: json["dob"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "email_verified_at": emailVerifiedAt,
-        "profile_picture": profilePicture,
-        "token": token,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
-        "category_id": categoryId,
-        "specialization": specialization,
-        "bio": bio,
-        "languages": languages,
-        "rating": rating,
-        "user_type": userType,
-        "session_fee": List<dynamic>.from(sessionFee.map((x) => x)),
-        "phone_number": phoneNumber,
-        "gender": gender,
-        "dob": dob,
-      };
+    "id": id,
+    "name": name,
+    "email": email,
+    "email_verified_at": emailVerifiedAt,
+    "profile_picture": profilePicture,
+    "token": token,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "category_id": categoryId,
+    "specialization": specialization,
+    "bio": bio,
+    "languages": languages,
+    "rating": rating,
+    "user_type": userType,
+    "session_fee": List<dynamic>.from(sessionFee.map((x) => x)),
+    "phone_number": phoneNumber,
+    "gender": gender,
+    "dob": dob,
+  };
 }

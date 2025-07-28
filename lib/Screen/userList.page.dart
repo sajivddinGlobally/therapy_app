@@ -160,14 +160,14 @@ class _UserListPageState extends ConsumerState<UserListPage> {
                                       children: [
                                         InkWell(
                                           onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              CupertinoPageRoute(
-                                                builder:
-                                                    (context) =>
-                                                        UserDetailsScreen(),
-                                              ),
-                                            );
+                                            // Navigator.push(
+                                            //   context,
+                                            //   CupertinoPageRoute(
+                                            //     builder:
+                                            //         (context) =>
+                                            //             UserDetailsScreen(id: filteredBookings[index].,),
+                                            //   ),
+                                            // );
                                           },
                                           child: Row(
                                             children: [
@@ -299,14 +299,14 @@ class _UserListPageState extends ConsumerState<UserListPage> {
                                             ),
                                             InkWell(
                                               onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  CupertinoPageRoute(
-                                                    builder:
-                                                        (context) =>
-                                                            UserDetailsScreen(),
-                                                  ),
-                                                );
+                                                // Navigator.push(
+                                                //   context,
+                                                //   CupertinoPageRoute(
+                                                //     builder:
+                                                //         (context) =>
+                                                //             UserDetailsScreen(),
+                                                //   ),
+                                                // );
                                               },
                                               child: Container(
                                                 width: 64.w,
