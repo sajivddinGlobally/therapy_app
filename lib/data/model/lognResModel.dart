@@ -80,7 +80,6 @@
 //       : [],
 // );
 
-
 //  Map<String, dynamic> toJson() => {
 //   "id": id,
 //   "name": name,
@@ -110,27 +109,20 @@ import 'dart:convert';
 LoginResModel loginResModelFromJson(String str) =>
     LoginResModel.fromJson(json.decode(str));
 
-String loginResModelToJson(LoginResModel data) =>
-    json.encode(data.toJson());
+String loginResModelToJson(LoginResModel data) => json.encode(data.toJson());
 
 class LoginResModel {
   String? message;
   User? user;
 
-  LoginResModel({
-    this.message,
-    this.user,
-  });
+  LoginResModel({this.message, this.user});
 
   factory LoginResModel.fromJson(Map<String, dynamic> json) => LoginResModel(
-        message: json["message"],
-        user: json["user"] != null ? User.fromJson(json["user"]) : null,
-      );
+    message: json["message"],
+    user: json["user"] != null ? User.fromJson(json["user"]) : null,
+  );
 
-  Map<String, dynamic> toJson() => {
-        "message": message,
-        "user": user?.toJson(),
-      };
+  Map<String, dynamic> toJson() => {"message": message, "user": user?.toJson()};
 }
 
 class User {
@@ -175,52 +167,54 @@ class User {
   });
 
   factory User.fromJson(Map<String, dynamic> json) => User(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        emailVerifiedAt: json["email_verified_at"],
-        profilePicture: json["profile_picture"],
-        token: json["token"],
-        createdAt: json["created_at"] != null
+    id: json["id"],
+    name: json["name"],
+    email: json["email"],
+    emailVerifiedAt: json["email_verified_at"],
+    profilePicture: json["profile_picture"],
+    token: json["token"],
+    createdAt:
+        json["created_at"] != null
             ? DateTime.tryParse(json["created_at"])
             : null,
-        updatedAt: json["updated_at"] != null
+    updatedAt:
+        json["updated_at"] != null
             ? DateTime.tryParse(json["updated_at"])
             : null,
-        categoryId: json["category_id"],
-        specialization: json["specialization"],
-        bio: json["bio"],
-        languages: json["languages"],
-        rating: json["rating"],
-        userType: json["user_type"],
-        sessionFee: json["session_fee"] != null
+    categoryId: json["category_id"],
+    specialization: json["specialization"],
+    bio: json["bio"],
+    languages: json["languages"],
+    rating: json["rating"],
+    userType: json["user_type"],
+    sessionFee:
+        json["session_fee"] != null
             ? List<String>.from(json["session_fee"].map((x) => x))
             : [],
-        phoneNumber: json["phone_number"],
-        gender: json["gender"],
-        dob: json["dob"],
-      );
+    phoneNumber: json["phone_number"],
+    gender: json["gender"],
+    dob: json["dob"],
+  );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "email": email,
-        "email_verified_at": emailVerifiedAt,
-        "profile_picture": profilePicture,
-        "token": token,
-        "created_at": createdAt?.toIso8601String(),
-        "updated_at": updatedAt?.toIso8601String(),
-        "category_id": categoryId,
-        "specialization": specialization,
-        "bio": bio,
-        "languages": languages,
-        "rating": rating,
-        "user_type": userType,
-        "session_fee": sessionFee != null
-            ? List<dynamic>.from(sessionFee!.map((x) => x))
-            : [],
-        "phone_number": phoneNumber,
-        "gender": gender,
-        "dob": dob,
-      };
+    "id": id,
+    "name": name,
+    "email": email,
+    "email_verified_at": emailVerifiedAt,
+    "profile_picture": profilePicture,
+    "token": token,
+    "created_at": createdAt?.toIso8601String(),
+    "updated_at": updatedAt?.toIso8601String(),
+    "category_id": categoryId,
+    "specialization": specialization,
+    "bio": bio,
+    "languages": languages,
+    "rating": rating,
+    "user_type": userType,
+    "session_fee":
+        sessionFee != null ? List<dynamic>.from(sessionFee!.map((x) => x)) : [],
+    "phone_number": phoneNumber,
+    "gender": gender,
+    "dob": dob,
+  };
 }
